@@ -2,6 +2,7 @@ package meenakshi.project.meenakshiocr;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import meenakshi.project.meenakshiocr.ConvolutionMatrix;
 
 public class OCRImageProcessing {
 	
@@ -85,6 +86,21 @@ public class OCRImageProcessing {
 		// return final image
 		return bmOut;
 	}
+	
+	public static Bitmap increaseDPI(Bitmap bitmap, int w, int h)
+	{
+		bitmap = Bitmap.createScaledBitmap(bitmap, 2*w, 2*h, false);
+		return bitmap;
+	}
+	
+	public static Bitmap applyGaussianBlur(Bitmap src) {
 
+	    double[][] GaussianBlurConfig = new double[][] { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
+	    ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
+	    convMatrix.applyConfig(GaussianBlurConfig);
+	    convMatrix.Factor = 16;
+	    convMatrix.Offset = 0;
+	    return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+	}
 
 }

@@ -309,8 +309,28 @@ public class MainActivity extends Activity {
 
 		Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
 		
+		
 		//bitmap = OCRImageProcessing.makeGreyScale(bitmap);
+		
 		bitmap = OCRImageProcessing.createContrastBW(bitmap, 80);
+		
+		// Getting width & height of the given image.
+		int w = bitmap.getWidth();
+		int h = bitmap.getHeight();
+		
+		if(w<300 || h<300)
+			bitmap = OCRImageProcessing.increaseDPI(bitmap, w, h);
+		
+		bitmap = OCRImageProcessing.applyGaussianBlur(bitmap);
+		
+		try{	
+			FileOutputStream out = new FileOutputStream(_path);
+	        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		}catch(Exception e)
+		{
+			Log.v(TAG, e.toString());
+		}
+        
 
 		try {
 			ExifInterface exif = new ExifInterface(_path);
@@ -338,10 +358,6 @@ public class MainActivity extends Activity {
 
 			if (rotate != 0) {
 
-				// Getting width & height of the given image.
-				int w = bitmap.getWidth();
-				int h = bitmap.getHeight();
-
 				// Setting pre rotate
 				Matrix mtx = new Matrix();
 				mtx.preRotate(rotate);
@@ -359,7 +375,7 @@ public class MainActivity extends Activity {
 
 		// _image.setImageBitmap( bitmap );
 		
-		//mImageView.setImageBitmap(bitmap);
+		mImageView.setImageBitmap(bitmap);
 		
 		Log.v(TAG, "Before baseApi");
 
