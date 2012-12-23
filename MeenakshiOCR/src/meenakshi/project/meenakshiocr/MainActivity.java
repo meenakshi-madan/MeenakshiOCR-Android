@@ -10,9 +10,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.googlecode.tesseract.android.TessBaseAPI;
-import meenakshi.project.meenakshiocr.OCRImageProcessing;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 
@@ -24,23 +21,17 @@ import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import android.media.ExifInterface;
 import android.net.Uri;
 
 import android.os.Bundle;
-import android.os.Environment;
-
 import android.widget.Button;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ImageView;
@@ -56,16 +47,15 @@ public class MainActivity extends Activity {
 	//Fields Specific to OCR
 	//public static final String DATA_PATH = Environment
 			//.getExternalStorageDirectory().getAbsolutePath() + "/MeenakshiOCR/";
-	public static String DATA_PATH;
-	public static final String lang = "eng";
-	protected static String _path;
+	public String DATA_PATH;
+	public final String lang = "eng";
+	protected String _path;
 	private static final String TAG = "MainActivity.java";
 	protected TextView _field;
+	public String recognizedText;
 	//END OF Fields Specific to OCR
 	
 	ProgressBar progressBar;
-	
-	public static String recognizedText;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -222,9 +212,19 @@ public class MainActivity extends Activity {
 		    		//progressBar.setIndeterminate(true);
 		    		//progressBar.setId(id)
 		    		//progressBar.set
+		            Toast.makeText(getApplicationContext(), "Please hold on for a few seconds while your image is being processed", Toast.LENGTH_LONG).show();
 		            progressBar = (ProgressBar)findViewById(R.id.progressBar1);
 		    		progressBar.setVisibility(View.VISIBLE);
-		            new UnsharpMask(this, photo, _path);
+		            new UnsharpMask(this, photo).execute();
+		            //um.start();
+		            /*try {
+		            	um.join();
+		            }catch(Exception e)
+		            {
+		            	Log.v("UM.JOIN EXCEPTION", e.toString());
+		            }*/
+		            
+		            //performOCR();
 		        }
 	
 		        /*COMMENTED CUZ I DON'T WANT TO DELETE THIS FILE, IT'LL BE USED FOR OCR
@@ -318,7 +318,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	protected static String performOCR()
+	/**protected void performOCR()
 	{
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
@@ -347,8 +347,7 @@ public class MainActivity extends Activity {
 			Log.v(TAG, e.toString());
 		}*/
         
-
-		try {
+/*		try {
 			ExifInterface exif = new ExifInterface(_path);
 			int exifOrientation = exif.getAttributeInt(
 					ExifInterface.TAG_ORIENTATION,
@@ -416,15 +415,17 @@ public class MainActivity extends Activity {
 		
 		recognizedText = recognizedText.trim();
 
-		/*if ( recognizedText.length() != 0 ) {
+		if ( recognizedText.length() != 0 ) {
 			_field.setText(recognizedText);
 			//_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
 			//_field.setSelection(_field.getText().toString().length());
-		}*/
+		}
 		
 		// Cycle done.
 		
-		return recognizedText;
+		//return recognizedText;
 	}
+	
+*/
 
 }

@@ -1,19 +1,20 @@
 package meenakshi.project.meenakshiocr;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 
-import android.app.Activity;
+import com.googlecode.tesseract.android.TessBaseAPI;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-public class UnsharpMask {
+public class UnsharpMask extends AsyncTask<Void, Void, Void> {
  
 	final static int KERNAL_WIDTH = 3;
 	final static int KERNAL_HEIGHT = 3;
@@ -26,85 +27,39 @@ public class UnsharpMask {
 
 	final static int DIV_BY_9 = 9;
 
-	ImageView imageAfter; // ,imageSource
-	Bitmap bitmap_Source;
+	/*ImageView imageAfter; // ,imageSource
 	ProgressBar progressBar;
-
-	private Handler handler;
+	protected TextView _field;*/
+	
+	
+	Bitmap bitmap_Source;
+	//private Handler handler;
 	Bitmap afterProcess;
 	String TAG = "UnsharpMask";
 	
-	 String _path;
+	/*String _path;
+	public static String DATA_PATH;
+	public static final String lang = "eng";
+	 
+	public static String recognizedText;*/
+	
+	private MainActivity mainActivity;
 
-	public UnsharpMask(Activity act, Bitmap bitmap, String path) {
+	public UnsharpMask(MainActivity act, Bitmap bitmap) {
 		Log.v(TAG, "Begin constructor");
-		//imageSource = (ImageView)act.findViewById(R.id.imageSource);
-		imageAfter = (ImageView)act.findViewById(R.id.iv_photo);
-		progressBar = (ProgressBar)act.findViewById(R.id.progressBar1);
+		mainActivity = act;
+		
 		//progressBar = new ProgressBar(act, null, android.R.attr.progressBarStyleSmall);
 		//progressBar.setIndeterminate(true);
 		//progressBar.set
 		//progressBar.setVisibility(View.VISIBLE);
 
 		bitmap_Source = bitmap; //BitmapFactory.decodeResource(getResources(), R.drawable.testpicture);
-		_path = path;
 
-		handler = new Handler();
-		StratBackgroundProcess();
+		//handler = new Handler();
+		//StratBackgroundProcess();
 	}
 
-	private void StratBackgroundProcess(){
-
-		Runnable runnable = new Runnable(){
-
-			@Override
-			public void run() {
-				Log.v(TAG, "In runnable thread, before processing");
-				int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
-				if(w<300 || h<300)
-					afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
-				//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
-				afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
-				
-				afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
-				afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
-				//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
-
-				afterProcess = processingBitmap(afterProcess, kernal_blur);
-				afterProcess = processingBitmap(afterProcess, kernal_blur);
-				afterProcess = processingBitmap(afterProcess, kernal_blur);
-				
-				afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
-				
-				//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 80);
-				
-				Log.v(TAG, "In runnable thread, after processing");
-				
-				handler.post(new Runnable(){
-
-					@Override
-					public void run() {
-						
-						//imageAfter.setImageBitmap(afterProcess);
-						Log.v(TAG, "In inner runnable thread, after updating image view");
-						
-						try{	
-							FileOutputStream out = new FileOutputStream(_path);
-					        afterProcess.compress(Bitmap.CompressFormat.JPEG, 100, out);
-						}catch(Exception e)
-						{
-							Log.v(TAG, e.toString());
-						}
-						
-						String text = MainActivity.performOCR();
-						progressBar.setVisibility(View.GONE);
-					}
-
-				});
-			}
-		};
-		new Thread(runnable).start();
-	}
 
 	private Bitmap processingBitmap(Bitmap src, int[][] knl){
 		Bitmap dest = Bitmap.createBitmap(
@@ -195,92 +150,169 @@ public class UnsharpMask {
 	}
 	
 	
-	private Bitmap processingBitmapBW(Bitmap src, int[][] knl){
-		Bitmap dest = Bitmap.createBitmap(
-				src.getWidth(), src.getHeight(), src.getConfig());
+	
+	protected void performOCR()
+	{
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 4;
 
-		int bmWidth = src.getWidth();
-		int bmHeight = src.getHeight();
-		int bmWidth_MINUS_2 = bmWidth - 2;
-		int bmHeight_MINUS_2 = bmHeight - 2;
-		int bmWidth_OFFSET_1 = 1;
-		int bmHeight_OFFSET_1 = 1;
+		Bitmap bitmap = BitmapFactory.decodeFile(mainActivity._path, options);
+		
+		
+		//bitmap = OCRImageProcessing.makeGreyScale(bitmap);
+		
+		//bitmap = OCRImageProcessing.createContrastBW(bitmap, 80);
+		
+		// Getting width & height of the given image.
+		int w = bitmap.getWidth();
+		int h = bitmap.getHeight();
+		
+		/*if(w<300 || h<300)
+			bitmap = OCRImageProcessing.increaseDPI(bitmap,w,h);
+		
+		bitmap = OCRImageProcessing.applyGaussianBlur(bitmap);
+		
+		try{	
+			FileOutputStream out = new FileOutputStream(_path);
+	        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		}catch(Exception e)
+		{
+			Log.v(TAG, e.toString());
+		}*/
+        
 
-		for(int i = bmWidth_OFFSET_1; i <= bmWidth_MINUS_2; i++){
-			for(int j = bmHeight_OFFSET_1; j <= bmHeight_MINUS_2; j++){
+		try {
+			ExifInterface exif = new ExifInterface(mainActivity._path);
+			int exifOrientation = exif.getAttributeInt(
+					ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL);
 
-				//get the surround 7*7 pixel of current src[i][j] into a matrix subSrc[][]
-				int[][] subSrc = new int[KERNAL_WIDTH][KERNAL_HEIGHT];
-				for(int k = 0; k < KERNAL_WIDTH; k++){
-					for(int l = 0; l < KERNAL_HEIGHT; l++){
-						subSrc[k][l] = src.getPixel(i-bmWidth_OFFSET_1+k, j-bmHeight_OFFSET_1+l);
-					}
-				}
+			Log.v(TAG, "Orient: " + exifOrientation);
 
-				//subSum = subSrc[][] * knl[][]
-				long subSumA = 0;
-				long subSumR = 0;
-				long subSumG = 0;
-				long subSumB = 0;
+			int rotate = 0;
 
-				for(int k = 0; k < KERNAL_WIDTH; k++){
-					for(int l = 0; l < KERNAL_HEIGHT; l++){
-						subSumA += (long)(Color.alpha(subSrc[k][l])) * (long)(knl[k][l]);
-						//subSumR += (long)(Color.red(subSrc[k][l])) * (long)(knl[k][l]);
-						//subSumG += (long)(Color.green(subSrc[k][l])) * (long)(knl[k][l]);
-						//subSumB += (long)(Color.blue(subSrc[k][l])) * (long)(knl[k][l]);
-					}
-				}
+			switch (exifOrientation) {
+			case ExifInterface.ORIENTATION_ROTATE_90:
+				rotate = 90;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_180:
+				rotate = 180;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_270:
+				rotate = 270;
+				break;
+			}
 
-				subSumA = subSumA/DIV_BY_9;
-				//subSumR = subSumR/DIV_BY_9;
-				//subSumG = subSumG/DIV_BY_9;
-				//subSumB = subSumB/DIV_BY_9;
+			Log.v(TAG, "Rotation: " + rotate);
 
-				int orgColor = src.getPixel(i, j);
-				int orgA = Color.alpha(orgColor);
-				//int orgR = Color.red(orgColor);
-				//int orgG = Color.green(orgColor);
-				//int orgB = Color.blue(orgColor);
+			if (rotate != 0) {
 
-				subSumA = orgA + (orgA - subSumA);
-				//subSumR = orgR + (orgR - subSumR);
-				//subSumG = orgG + (orgG - subSumG);
-				//subSumB = orgB + (orgB - subSumB);
+				// Setting pre rotate
+				Matrix mtx = new Matrix();
+				mtx.preRotate(rotate);
 
-				if(subSumA <0){
-					subSumA = 0;
-				}else if(subSumA > 255){
-					subSumA = 255; 
-				}
+				// Rotating Bitmap
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+			}
 
-				/*(if(subSumR <0){
-					subSumR = 0;
-				}else if(subSumR > 255){
-					subSumR = 255; 
-				}
+			// Convert to ARGB_8888, required by tess
+			bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 
-				if(subSumG <0){
-					subSumG = 0;
-				}else if(subSumG > 255){
-					subSumG = 255;
-				}
-
-				if(subSumB <0){
-					subSumB = 0;
-				}else if(subSumB > 255){
-					subSumB = 255;
-				}*/
-
-				dest.setPixel(i, j, Color.argb(
-						(int)subSumA, 
-						(int)subSumR, 
-						(int)subSumG, 
-						(int)subSumB));
-			} 
+		} catch (IOException e) {
+			Log.e(TAG, "Couldn't correct orientation: " + e.toString());
 		}
 
-		return dest;
+		// _image.setImageBitmap( bitmap );
+		
+		//mImageView.setImageBitmap(bitmap);
+		
+		Log.v(TAG, "Before baseApi");
+
+		TessBaseAPI baseApi = new TessBaseAPI();
+		baseApi.setDebug(true);
+		baseApi.init(mainActivity.DATA_PATH, mainActivity.lang);
+		baseApi.setImage(bitmap);
+		
+		mainActivity.recognizedText = baseApi.getUTF8Text();
+		
+		baseApi.end();
+
+		// You now have the text in recognizedText var, you can do anything with it.
+		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
+		// so that garbage doesn't make it to the display.
+
+		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
+
+		if ( mainActivity.lang.equalsIgnoreCase("eng") ) {
+			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
+		}
+		
+		mainActivity.recognizedText = mainActivity.recognizedText.trim();
+
+		/*if ( recognizedText.length() != 0 ) {
+			_field.setText(recognizedText);
+			//_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
+			//_field.setSelection(_field.getText().toString().length());
+		}*/
+		
+		// Cycle done.
+		
+		//return recognizedText;
+	}
+
+
+	
+	@Override
+    protected void onPostExecute(Void result) {
+        //mImageView.setImageBitmap(result);
+		Log.v("AsyncTask Mein", "Entered onPostExecute");
+		
+		if ( mainActivity.recognizedText.length() != 0 ) {
+			mainActivity._field.setText(mainActivity.recognizedText);
+		}
+		
+		mainActivity.progressBar.setVisibility(View.GONE);
+    }
+
+
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		// TODO Auto-generated method stub
+		
+		Log.v(TAG, "In runnable thread, before processing");
+		int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
+		if(w<300 || h<300)
+			afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
+		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
+		afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
+
+		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
+
+		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+
+		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 80);
+
+		Log.v(TAG, "In runnable thread, after processing");
+		
+		try{	
+			FileOutputStream out = new FileOutputStream(mainActivity._path);
+			afterProcess.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		}catch(Exception e)
+		{
+			Log.v(TAG, e.toString());
+		}
+		
+		performOCR();
+		Log.v("AsyncTask Mein", "End of do In Background");
+		
+		return null;
 	}
 
 }

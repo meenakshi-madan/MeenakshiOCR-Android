@@ -30,6 +30,15 @@
 		android:layout_width="match_parent" 		 
 		android:layout_height="wrap_content"
 		android:text="Select image" />
+	
+	<ProgressBar
+	    android:id="@+id/progressBar1"
+	    style="?android:attr/progressBarStyleSmall"
+	    android:layout_gravity="center_horizontal"
+	    android:indeterminate="true"
+	    android:visibility="invisible"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
 		
 	<ImageView
 		android:id="@+id/iv_photo"
@@ -39,13 +48,5 @@
 		android:layout_height="wrap_content"
 		android:contentDescription="Image Selected" /> <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
 
-	<ProgressBar
-	    android:id="@+id/progressBar1"
-	    style="?android:attr/progressBarStyleLarge"
-	    android:layout_gravity="center_horizontal"
-	    android:indeterminate="true"
-	    android:visibility="invisible"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
 		
 </LinearLayout>
