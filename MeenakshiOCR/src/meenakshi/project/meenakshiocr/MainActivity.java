@@ -41,6 +41,7 @@ import android.os.Environment;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ImageView;
 
@@ -55,23 +56,32 @@ public class MainActivity extends Activity {
 	//Fields Specific to OCR
 	//public static final String DATA_PATH = Environment
 			//.getExternalStorageDirectory().getAbsolutePath() + "/MeenakshiOCR/";
-	public String DATA_PATH;
+	public static String DATA_PATH;
 	public static final String lang = "eng";
-	protected String _path;
+	protected static String _path;
 	private static final String TAG = "MainActivity.java";
 	protected TextView _field;
 	//END OF Fields Specific to OCR
 	
+	ProgressBar progressBar;
+	
+	public static String recognizedText;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_main);
+        
+        
+        
         DATA_PATH = getExternalFilesDir(null).getAbsolutePath() + "/";
         Log.v("Meenakshi", DATA_PATH);
         
         _path = DATA_PATH + "/ocr.jpg";
 		_field = (TextView)findViewById(R.id.textview);
+		Button button 	= (Button) findViewById(R.id.btn_crop);
+		mImageView		= (ImageView) findViewById(R.id.iv_photo);
+		
         
         final String [] items			= new String [] {"Take from camera", "Select from gallery"};				
 		ArrayAdapter<String> adapter	= new ArrayAdapter<String> (this, android.R.layout.select_dialog_item,items);
@@ -110,9 +120,6 @@ public class MainActivity extends Activity {
 		} );
 		
 		final AlertDialog dialog = builder.create();
-		
-		Button button 	= (Button) findViewById(R.id.btn_crop);
-		mImageView		= (ImageView) findViewById(R.id.iv_photo);
 		
 		button.setOnClickListener(new View.OnClickListener() {	
 			@Override
@@ -207,8 +214,17 @@ public class MainActivity extends Activity {
 		         }
 		            
 		            mImageView.setImageBitmap(photo);
-		            //onPhotoTaken();
-		            performOCR();
+		            //performOCR();
+		            //photo = OCRImageProcessing.applyGaussianBlur(photo); //works
+		            //photo = OCRImageProcessing.unsharpMask(photo); //works but takes too long
+		            //mImageView.setImageBitmap(photo);
+		            //progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
+		    		//progressBar.setIndeterminate(true);
+		    		//progressBar.setId(id)
+		    		//progressBar.set
+		            progressBar = (ProgressBar)findViewById(R.id.progressBar1);
+		    		progressBar.setVisibility(View.VISIBLE);
+		            new UnsharpMask(this, photo, _path);
 		        }
 	
 		        /*COMMENTED CUZ I DON'T WANT TO DELETE THIS FILE, IT'LL BE USED FOR OCR
@@ -302,7 +318,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	protected void performOCR()
+	protected static String performOCR()
 	{
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
@@ -312,14 +328,14 @@ public class MainActivity extends Activity {
 		
 		//bitmap = OCRImageProcessing.makeGreyScale(bitmap);
 		
-		bitmap = OCRImageProcessing.createContrastBW(bitmap, 80);
+		//bitmap = OCRImageProcessing.createContrastBW(bitmap, 80);
 		
 		// Getting width & height of the given image.
 		int w = bitmap.getWidth();
 		int h = bitmap.getHeight();
 		
-		if(w<300 || h<300)
-			bitmap = OCRImageProcessing.increaseDPI(bitmap, w, h);
+		/*if(w<300 || h<300)
+			bitmap = OCRImageProcessing.increaseDPI(bitmap,w,h);
 		
 		bitmap = OCRImageProcessing.applyGaussianBlur(bitmap);
 		
@@ -329,7 +345,7 @@ public class MainActivity extends Activity {
 		}catch(Exception e)
 		{
 			Log.v(TAG, e.toString());
-		}
+		}*/
         
 
 		try {
@@ -375,7 +391,7 @@ public class MainActivity extends Activity {
 
 		// _image.setImageBitmap( bitmap );
 		
-		mImageView.setImageBitmap(bitmap);
+		//mImageView.setImageBitmap(bitmap);
 		
 		Log.v(TAG, "Before baseApi");
 
@@ -384,7 +400,7 @@ public class MainActivity extends Activity {
 		baseApi.init(DATA_PATH, lang);
 		baseApi.setImage(bitmap);
 		
-		String recognizedText = baseApi.getUTF8Text();
+		recognizedText = baseApi.getUTF8Text();
 		
 		baseApi.end();
 
@@ -400,13 +416,15 @@ public class MainActivity extends Activity {
 		
 		recognizedText = recognizedText.trim();
 
-		if ( recognizedText.length() != 0 ) {
+		/*if ( recognizedText.length() != 0 ) {
 			_field.setText(recognizedText);
 			//_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
 			//_field.setSelection(_field.getText().toString().length());
-		}
+		}*/
 		
 		// Cycle done.
+		
+		return recognizedText;
 	}
 
 }

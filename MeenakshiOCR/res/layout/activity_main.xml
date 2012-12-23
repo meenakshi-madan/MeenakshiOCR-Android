@@ -35,8 +35,17 @@
 		android:id="@+id/iv_photo"
 		android:layout_marginTop="10dp"
 		android:layout_gravity="center_horizontal"
-		android:layout_width="fill_parent" 		 
-		android:layout_height="200dp"
-		android:contentDescription="Image Selected" />
+		android:layout_width="wrap_content" 		 
+		android:layout_height="wrap_content"
+		android:contentDescription="Image Selected" /> <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
+
+	<ProgressBar
+	    android:id="@+id/progressBar1"
+	    style="?android:attr/progressBarStyleLarge"
+	    android:layout_gravity="center_horizontal"
+	    android:indeterminate="true"
+	    android:visibility="invisible"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
 		
 </LinearLayout>
