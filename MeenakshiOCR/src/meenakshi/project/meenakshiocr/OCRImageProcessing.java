@@ -100,6 +100,12 @@ public class OCRImageProcessing {
 		return bitmap;
 	}
 	
+	public static Bitmap decreaseDPI(Bitmap bitmap, int w, int h)
+	{
+		bitmap = Bitmap.createScaledBitmap(bitmap, w/2, h/2, false);
+		return bitmap;
+	}
+	
 	public static Bitmap applyGaussianBlur(Bitmap src) {
 
 	    double[][] GaussianBlurConfig = new double[][] { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };

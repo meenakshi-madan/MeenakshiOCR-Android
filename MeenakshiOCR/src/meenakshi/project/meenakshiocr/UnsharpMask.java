@@ -282,8 +282,12 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		
 		Log.v(TAG, "In runnable thread, before processing");
 		int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
-		if(w<300 || h<300)
+		if(w<300 && h<300)
 			afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
+		else if(w>1000 || h>1000)
+			afterProcess = OCRImageProcessing.decreaseDPI(bitmap_Source,w,h);
+		else
+			afterProcess=bitmap_Source;
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
 		afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
