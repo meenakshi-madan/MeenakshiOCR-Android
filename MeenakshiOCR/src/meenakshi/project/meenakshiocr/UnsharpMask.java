@@ -273,7 +273,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		TessBaseAPI baseApi = new TessBaseAPI();
 		//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
 		//baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
-		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]\\|><~`\"'*()");
+		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]/,.!@\\|><~`\"'*()");
 		baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
 				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz");
 		baseApi.setDebug(true);
@@ -411,13 +411,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 			afterProcess=bitmap_Source;*/
 		
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
-		afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
+		afterProcess = OCRImageProcessing.makeGreyScale(bitmap_Source);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
-		afterProcess = processingBitmap(bitmap_Source, kernal_blur);
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
 		//afterProcess = processingBitmap(afterProcess, kernal_blur);
 		//afterProcess = processingBitmap(afterProcess, kernal_blur);
 

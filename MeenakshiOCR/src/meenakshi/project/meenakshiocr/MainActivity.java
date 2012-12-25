@@ -3,38 +3,30 @@ package meenakshi.project.meenakshiocr;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
-import android.content.res.AssetManager;
-
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.TextView;
-
-import android.net.Uri;
-
-import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private Uri mImageCaptureUri;
@@ -54,6 +46,8 @@ public class MainActivity extends Activity {
 	protected TextView _field;
 	public String recognizedText;
 	//END OF Fields Specific to OCR
+	
+	private SharedPreferences mPreferences;
 	
 	ProgressBar progressBar;
 	
@@ -123,7 +117,14 @@ public class MainActivity extends Activity {
         Log.v(TAG,"Before calling async task.");
 		//if(!copyTessDataToSD())
 			//Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
-		new CopyDataToSDAsync(this).execute();
+        
+        boolean firstTime = mPreferences.getBoolean("firstTime", true);
+        if (firstTime) { 
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean("firstTime", false);
+            editor.commit();
+            new CopyDataToSDAsync(this).execute();
+        }
      
     }
     
