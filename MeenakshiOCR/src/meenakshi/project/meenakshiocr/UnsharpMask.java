@@ -1,5 +1,9 @@
 package meenakshi.project.meenakshiocr;
 
+/**This class hands the OCR processing and unsharp-masking for processing the image
+ * author: Meenakshi Madan
+ */
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,11 +49,20 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	Bitmap bitmap_Source;
 	//private Handler handler;
 	Bitmap afterProcess;
+	
+	/** Tag for logging purposes **/
 	String TAG = "UnsharpMask";
 	
+	/** To check if OCR needs to be performed again on the same image - if the confidence value is very low **/
 	boolean checkOnceForFurtherProcessing = true;
+	
+	/** Number of times ocr has been performed in this transaction **/
 	int tessRepeatCount = 0;
+	
+	/** Maximum number of times that OCR can be performed on the image in this transaction **/
 	int tessRepeatMAXCOUNT = 5;
+	
+	/** Mean confidence as returned by tesseract on the recognized text **/
 	int meanConfidence;
 	
 	/*String _path;
@@ -58,6 +71,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	 
 	public static String recognizedText;*/
 	
+	/** Object of MainActivity, to access variables such as DATA_PATH and view elements **/
 	private MainActivity mainActivity;
 
 	public UnsharpMask(MainActivity act, Bitmap bitmap) {
@@ -76,6 +90,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	}
 
 
+	/**
+	 * Function that performs unsharp masking on the Bitmap object
+	 * @param src - Bitmap object, the bitmap image to perform the unsharp maskin on
+	 * @param knl - kernal 2D array
+	 * @return processed Bitmap
+	 */
+	
 	private Bitmap processingBitmap(Bitmap src, int[][] knl){
 		Bitmap dest = Bitmap.createBitmap(
 				src.getWidth(), src.getHeight(), src.getConfig());
@@ -165,6 +186,11 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	}
 	
 	
+	
+	/** Performs OCR on the bitmap at _path on SDCARD. Also performs any orientation required
+	 * 
+	 * 
+	 */
 	
 	protected void performOCR()
 	{
@@ -347,6 +373,10 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 
 
 	
+	/** Displays text to the user, hides progress bar
+	 * 
+	 */
+	
 	@Override
     protected void onPostExecute(Void result) {
         //mImageView.setImageBitmap(result);
@@ -363,6 +393,9 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
     }
 
 
+	/**
+	 * Calls functions to perform required preprocessing and OCR
+	 */
 
 	@Override
 	protected Void doInBackground(Void... params) {
@@ -378,7 +411,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 			afterProcess=bitmap_Source;*/
 		
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
-		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
+		afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
@@ -404,7 +437,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		File pic = new File(mainActivity._path);
 		Pix pix = ReadFile.readFile(pic);
 		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
-		else if(pix.getWidth() > 1000 || pix.getHeight() > 1000) pix = Scale.scale(pix, 1/2);
+		else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);
 		pix = Convert.convertTo8(pix);
 		//pix = Binarize.otsuAdaptiveThreshold(pix);
 		//pix = Enhance.unsharpMasking(pix, 1, 0.2F); //gives OutOfMemoryError
@@ -430,6 +463,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		return null;
 	}
 	
+	/** Check if a given String contains any of the characters in the given array
+	 * 
+	 * @param str source string to check for characters
+	 * @param searchChars sequence of characters to check for in source string
+	 * @return boolean value - true if string contains any character, false otherwise
+	 */
+	
 	public static boolean containsAny(String str, char[] searchChars) {
 	      if (str == null || str.length() == 0 || searchChars == null || searchChars.length == 0) {
 	          return false;
@@ -444,6 +484,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	      }
 	      return false;
 	  }
+	
+	/** Computes whether the string contains any character from the given sequence of characters
+	 * 
+	 * @param str string to search
+	 * @param searchChars sequence of characters to look for
+	 * @return boolean value, true if string contains any characters from sequence, false otherwise
+	 */
 	
 	public static boolean containsAny(String str, String searchChars) {
 	      if (searchChars == null) {
