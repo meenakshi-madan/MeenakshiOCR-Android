@@ -50,7 +50,6 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	boolean checkOnceForFurtherProcessing = true;
 	int tessRepeatCount = 0;
 	int tessRepeatMAXCOUNT = 5;
-	TessBaseAPI baseApi;
 	int meanConfidence;
 	
 	/*String _path;
@@ -170,7 +169,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	protected void performOCR()
 	{
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 4;
+		options.inSampleSize = 1;
 
 		Bitmap bitmap = BitmapFactory.decodeFile(mainActivity._path, options);
 		
@@ -245,16 +244,16 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		Log.v(TAG, "Before baseApi");
 		//Pix.
 		//Binarize.otsuAdaptiveThreshold(pixs);
-		baseApi = new TessBaseAPI();
+		TessBaseAPI baseApi = new TessBaseAPI();
 		//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
-		baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
-		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]\\|><~`");
-		baseApi.setDebug(true);
+		//baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
+		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]\\|><~`\"'*()");
 		baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
-				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz!.,-?");
+				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz");
+		baseApi.setDebug(true);
 		Log.v(TAG, "After setting variables");
-		baseApi.init(mainActivity.DATA_PATH, mainActivity.lang);
-		
+		baseApi.init(mainActivity.DATA_PATH, mainActivity.lang); //, TessBaseAPI.OEM_CUBE_ONLY
+		Log.v(TAG, "After init and before setting bitmap");
 		baseApi.setImage(bitmap);
 		Log.v(TAG, "After init and before getUTF8Text");
 		mainActivity.recognizedText = baseApi.getUTF8Text();
@@ -342,7 +341,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		// Cycle done.
 		
 		//return recognizedText;
-		
+		afterProcess = bitmap;
 		
 	}
 
@@ -407,7 +406,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
 		else if(pix.getWidth() > 1000 || pix.getHeight() > 1000) pix = Scale.scale(pix, 1/2);
 		pix = Convert.convertTo8(pix);
-		pix = Binarize.otsuAdaptiveThreshold(pix);
+		//pix = Binarize.otsuAdaptiveThreshold(pix);
 		//pix = Enhance.unsharpMasking(pix, 1, 0.2F); //gives OutOfMemoryError
 		WriteFile.writeImpliedFormat(pix, pic, 100, true);
 		afterProcess = WriteFile.writeBitmap(pix);
