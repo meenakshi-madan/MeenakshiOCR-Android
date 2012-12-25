@@ -47,6 +47,14 @@
 		android:layout_width="wrap_content" 		 
 		android:layout_height="wrap_content"
 		android:contentDescription="Image Selected" /> <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
+		
+		<ImageView
+		android:id="@+id/ocrphoto"
+		android:layout_marginTop="10dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content" 		 
+		android:layout_height="wrap_content"
+		android:contentDescription="Processed Image" />
 
 		
 </LinearLayout>

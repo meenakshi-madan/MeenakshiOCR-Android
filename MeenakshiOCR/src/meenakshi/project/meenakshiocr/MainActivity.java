@@ -38,7 +38,7 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 	private Uri mImageCaptureUri;
-	private ImageView mImageView;
+	public ImageView mImageView, processedImage;
 	
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
@@ -71,6 +71,8 @@ public class MainActivity extends Activity {
 		_field = (TextView)findViewById(R.id.textview);
 		Button button 	= (Button) findViewById(R.id.btn_crop);
 		mImageView		= (ImageView) findViewById(R.id.iv_photo);
+		processedImage= (ImageView) findViewById(R.id.ocrphoto);
+		processedImage.setVisibility(View.INVISIBLE);
 		
         
         final String [] items			= new String [] {"Take from camera", "Select from gallery"};				
@@ -119,7 +121,16 @@ public class MainActivity extends Activity {
 		});
         
         
-        //SPECIFIC TO OCR
+		if(!copyTessDataToSD())
+			Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
+     
+    }
+    
+    
+    protected boolean copyTessDataToSD()
+    {
+    	boolean allDone = true;
+    	//SPECIFIC TO OCR
         String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
 
 		for (String path : paths) {
@@ -127,7 +138,9 @@ public class MainActivity extends Activity {
 			if (!dir.exists()) {
 				if (!dir.mkdirs()) {
 					Log.v(TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
-					Toast.makeText(getApplicationContext(), "Couldn't create required directories. OCR will not work.", Toast.LENGTH_LONG).show();
+					//allDone = false;
+					return false;
+					//Toast.makeText(getApplicationContext(), "Couldn't create required directories. OCR will not work.", Toast.LENGTH_LONG).show();
 				} else {
 					Log.v(TAG, "Created directory " + path + " on sdcard");
 				}
@@ -138,14 +151,19 @@ public class MainActivity extends Activity {
 		
 		// lang.traineddata file with the app (in assets folder)
 		// This area needs work and optimization
+
+		if(new File(DATA_PATH + "tessdata/" + lang + ".traineddata").exists() && new File(DATA_PATH + "tessdata/" + lang + ".traineddata").delete())
+			Log.v(TAG, "Deleted old eng.trainned data");
+		else
+			Log.v(TAG, "Did not delete old eng.trainned data");
 		if (!(new File(DATA_PATH + "tessdata/" + lang + ".traineddata")).exists()) {
 			try {
 
 				AssetManager assetManager = getAssets();
-				InputStream in = assetManager.open("tessdata/eng.traineddata");
+				InputStream in = assetManager.open("tessdata/" + lang + ".traineddata");
 				//GZIPInputStream gin = new GZIPInputStream(in);
 				OutputStream out = new FileOutputStream(DATA_PATH
-						+ "tessdata/eng.traineddata");
+						+ "tessdata/" + lang + ".traineddata");
 
 				// Transfer bytes from in to out
 				byte[] buf = new byte[1024];
@@ -161,12 +179,319 @@ public class MainActivity extends Activity {
 				Log.v(TAG, "Copied " + lang + " traineddata");
 			} catch (IOException e) {
 				Log.e(TAG, "Was unable to copy " + lang + " traineddata " + e.toString());
+				return false;
 			}
 		}
 		
+		if (!(new File(DATA_PATH + "tessdata/" + "equ" + ".traineddata")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + "equ" + ".traineddata");
+				//GZIPInputStream gin = new GZIPInputStream(in);
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + "equ" + ".traineddata");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + "equ" + " traineddata");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + "equ" + " traineddata " + e.toString());
+				return false;
+			}
+		}
+		
+		if (!(new File(DATA_PATH + "tessdata/" + "osd" + ".traineddata")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + "osd" + ".traineddata");
+				//GZIPInputStream gin = new GZIPInputStream(in);
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + "osd" + ".traineddata");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + "osd" + " traineddata");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + "osd" + " traineddata " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.bigrams")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.bigrams");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.bigrams");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.bigrams");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.bigrams " + e.toString());
+				return false;
+			}
+		}
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.fold")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.fold");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.fold");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.fold");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.fold " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.lm")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.lm");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.lm");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.lm");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.lm " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.lm_")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.lm_");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.lm_");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.lm_");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.lm_ " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.nn")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.nn");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.nn");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.nn");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.nn " + e.toString());
+				return false;
+			}
+		}
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.params")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.params");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.params");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.params");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.params " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.size")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.size");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.size");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.size");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.size " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".cube.word-freq")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".cube.word-freq");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + ".cube.word-freq");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " cube.word-freq");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " cube.word-freq " + e.toString());
+				return false;
+			}
+		}
+		
+		
+		if (!(new File(DATA_PATH + "tessdata/" + lang + ".tesseract_cube.nn")).exists()) {
+			try {
+
+				AssetManager assetManager = getAssets();
+				InputStream in = assetManager.open("tessdata/" + lang + ".tesseract_cube.nn");
+				//GZIPInputStream gin = new GZIPInputStream(in);1
+				OutputStream out = new FileOutputStream(DATA_PATH
+						+ "tessdata/" + lang + "tesseract_cube.nn");
+
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				//while ((lenf = gin.read(buff)) > 0) {
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				//gin.close();
+				out.close();
+				
+				Log.v(TAG, "Copied " + lang + " tesseract_cube.nn");
+			} catch (IOException e) {
+				Log.e(TAG, "Was unable to copy " + lang + " tesseract_cube.nn " + e.toString());
+				return false;
+			}
+		}
+		
+		
 		Log.v(TAG, "End of copying traineddata if block");
 		//END OF SPECIFIC TO OCR
-     
+		
+		return allDone;
     }
     
     @Override

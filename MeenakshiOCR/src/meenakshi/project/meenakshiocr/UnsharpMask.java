@@ -1,9 +1,8 @@
 package meenakshi.project.meenakshiocr;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import com.googlecode.tesseract.android.TessBaseAPI;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +12,17 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+
+import com.googlecode.leptonica.android.Binarize;
+import com.googlecode.leptonica.android.Convert;
+import com.googlecode.leptonica.android.Enhance;
+import com.googlecode.leptonica.android.Pix;
+import com.googlecode.leptonica.android.ReadFile;
+import com.googlecode.leptonica.android.Rotate;
+import com.googlecode.leptonica.android.Scale;
+import com.googlecode.leptonica.android.Skew;
+import com.googlecode.leptonica.android.WriteFile;
+import com.googlecode.tesseract.android.TessBaseAPI;
 
 public class UnsharpMask extends AsyncTask<Void, Void, Void> {
  
@@ -36,6 +46,12 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	//private Handler handler;
 	Bitmap afterProcess;
 	String TAG = "UnsharpMask";
+	
+	boolean checkOnceForFurtherProcessing = true;
+	int tessRepeatCount = 0;
+	int tessRepeatMAXCOUNT = 5;
+	TessBaseAPI baseApi;
+	int meanConfidence;
 	
 	/*String _path;
 	public static String DATA_PATH;
@@ -227,15 +243,83 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		//mImageView.setImageBitmap(bitmap);
 		
 		Log.v(TAG, "Before baseApi");
-
-		TessBaseAPI baseApi = new TessBaseAPI();
+		//Pix.
+		//Binarize.otsuAdaptiveThreshold(pixs);
+		baseApi = new TessBaseAPI();
+		//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
+		baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
+		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]\\|><~`");
 		baseApi.setDebug(true);
+		baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
+				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz!.,-?");
+		Log.v(TAG, "After setting variables");
 		baseApi.init(mainActivity.DATA_PATH, mainActivity.lang);
-		baseApi.setImage(bitmap);
 		
+		baseApi.setImage(bitmap);
+		Log.v(TAG, "After init and before getUTF8Text");
 		mainActivity.recognizedText = baseApi.getUTF8Text();
+		meanConfidence = baseApi.meanConfidence();
+		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
+		Log.v(TAG, "Mean Confidence: " + meanConfidence);
+		
+		/*int[] confidences = baseApi.wordConfidences();
+		int netConfidence = 0;
+		for(int i:confidences)
+		{
+			netConfidence +=i;
+		}
+		netConfidence /=confidences.length;*/
 		
 		baseApi.end();
+		/*if (baseApi != null) {
+		      baseApi.clear();
+		    }*/
+		
+		/*if(!checkOnceForFurtherProcessing)
+		{
+			while(meanConfidence < 80 && tessRepeatCount < tessRepeatMAXCOUNT)
+			{
+				tessRepeatCount++;
+				try{
+					baseApi = new TessBaseAPI();
+					//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
+					baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
+					baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]\\|><~`");
+					baseApi.setDebug(true);
+					baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
+							"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz!.,-?");
+					baseApi.init(mainActivity.DATA_PATH, mainActivity.lang);
+					
+					baseApi.setImage(bitmap);
+					
+					mainActivity.recognizedText = baseApi.getUTF8Text();
+					meanConfidence = baseApi.meanConfidence();
+					Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
+					Log.v(TAG, "Mean Confidence: " + meanConfidence);
+					
+					/*int[] confidences = baseApi.wordConfidences();
+					int netConfidence = 0;
+					for(int i:confidences)
+					{
+						netConfidence +=i;
+					}
+					netConfidence /=confidences.length; /* /
+					
+					baseApi.end();
+				}
+				catch(Exception e)
+				{
+					Log.v(TAG, "Error occurred while baseApi-ing the second time: ------ \n" + e.toString());
+				}
+			}
+		}*/
+		
+		
+		if (baseApi != null) {
+		      baseApi.clear();
+		    }
+		
+		
 
 		// You now have the text in recognizedText var, you can do anything with it.
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
@@ -244,7 +328,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
 
 		if ( mainActivity.lang.equalsIgnoreCase("eng") ) {
-			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
+			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9.,!\\&*]+", " ");
 		}
 		
 		mainActivity.recognizedText = mainActivity.recognizedText.trim();
@@ -258,6 +342,8 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		// Cycle done.
 		
 		//return recognizedText;
+		
+		
 	}
 
 
@@ -272,6 +358,9 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		}
 		
 		mainActivity.progressBar.setVisibility(View.GONE);
+		mainActivity.processedImage.setVisibility(View.VISIBLE);
+		mainActivity.processedImage.setImageBitmap(afterProcess);
+		//afterProcess.recycle();
     }
 
 
@@ -281,29 +370,29 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		// TODO Auto-generated method stub
 		
 		Log.v(TAG, "In runnable thread, before processing");
-		int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
+		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
 		if(w<300 && h<300)
 			afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
-		else if(w>1000 || h>1000)
-			afterProcess = OCRImageProcessing.decreaseDPI(bitmap_Source,w,h);
+		//else if(w>1000 || h>1000)
+			//afterProcess = OCRImageProcessing.decreaseDPI(bitmap_Source,w,h);
 		else
-			afterProcess=bitmap_Source;
+			afterProcess=bitmap_Source;*/
+		
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
-		afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
+		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
-		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
-		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
+		afterProcess = processingBitmap(bitmap_Source, kernal_blur);
+		//afterProcess = processingBitmap(afterProcess, kernal_blur);
+		//afterProcess = processingBitmap(afterProcess, kernal_blur);
 
-		afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
+		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
-		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 80);
-
-		Log.v(TAG, "In runnable thread, after processing");
+		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
+		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
 		
 		try{	
 			FileOutputStream out = new FileOutputStream(mainActivity._path);
@@ -313,10 +402,55 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 			Log.v(TAG, e.toString());
 		}
 		
+		File pic = new File(mainActivity._path);
+		Pix pix = ReadFile.readFile(pic);
+		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
+		else if(pix.getWidth() > 1000 || pix.getHeight() > 1000) pix = Scale.scale(pix, 1/2);
+		pix = Convert.convertTo8(pix);
+		pix = Binarize.otsuAdaptiveThreshold(pix);
+		//pix = Enhance.unsharpMasking(pix, 1, 0.2F); //gives OutOfMemoryError
+		WriteFile.writeImpliedFormat(pix, pic, 100, true);
+		afterProcess = WriteFile.writeBitmap(pix);
+		
+		Log.v(TAG, "In runnable thread, after processing");
+		
 		performOCR();
+		/*checkOnceForFurtherProcessing = false;
+		if(mainActivity.recognizedText.equals("") || mainActivity.recognizedText.equals(" ") || mainActivity.recognizedText == null || containsAny(mainActivity.recognizedText,"#$%^&+=:;{}[]\\|><~`") || meanConfidence<80)
+		{
+			Log.v(TAG, "Performed OCR once, return empty of null string or string containing ajeebogarid characters, performing again in background function");
+			//pix.invert();
+			pix = Rotate.rotate(pix, Skew.findSkew(pix));
+			WriteFile.writeImpliedFormat(pix, pic, 100, true);
+			afterProcess = WriteFile.writeBitmap(pix);
+			performOCR();
+		}*/
 		Log.v("AsyncTask Mein", "End of do In Background");
+		pix.recycle();
 		
 		return null;
 	}
+	
+	public static boolean containsAny(String str, char[] searchChars) {
+	      if (str == null || str.length() == 0 || searchChars == null || searchChars.length == 0) {
+	          return false;
+	      }
+	      for (int i = 0; i < str.length(); i++) {
+	          char ch = str.charAt(i);
+	          for (int j = 0; j < searchChars.length; j++) {
+	              if (searchChars[j] == ch) {
+	                  return true;
+	              }
+	          }
+	      }
+	      return false;
+	  }
+	
+	public static boolean containsAny(String str, String searchChars) {
+	      if (searchChars == null) {
+	          return false;
+	      }
+	      return containsAny(str, searchChars.toCharArray());
+	  }
 
 }
