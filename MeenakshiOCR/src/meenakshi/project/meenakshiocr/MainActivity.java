@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -118,8 +119,8 @@ public class MainActivity extends Activity {
 		//if(!copyTessDataToSD())
 			//Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
         
-        mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", 0);
-        boolean firstTime = mPreferences.getBoolean("firstTime", true);
+        mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
+        boolean firstTime = mPreferences.getBoolean("firstTimev2", true);
         if (firstTime) { 
             SharedPreferences.Editor editor = mPreferences.edit();
             editor.putBoolean("firstTime", false);
