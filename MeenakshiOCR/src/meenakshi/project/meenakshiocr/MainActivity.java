@@ -118,6 +118,7 @@ public class MainActivity extends Activity {
 		//if(!copyTessDataToSD())
 			//Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
         
+        mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", 0);
         boolean firstTime = mPreferences.getBoolean("firstTime", true);
         if (firstTime) { 
             SharedPreferences.Editor editor = mPreferences.edit();
