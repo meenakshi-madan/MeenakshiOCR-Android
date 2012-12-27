@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
 			//Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
         
         mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
-        boolean firstTime = mPreferences.getBoolean("firstTimev2", true);
+        boolean firstTime = mPreferences.getBoolean("firstTimev3", true);
         if (firstTime) { 
             SharedPreferences.Editor editor = mPreferences.edit();
             editor.putBoolean("firstTime", false);

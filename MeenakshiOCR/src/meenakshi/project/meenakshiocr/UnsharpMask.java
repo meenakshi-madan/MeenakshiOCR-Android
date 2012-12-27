@@ -353,7 +353,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
 
 		if ( mainActivity.lang.equalsIgnoreCase("eng") ) {
-			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9.,!\\&*]+", " ");
+			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9.,!'@:;]+", " ");
 		}
 		
 		mainActivity.recognizedText = mainActivity.recognizedText.trim();
@@ -400,7 +400,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		// TODO Auto-generated method stub
-		
+		afterProcess = bitmap_Source;
 		Log.v(TAG, "In runnable thread, before processing");
 		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
 		if(w<300 && h<300)
@@ -410,21 +410,23 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		else
 			afterProcess=bitmap_Source;*/
 		
-		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
-		afterProcess = OCRImageProcessing.makeGreyScale(bitmap_Source);
+		afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 30);
+		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
 		afterProcess = processingBitmap(afterProcess, kernal_blur);
-		//afterProcess = processingBitmap(afterProcess, kernal_blur);
-		//afterProcess = processingBitmap(afterProcess, kernal_blur);
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
+		afterProcess = processingBitmap(afterProcess, kernal_blur);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
 		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
+		
+		Log.v(TAG, "After unsharp");
 		
 		try{	
 			FileOutputStream out = new FileOutputStream(mainActivity._path);
@@ -434,13 +436,20 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 			Log.v(TAG, e.toString());
 		}
 		
+		Log.v(TAG, "After saving file to sdcard");
+		
 		File pic = new File(mainActivity._path);
 		Pix pix = ReadFile.readFile(pic);
 		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
 		else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);
 		pix = Convert.convertTo8(pix);
-		//pix = Binarize.otsuAdaptiveThreshold(pix);
-		//pix = Enhance.unsharpMasking(pix, 1, 0.2F); //gives OutOfMemoryError
+		
+		pix = Binarize.otsuAdaptiveThreshold(pix);
+		pix = Rotate.rotate(pix, -Skew.findSkew(pix));
+		
+		Log.v(TAG, "After scale and binarize");
+		 
+		//pix = Enhance.unsharpMasking(pix, 3, 0.7F); //gives OutOfMemoryError
 		WriteFile.writeImpliedFormat(pix, pic, 100, true);
 		afterProcess = WriteFile.writeBitmap(pix);
 		
