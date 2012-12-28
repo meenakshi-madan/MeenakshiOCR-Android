@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+ 	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".OCRActivity"
+	android:focusable="true"
+	android:focusableInTouchMode="true"
+	style="@style/BaseBG" >
+	
+    
+	<Button
+	    android:id="@+id/btn_startOCR"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:background="@drawable/ocrbbuttonselector2" />
+	
+	<!--<TextView  
+	    android:id="@+id/textview"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="10dp"
+	    android:gravity="center"
+	    android:textStyle="bold"
+	    android:textSize="17sp"
+	    android:text="Too Lazy To Type"/> -->
+	
+	<EditText
+        android:id="@+id/recogText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:minLines="2"
+        android:layout_marginTop="2dp"
+	    android:layout_marginBottom="2dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginLeft="5dp"
+	    android:gravity="center"
+	    android:textStyle="bold"
+        android:scrollHorizontally="true"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:visibility="invisible"
+        android:background="@drawable/textfieldselector"/>
+	
+	<ImageView
+		android:id="@+id/selectedImage"
+		android:layout_marginTop="10dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content" 		 
+		android:layout_height="wrap_content"
+		android:contentDescription="@string/selected_image_description" /> <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
+		
+	<!--<ImageView
+		android:id="@+id/ocrphoto"
+		android:layout_marginTop="10dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content" 		 
+		android:layout_height="wrap_content"
+		android:contentDescription="Processed Image" />-->
+	
+	
+	<!--<ProgressBar
+	    android:id="@+id/progressBar1"
+	    style="?android:attr/progressBarStyleSmall"
+	    android:layout_gravity="center_horizontal"
+	    android:indeterminate="true"
+	    android:visibility="invisible"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" /> -->
+		
+</LinearLayout>

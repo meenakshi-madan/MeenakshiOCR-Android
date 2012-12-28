@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,6 +46,8 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	ProgressBar progressBar;
 	protected TextView _field;*/
 	
+	ProgressDialog pg;
+	
 	
 	Bitmap bitmap_Source;
 	//private Handler handler;
@@ -71,12 +74,12 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	 
 	public static String recognizedText;*/
 	
-	/** Object of MainActivity, to access variables such as DATA_PATH and view elements **/
-	private MainActivity mainActivity;
+	/** Object of OCRActivity, to access variables such as DATA_PATH and view elements **/
+	private OCRActivity act;
 
-	public UnsharpMask(MainActivity act, Bitmap bitmap) {
+	public UnsharpMask(OCRActivity act, Bitmap bitmap) {
 		Log.v(TAG, "Begin constructor");
-		mainActivity = act;
+		this.act = act;
 		
 		//progressBar = new ProgressBar(act, null, android.R.attr.progressBarStyleSmall);
 		//progressBar.setIndeterminate(true);
@@ -88,6 +91,48 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		//handler = new Handler();
 		//StratBackgroundProcess();
 	}
+	
+	
+	@Override
+    protected void onPreExecute() {
+        //mImageView.setImageBitmap(result);
+		Log.v("CopData AsyncTask Mein", "Entered onPreExecute");
+		
+		pg = new ProgressDialog(act);
+		//pg.setTitle("Processing. . .");
+		pg.setMessage("Processing. . .");
+		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, text, listener)
+		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, "End", "Closing Dialog");
+		pg.show();
+    }
+	
+	
+	/** Displays text to the user, hides progress bar
+	 * 
+	 */
+	
+	@Override
+    protected void onPostExecute(Void result) {
+        //mImageView.setImageBitmap(result);
+		Log.v("AsyncTask Mein", "Entered onPostExecute");
+		
+		if ( act.recognizedText.length() != 0 ) {
+			act._field.setText(act.recognizedText);
+			act._field.setVisibility(View.VISIBLE);
+			pg.setMessage("Done!");
+			pg.dismiss();
+		}
+		else
+		{
+			pg.setMessage("Oops, no text found!");
+			pg.setCanceledOnTouchOutside(true);
+		}
+		
+		//act.progressBar.setVisibility(View.GONE);
+		//act.processedImage.setVisibility(View.VISIBLE);
+		//act.processedImage.setImageBitmap(afterProcess);
+		//afterProcess.recycle();
+    }
 
 
 	/**
@@ -197,7 +242,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 1;
 
-		Bitmap bitmap = BitmapFactory.decodeFile(mainActivity._path, options);
+		Bitmap bitmap = BitmapFactory.decodeFile(Constants.CURRENT_IMAGE_PATH, options);
 		
 		
 		//bitmap = OCRImageProcessing.makeGreyScale(bitmap);
@@ -223,7 +268,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
         
 
 		try {
-			ExifInterface exif = new ExifInterface(mainActivity._path);
+			ExifInterface exif = new ExifInterface(Constants.CURRENT_IMAGE_PATH);
 			int exifOrientation = exif.getAttributeInt(
 					ExifInterface.TAG_ORIENTATION,
 					ExifInterface.ORIENTATION_NORMAL);
@@ -278,13 +323,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz");
 		baseApi.setDebug(true);
 		Log.v(TAG, "After setting variables");
-		baseApi.init(mainActivity.DATA_PATH, mainActivity.lang); //, TessBaseAPI.OEM_CUBE_ONLY
+		baseApi.init(Constants.DATA_PATH, Constants.LANG); //, TessBaseAPI.OEM_CUBE_ONLY
 		Log.v(TAG, "After init and before setting bitmap");
 		baseApi.setImage(bitmap);
 		Log.v(TAG, "After init and before getUTF8Text");
-		mainActivity.recognizedText = baseApi.getUTF8Text();
+		act.recognizedText = baseApi.getUTF8Text();
 		meanConfidence = baseApi.meanConfidence();
-		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
+		Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
 		Log.v(TAG, "Mean Confidence: " + meanConfidence);
 		
 		/*int[] confidences = baseApi.wordConfidences();
@@ -350,13 +395,13 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
 		// so that garbage doesn't make it to the display.
 
-		Log.v(TAG, "OCRED TEXT: " + mainActivity.recognizedText);
+		Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
 
-		if ( mainActivity.lang.equalsIgnoreCase("eng") ) {
-			mainActivity.recognizedText = mainActivity.recognizedText.replaceAll("[^a-zA-Z0-9.,!'@:;]+", " ");
+		if ( Constants.LANG.equalsIgnoreCase("eng") ) {
+			act.recognizedText = act.recognizedText.replaceAll("[^a-zA-Z0-9.,]+", " ");
 		}
 		
-		mainActivity.recognizedText = mainActivity.recognizedText.trim();
+		act.recognizedText = act.recognizedText.trim();
 
 		/*if ( recognizedText.length() != 0 ) {
 			_field.setText(recognizedText);
@@ -372,25 +417,6 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 	}
 
 
-	
-	/** Displays text to the user, hides progress bar
-	 * 
-	 */
-	
-	@Override
-    protected void onPostExecute(Void result) {
-        //mImageView.setImageBitmap(result);
-		Log.v("AsyncTask Mein", "Entered onPostExecute");
-		
-		if ( mainActivity.recognizedText.length() != 0 ) {
-			mainActivity._field.setText(mainActivity.recognizedText);
-		}
-		
-		mainActivity.progressBar.setVisibility(View.GONE);
-		mainActivity.processedImage.setVisibility(View.VISIBLE);
-		mainActivity.processedImage.setImageBitmap(afterProcess);
-		//afterProcess.recycle();
-    }
 
 
 	/**
@@ -410,7 +436,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		else
 			afterProcess=bitmap_Source;*/
 		
-		afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 30);
+		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 30);
 		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
@@ -429,7 +455,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		Log.v(TAG, "After unsharp");
 		
 		try{	
-			FileOutputStream out = new FileOutputStream(mainActivity._path);
+			FileOutputStream out = new FileOutputStream(Constants.CURRENT_IMAGE_PATH);
 			afterProcess.compress(Bitmap.CompressFormat.JPEG, 100, out);
 		}catch(Exception e)
 		{
@@ -438,7 +464,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		
 		Log.v(TAG, "After saving file to sdcard");
 		
-		File pic = new File(mainActivity._path);
+		File pic = new File(Constants.CURRENT_IMAGE_PATH);
 		Pix pix = ReadFile.readFile(pic);
 		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
 		else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);

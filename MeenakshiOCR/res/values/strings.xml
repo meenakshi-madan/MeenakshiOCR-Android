@@ -4,5 +4,7 @@
     <string name="app_name">MeenakshiOCR</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="title_activity_ocr">Too Lazy To Type - OCR</string>
+    <string name="selected_image_description">Selected Image</string>
 
 </resources>
