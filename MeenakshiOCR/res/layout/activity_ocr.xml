@@ -1,22 +1,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
- 	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".OCRActivity"
-	android:focusable="true"
-	android:focusableInTouchMode="true"
-	style="@style/BaseBG" >
-	
-    
-	<Button
+    style="@style/BaseBG"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".OCRActivity" >
+
+    <!--
+         <Button
 	    android:id="@+id/btn_startOCR"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center"
+	    style="@style/ButtonTheme"
 	    android:background="@drawable/ocrbbuttonselector2" />
-	
-	<!--<TextView  
+    -->
+
+    <ImageButton
+        android:id="@+id/btn_startOCR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@null"
+        android:contentDescription="Click to select an image for OCR!"
+        android:src="@drawable/ocrbbuttonselector2" />
+
+    <!--
+        <TextView  
 	    android:id="@+id/textview"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
@@ -25,51 +39,141 @@
 	    android:gravity="center"
 	    android:textStyle="bold"
 	    android:textSize="17sp"
-	    android:text="Too Lazy To Type"/> -->
-	
-	<EditText
+	    android:text="Too Lazy To Type"/>
+    -->
+
+    <EditText
         android:id="@+id/recogText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/textfieldselector"
+        android:gravity="center"
+        android:inputType="textMultiLine|textAutoCorrect"
         android:lines="5"
         android:minLines="2"
-        android:layout_marginTop="2dp"
-	    android:layout_marginBottom="2dp"
-	    android:layout_marginRight="5dp"
-	    android:layout_marginLeft="5dp"
-	    android:gravity="center"
-	    android:textStyle="bold"
         android:scrollHorizontally="true"
         android:scrollbars="vertical"
         android:singleLine="false"
-        android:visibility="invisible"
-        android:background="@drawable/textfieldselector"/>
-	
-	<ImageView
-		android:id="@+id/selectedImage"
-		android:layout_marginTop="10dp"
-		android:layout_gravity="center_horizontal"
-		android:layout_width="wrap_content" 		 
-		android:layout_height="wrap_content"
-		android:contentDescription="@string/selected_image_description" /> <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
-		
-	<!--<ImageView
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/selectedImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/selected_image_description" />
+ <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
+
+
+    <!--
+        <ImageView
 		android:id="@+id/ocrphoto"
 		android:layout_marginTop="10dp"
 		android:layout_gravity="center_horizontal"
 		android:layout_width="wrap_content" 		 
 		android:layout_height="wrap_content"
-		android:contentDescription="Processed Image" />-->
-	
-	
-	<!--<ProgressBar
+		android:contentDescription="Processed Image" />
+    -->
+
+
+    <!--
+        <ProgressBar
 	    android:id="@+id/progressBar1"
 	    style="?android:attr/progressBarStyleSmall"
 	    android:layout_gravity="center_horizontal"
 	    android:indeterminate="true"
 	    android:visibility="invisible"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" /> -->
-		
+	    android:layout_height="wrap_content" />
+    -->
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        tools:context=".OCRActivity" >
+
+        <!--
+        <Button 
+			android:id="@+id/btn_copyToClipBoard"
+			android:layout_width="wrap_content" 		 
+			android:layout_height="wrap_content"
+			android:background="@drawable/plainbuttonselector"
+			android:visibility="invisible"
+			style="@style/ButtonTheme"
+			android:singleLine="false"
+			android:text="Copy to ClipBoard!"
+			android:onClick="copyRTToClipBoard" />
+	    
+	    <Button 
+			android:id="@+id/btn_googleIt"
+			android:layout_width="wrap_content" 		 
+			android:layout_height="wrap_content"
+			android:background="@drawable/plainbuttonselector"
+			android:visibility="invisible"
+			style="@style/ButtonTheme"
+			android:singleLine="false"
+			android:text="Google it!"
+			android:onClick="googleRT" />
+	    
+	    
+	    <Button 
+			android:id="@+id/btn_saveToFile"
+			android:layout_width="wrap_content" 		 
+			android:layout_height="wrap_content"
+			android:background="@drawable/plainbuttonselector"
+			android:visibility="invisible"
+			style="@style/ButtonTheme"
+			android:singleLine="false"
+			android:text="Save as text file!"
+			android:onClick="saveRTToFile" />
+        -->
+
+        <Button
+            android:id="@+id/btn_copyToClipBoard"
+            style="@style/ButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clipboard2"
+            android:onClick="copyRTToClipBoard"
+            android:singleLine="false"
+            android:contentDescription="Copy to ClipBoard!"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btn_googleIt"
+            style="@style/ButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/google"
+            android:onClick="googleRT"
+            android:singleLine="false"
+            android:contentDescription="Google it!"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btn_saveToFile"
+            style="@style/ButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textfileicon2"
+            android:onClick="saveRTToFile"
+            android:singleLine="false"
+            android:contentDescription="Save as text file!"
+            android:visibility="invisible" />
+    </LinearLayout>
+
 </LinearLayout>

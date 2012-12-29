@@ -17,10 +17,10 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
-import com.googlecode.leptonica.android.Enhance;
 import com.googlecode.leptonica.android.Pix;
 import com.googlecode.leptonica.android.ReadFile;
 import com.googlecode.leptonica.android.Rotate;
@@ -29,7 +29,7 @@ import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
-public class UnsharpMask extends AsyncTask<Void, Void, Void> {
+public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
  
 	final static int KERNAL_WIDTH = 3;
 	final static int KERNAL_HEIGHT = 3;
@@ -103,7 +103,15 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		pg.setMessage("Processing. . .");
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, text, listener)
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, "End", "Closing Dialog");
+		pg.setMax(10);
 		pg.show();
+    }
+	
+	
+	
+	@Override
+	protected void onProgressUpdate(Integer... progress) {
+        pg.setProgress(progress[0]);
     }
 	
 	
@@ -121,6 +129,9 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 			act._field.setVisibility(View.VISIBLE);
 			pg.setMessage("Done!");
 			pg.dismiss();
+			((Button)act.findViewById(R.id.btn_copyToClipBoard)).setVisibility(View.VISIBLE);
+			((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
+			((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
 		}
 		else
 		{
@@ -428,6 +439,7 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		// TODO Auto-generated method stub
 		afterProcess = bitmap_Source;
 		Log.v(TAG, "In runnable thread, before processing");
+		publishProgress(1);
 		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
 		if(w<300 && h<300)
 			afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
@@ -451,6 +463,8 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 
 		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
+		
+		publishProgress(4);
 		
 		Log.v(TAG, "After unsharp");
 		
@@ -481,7 +495,11 @@ public class UnsharpMask extends AsyncTask<Void, Void, Void> {
 		
 		Log.v(TAG, "In runnable thread, after processing");
 		
+		publishProgress(8);
+		
 		performOCR();
+		
+		publishProgress(10);
 		/*checkOnceForFurtherProcessing = false;
 		if(mainActivity.recognizedText.equals("") || mainActivity.recognizedText.equals(" ") || mainActivity.recognizedText == null || containsAny(mainActivity.recognizedText,"#$%^&+=:;{}[]\\|><~`") || meanConfidence<80)
 		{

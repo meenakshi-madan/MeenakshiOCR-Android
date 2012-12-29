@@ -2,21 +2,27 @@ package meenakshi.project.meenakshiocr;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +30,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class OCRActivity extends Activity {
@@ -43,6 +49,8 @@ public class OCRActivity extends Activity {
 	private static final String TAG = "OCRActivity.java";
 	protected EditText _field;
 	public String recognizedText;
+	
+	private SharedPreferences mPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +60,7 @@ public class OCRActivity extends Activity {
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		_field = (EditText)findViewById(R.id.recogText);
-		Button button 	= (Button) findViewById(R.id.btn_startOCR);
+		ImageButton button 	= (ImageButton) findViewById(R.id.btn_startOCR);
 		mImageView		= (ImageView) findViewById(R.id.selectedImage);
 		//processedImage= (ImageView) findViewById(R.id.ocrphoto);
 		//processedImage.setVisibility(View.INVISIBLE);
@@ -119,6 +127,56 @@ public class OCRActivity extends Activity {
             new CopyDataToSDAsync(this).execute();
         }*/
         
+	}
+	
+	
+	
+	public void copyRTToClipBoard(View v)
+	{
+		ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
+		clipboard.setText(recognizedText); 
+		Toast.makeText(getApplicationContext(), "Text copied to clipboard!", Toast.LENGTH_SHORT).show();
+	}
+	
+	
+	public void googleRT(View v)
+	{
+		//AlertDialog.Builder builder = new AlterDialog.Builder(this);
+		Uri uriUrl = Uri.parse("http://www.google.com/search?q=" + recognizedText); 
+		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);  
+		startActivity(launchBrowser); 
+	}
+	
+	
+	public void saveRTToFile(View v)
+	{
+		mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
+		
+		try
+	    {
+	        File root = new File(Environment.getExternalStorageDirectory(), "OCRNotes");
+	        if (!root.exists()) 
+	        {
+	            root.mkdirs();
+	        }
+	        int count = mPreferences.getInt("textFileCounter", 1);
+	        File gpxfile = new File(root, count +  ".txt");
+	        FileWriter writer = new FileWriter(gpxfile);
+	        writer.append(recognizedText);
+	        writer.flush();
+	        writer.close();
+
+	        Toast.makeText(this, "Saved to OCRNotes/" + count +  ".txt", Toast.LENGTH_SHORT).show();
+	        
+	        SharedPreferences.Editor editor = mPreferences.edit();
+	        editor.putInt("textFileCounter", ++count);
+	        editor.commit();
+	    }
+	    catch(IOException e)
+	    {
+	         e.printStackTrace();
+	         Log.v(TAG, e.toString());
+	    }
 	}
 	
 	

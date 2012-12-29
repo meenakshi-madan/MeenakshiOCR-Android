@@ -37,5 +37,11 @@
 	<style name="TextFields">
 	    <item name="android:background">@drawable/textfieldbg</item>
 	</style> -->
+	
+	<style name="ButtonTheme">
+	    <item name="android:textStyle">bold</item>
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:minLines">1</item>
+	</style>
 
 </resources>
