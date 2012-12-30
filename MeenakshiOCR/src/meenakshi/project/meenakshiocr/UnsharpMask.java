@@ -19,8 +19,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.googlecode.leptonica.android.AdaptiveMap;
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
+import com.googlecode.leptonica.android.Enhance;
 import com.googlecode.leptonica.android.Pix;
 import com.googlecode.leptonica.android.ReadFile;
 import com.googlecode.leptonica.android.Rotate;
@@ -98,12 +100,13 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("CopData AsyncTask Mein", "Entered onPreExecute");
 		
-		pg = new ProgressDialog(act);
+		pg = new ProgressDialog(act, 0);
 		//pg.setTitle("Processing. . .");
 		pg.setMessage("Processing. . .");
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, text, listener)
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, "End", "Closing Dialog");
 		pg.setMax(10);
+		pg.setIndeterminate(false);
 		pg.show();
     }
 	
@@ -123,6 +126,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void result) {
         //mImageView.setImageBitmap(result);
 		Log.v("AsyncTask Mein", "Entered onPostExecute");
+		
+		act.mImageView.setImageBitmap(afterProcess);
 		
 		if ( act.recognizedText.length() != 0 ) {
 			act._field.setText(act.recognizedText);
@@ -409,7 +414,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
 
 		if ( Constants.LANG.equalsIgnoreCase("eng") ) {
-			act.recognizedText = act.recognizedText.replaceAll("[^a-zA-Z0-9.,]+", " ");
+			act.recognizedText = act.recognizedText.replaceAll("[^a-zA-Z0-9.,-:;'\"()@$><?!]+", " ");
 		}
 		
 		act.recognizedText = act.recognizedText.trim();
@@ -448,16 +453,16 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		else
 			afterProcess=bitmap_Source;*/
 		
-		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 30);
+		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
 		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
-		afterProcess = processingBitmap(afterProcess, kernal_blur);
+		//afterProcess = processingBitmap(afterProcess, kernal_blur);
+		//afterProcess = processingBitmap(afterProcess, kernal_blur);
+		//afterProcess = processingBitmap(afterProcess, kernal_blur);
 
 		//afterProcess = OCRImageProcessing.applyGaussianBlur(afterProcess);
 
@@ -480,12 +485,14 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		
 		File pic = new File(Constants.CURRENT_IMAGE_PATH);
 		Pix pix = ReadFile.readFile(pic);
+		pix = AdaptiveMap.backgroundNormMorph(pix, 16, 3, 200);
+		pix = Enhance.unsharpMasking(pix, 3, 0.7F);
 		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
 		else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);
 		pix = Convert.convertTo8(pix);
 		
-		pix = Binarize.otsuAdaptiveThreshold(pix);
 		pix = Rotate.rotate(pix, -Skew.findSkew(pix));
+		pix = Binarize.otsuAdaptiveThreshold(pix);
 		
 		Log.v(TAG, "After scale and binarize");
 		 

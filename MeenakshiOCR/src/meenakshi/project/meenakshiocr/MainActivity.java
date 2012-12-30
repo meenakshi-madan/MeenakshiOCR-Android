@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
         if (firstTime) { 
         	Log.v(TAG, "In first time if block");
             SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean("firstTime", false);
+            editor.putBoolean("firstTimev4", false);
             editor.putString("lang", "eng");
             editor.putString("OCRTextMode", "default");
             editor.putString("DATA_PATH", getExternalFilesDir(null).getAbsolutePath() + "/");
@@ -71,6 +71,8 @@ public class MainActivity extends Activity {
             Constants.initializeConstants(this);
             new CopyDataToSDAsync((Activity)this).execute();
         }
+        
+        Constants.initializeConstants(this);
      
     }
     
