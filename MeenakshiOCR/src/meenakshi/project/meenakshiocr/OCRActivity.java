@@ -230,7 +230,7 @@ public class OCRActivity extends Activity {
 		            //Toast.makeText(getApplicationContext(), "Please hold on for a few seconds while your image is being processed", Toast.LENGTH_LONG).show();
 		            //progressBar = (ProgressBar)findViewById(R.id.progressBar1);
 		    		//progressBar.setVisibility(View.VISIBLE);
-		            new UnsharpMask(this, photo).execute();
+		            new UnsharpMask(this).execute();
 		            //um.start();
 		            /*try {
 		            	um.join();

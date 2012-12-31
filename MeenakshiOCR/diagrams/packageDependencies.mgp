@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PackageAnalysis>
+    <Package name="meenakshi.project.meenakshiocr" x="48" y="45">
+        <DependencyLink destination="magick.util"/>
+        <DependencyLink destination="magick"/>
+    </Package>
+    <Package name="magick.util" x="353" y="45">
+        <DependencyLink destination="magick"/>
+    </Package>
+    <Package name="magick" x="220" y="170">
+        <DependencyLink destination="fakeawt"/>
+    </Package>
+    <Package name="fakeawt" x="219" y="243"/>
+</PackageAnalysis>

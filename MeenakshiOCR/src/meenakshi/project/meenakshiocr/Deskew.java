@@ -50,7 +50,10 @@ public class Deskew
 		hl = GetTop(20);
 		//' Average angle of the lines
 		for (i = 0; i < 19; i++)        
-		{             sum += hl[i].Alpha;             count += 1;         }         
+		{             
+			sum += hl[i].Alpha;            
+			count += 1;        
+		}         
 		return sum / count;    
 	}     //    ' Calculate the Count lines in the image with most points.     
 	 private HougLine[] GetTop(int Count)     

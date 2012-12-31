@@ -59,7 +59,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	ProgressDialog pg;
 	
 	
-	Bitmap bitmap_Source;
+	//Bitmap bitmap_Source;
 	//private Handler handler;
 	Bitmap afterProcess;
 	
@@ -87,7 +87,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	/** Object of OCRActivity, to access variables such as DATA_PATH and view elements **/
 	private OCRActivity act;
 
-	public UnsharpMask(OCRActivity act, Bitmap bitmap) {
+	public UnsharpMask(OCRActivity act) {
 		Log.v(TAG, "Begin constructor");
 		this.act = act;
 		
@@ -96,7 +96,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		//progressBar.set
 		//progressBar.setVisibility(View.VISIBLE);
 
-		bitmap_Source = bitmap; //BitmapFactory.decodeResource(getResources(), R.drawable.testpicture);
+		//bitmap_Source = bitmap; //BitmapFactory.decodeResource(getResources(), R.drawable.testpicture);
 
 		//handler = new Handler();
 		//StratBackgroundProcess();
@@ -108,7 +108,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("CopData AsyncTask Mein", "Entered onPreExecute");
 		
-		pg = new ProgressDialog(act, 0);
+		pg = new ProgressDialog(act);
 		//pg.setTitle("Processing. . .");
 		pg.setMessage("Processing. . .");
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, text, listener)
@@ -450,7 +450,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		// TODO Auto-generated method stub
-		afterProcess = bitmap_Source;
+		//afterProcess = bitmap_Source;
 		Log.v(TAG, "In runnable thread, before processing");
 		publishProgress(1);
 		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
@@ -500,11 +500,11 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			m.setMatte(true);
 			
 			
-			//Deskew d = new Deskew(MagickBitmap.ToBitmap(m));
-			//skew = d.GetSkewAngle();
-			//Log.v(TAG, "After Deskew, skew = " + skew);
+			Deskew d = new Deskew(MagickBitmap.ToBitmap(m));
+			double skew = d.GetSkewAngle();
+			Log.v(TAG, "After Deskew, skew = " + skew);
 			
-			//m = m.rotateImage(-skew);
+			m = m.rotateImage(skew/-57.295779513082320876798154814105);
 			m.setDepth(8);
 			m.normalizeImage();
 			m = m.sharpenImage(3, 0);
@@ -566,13 +566,13 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		
 		//Log.v(TAG, "Skew: " + Skew.findSkew(pix));
 		
-		afterProcess = WriteFile.writeBitmap(pix);
+		/*afterProcess = WriteFile.writeBitmap(pix);
 		Deskew d = new Deskew(afterProcess);
 		double skew = -d.GetSkewAngle();
 		
-		pix = Rotate.rotate(pix, (float)skew);
-		Log.v(TAG, "Leptonica rotated for skew angle: " + skew);
-		//pix = Binarize.otsuAdaptiveThreshold(pix);
+		pix = Rotate.rotate(pix, (float)skew, true);
+		Log.v(TAG, "Leptonica rotated for skew angle: " + -skew);
+		//pix = Binarize.otsuAdaptiveThreshold(pix);*/
 		
 		Log.v(TAG, "After scale and binarize");
 		 
