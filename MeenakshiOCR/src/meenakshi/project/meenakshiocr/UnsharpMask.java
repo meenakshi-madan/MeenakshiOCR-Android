@@ -4,10 +4,18 @@ package meenakshi.project.meenakshiocr;
  * author: Meenakshi Madan
  */
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
+import magick.CompositeOperator;
+import magick.ImageInfo;
+import magick.MagickImage;
+import magick.PixelPacket;
+import magick.QuantizeInfo;
+import magick.util.MagickBitmap;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -428,7 +436,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		// Cycle done.
 		
 		//return recognizedText;
-		afterProcess = bitmap;
+		//afterProcess = bitmap;
 		
 	}
 
@@ -469,30 +477,102 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		//afterProcess = OCRImageProcessing.makeGreyScale(afterProcess);
 		//afterProcess = OCRImageProcessing.createContrastBW(afterProcess, 50);
 		
+		//double skew=0;
+		
+		try{
+			ImageInfo mi = new ImageInfo(Constants.CURRENT_IMAGE_PATH);
+			MagickImage m = new MagickImage(mi);
+			
+			//m.unsharpMaskImage(6.8, 3, 2.69, 0);
+			if(m.quantizeImage(new QuantizeInfo())) Log.v(TAG, "grayscale conversion successful");
+			else Log.v(TAG, "grayscale conversion unsuccessful");
+			m = m.enhanceImage();
+			m = m.unsharpMaskImage(6.8, 0, 2.69, 0);
+			m.contrastImage(true);
+			MagickImage mask = m.cloneImage(m.getWidth(), m.getHeight(), true);
+			mask.quantizeImage(new QuantizeInfo());
+			mask.negateImage(1);
+			mask.contrastImage(true);
+			mask.thresholdImage(0);
+			mask = mask.blurImage(6.8, 3);
+			m.compositeImage(CompositeOperator.CopyOpacityCompositeOp, mask, 0, 0);
+			m.setBackgroundColor(new PixelPacket(1,1,1,1));
+			m.setMatte(true);
+			
+			
+			//Deskew d = new Deskew(MagickBitmap.ToBitmap(m));
+			//skew = d.GetSkewAngle();
+			//Log.v(TAG, "After Deskew, skew = " + skew);
+			
+			//m = m.rotateImage(-skew);
+			m.setDepth(8);
+			m.normalizeImage();
+			m = m.sharpenImage(3, 0);
+			
+			
+			
+			/*try {
+				byte blob[] = m.imageToBlob(mi);
+				FileOutputStream fos = new FileOutputStream(new File(Constants.CURRENT_IMAGE_PATH));
+				fos.write(blob);
+				fos.close();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				Log.v(TAG, "failed to write magick'd stuff to sdcard");
+			}*/
+			mi.setDensity("300");
+			m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
+			m.writeImage(mi); //save
+		}
+		catch(Exception e)
+		{
+			Log.v(TAG, "exception occured performing magick functions: " + e.toString());
+		}
+		
 		publishProgress(4);
 		
 		Log.v(TAG, "After unsharp");
 		
-		try{	
+		/*try{	
 			FileOutputStream out = new FileOutputStream(Constants.CURRENT_IMAGE_PATH);
 			afterProcess.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			
 		}catch(Exception e)
 		{
 			Log.v(TAG, e.toString());
-		}
+		}*/
 		
 		Log.v(TAG, "After saving file to sdcard");
 		
 		File pic = new File(Constants.CURRENT_IMAGE_PATH);
 		Pix pix = ReadFile.readFile(pic);
-		pix = AdaptiveMap.backgroundNormMorph(pix, 16, 3, 200);
-		pix = Enhance.unsharpMasking(pix, 3, 0.7F);
-		if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
-		else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);
-		pix = Convert.convertTo8(pix);
+		//pix = AdaptiveMap.backgroundNormMorph(pix, 16, 3, 200);
+		//pix = Enhance.unsharpMasking(pix, 3, 0.7F);
+		//if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
+		//else if(pix.getWidth() > 1200 || pix.getHeight() > 1200) pix = Scale.scale(pix, 1/2);
+		//pix = Convert.convertTo8(pix);
 		
-		pix = Rotate.rotate(pix, -Skew.findSkew(pix));
-		pix = Binarize.otsuAdaptiveThreshold(pix);
+		
+		/*afterProcess = WriteFile.writeBitmap(pix);
+		double skew = doIt(afterProcess);
+		Log.v(TAG, "After doIt, skew = " + skew);*/
+		
+		/*afterProcess = WriteFile.writeBitmap(pix);
+		Deskew d = new Deskew(afterProcess);
+		double skew = d.GetSkewAngle();
+		Log.v(TAG, "After Deskew, skew = " + skew);*/
+		
+		
+		//Log.v(TAG, "Skew: " + Skew.findSkew(pix));
+		
+		afterProcess = WriteFile.writeBitmap(pix);
+		Deskew d = new Deskew(afterProcess);
+		double skew = -d.GetSkewAngle();
+		
+		pix = Rotate.rotate(pix, (float)skew);
+		Log.v(TAG, "Leptonica rotated for skew angle: " + skew);
+		//pix = Binarize.otsuAdaptiveThreshold(pix);
 		
 		Log.v(TAG, "After scale and binarize");
 		 

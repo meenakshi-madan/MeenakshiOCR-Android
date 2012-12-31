@@ -9,7 +9,7 @@
 */
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
@@ -29,4 +29,55 @@
 		android:onClick="goToOCR" />
 
 		
-</LinearLayout>
+</LinearLayout>-->
+
+
+<meenakshi.project.meenakshiocr.DashboardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	style="@style/BaseBG" >
+
+    <Button android:id="@+id/home_btn_ocr"
+        android:text="Extract Text"
+        android:drawableTop="@drawable/occbtnsss"
+        style="@style/DashboardButtonTheme"
+        android:onClick="goToOCR" />
+    
+    <Button android:id="@+id/home_btn_help"
+        android:text="Help"
+        android:drawableTop="@drawable/help"
+        style="@style/DashboardButtonTheme" />
+    
+    <Button android:id="@+id/home_btn_settings"
+        android:text="Settings"
+        android:drawableTop="@drawable/settings"
+        style="@style/DashboardButtonTheme" />
+    
+    <Button android:id="@+id/home_btn_search"
+        android:text="Search"
+        android:drawableTop="@drawable/search"
+        style="@style/DashboardButtonTheme" />"
+    <!-- <Button android:id="@+id/home_btn_map"
+        style="@style/DashboardButton"
+        android:text="@string/btn_map"
+        android:drawableTop="@drawable/home_btn_map" />
+    <Button android:id="@+id/home_btn_sessions"
+        style="@style/DashboardButton"
+        android:text="@string/btn_sessions"
+        android:drawableTop="@drawable/home_btn_sessions" />
+    <Button android:id="@+id/home_btn_starred"
+        style="@style/DashboardButton"
+        android:text="@string/btn_starred"
+        android:drawableTop="@drawable/home_btn_starred" />
+    <Button android:id="@+id/home_btn_vendors"
+        style="@style/DashboardButton"
+        android:text="@string/btn_vendors"
+        android:drawableTop="@drawable/home_btn_vendors" />
+    <Button android:id="@+id/home_btn_announcements"
+        style="@style/DashboardButton"
+        android:text="@string/btn_announcements"
+        android:drawableTop="@drawable/home_btn_announcements" /> -->
+
+</meenakshi.project.meenakshiocr.DashboardLayout>
+
