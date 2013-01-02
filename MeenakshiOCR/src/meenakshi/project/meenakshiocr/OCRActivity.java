@@ -38,6 +38,7 @@ public class OCRActivity extends Activity {
 	
 	private Uri mImageCaptureUri;
 	public ImageView mImageView; //, processedImage
+	public ImageView mImageView2;
 	
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
@@ -62,6 +63,8 @@ public class OCRActivity extends Activity {
 		_field = (EditText)findViewById(R.id.recogText);
 		ImageButton button 	= (ImageButton) findViewById(R.id.btn_startOCR);
 		mImageView		= (ImageView) findViewById(R.id.selectedImage);
+		mImageView2		= (ImageView) findViewById(R.id.processedImage);
+		//mImageView3		= (ImageView) findViewById(R.id.mask);
 		//processedImage= (ImageView) findViewById(R.id.ocrphoto);
 		//processedImage.setVisibility(View.INVISIBLE);
 		_field.clearFocus();

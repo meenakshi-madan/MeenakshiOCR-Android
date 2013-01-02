@@ -21,7 +21,7 @@
     <ImageButton
         android:id="@+id/btn_startOCR"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:scaleType="centerInside"
         android:layout_gravity="center"
         android:layout_weight="1"
@@ -68,6 +68,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/selected_image_description" />
+    
+    
+    <ImageView
+        android:id="@+id/processedImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/selected_image_description" />
+    
+    
  <!-- android:layout_width="fill_parent" 	android:layout_height="200dp" -->
 
 
@@ -96,6 +107,7 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_bottombtns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -104,6 +116,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
+        android:visibility="invisible"
         tools:context=".OCRActivity" >
 
         <!--
@@ -150,8 +163,7 @@
             android:background="@drawable/clipboard2"
             android:onClick="copyRTToClipBoard"
             android:singleLine="false"
-            android:contentDescription="Copy to ClipBoard!"
-            android:visibility="invisible" />
+            android:contentDescription="Copy to ClipBoard!" />
 
         <Button
             android:id="@+id/btn_googleIt"
@@ -161,8 +173,7 @@
             android:background="@drawable/google"
             android:onClick="googleRT"
             android:singleLine="false"
-            android:contentDescription="Google it!"
-            android:visibility="invisible" />
+            android:contentDescription="Google it!" />
 
         <Button
             android:id="@+id/btn_saveToFile"
@@ -172,8 +183,7 @@
             android:background="@drawable/textfileicon2"
             android:onClick="saveRTToFile"
             android:singleLine="false"
-            android:contentDescription="Save as text file!"
-            android:visibility="invisible" />
+            android:contentDescription="Save as text file!" />
     </LinearLayout>
 
 </LinearLayout>

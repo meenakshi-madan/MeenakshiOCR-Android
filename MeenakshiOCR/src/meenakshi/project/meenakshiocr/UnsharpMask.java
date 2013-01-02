@@ -4,17 +4,12 @@ package meenakshi.project.meenakshiocr;
  * author: Meenakshi Madan
  */
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import magick.CompositeOperator;
 import magick.ImageInfo;
 import magick.MagickImage;
 import magick.PixelPacket;
-import magick.QuantizeInfo;
 import magick.util.MagickBitmap;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -25,18 +20,8 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.googlecode.leptonica.android.AdaptiveMap;
-import com.googlecode.leptonica.android.Binarize;
-import com.googlecode.leptonica.android.Convert;
-import com.googlecode.leptonica.android.Enhance;
-import com.googlecode.leptonica.android.Pix;
-import com.googlecode.leptonica.android.ReadFile;
-import com.googlecode.leptonica.android.Rotate;
-import com.googlecode.leptonica.android.Scale;
-import com.googlecode.leptonica.android.Skew;
-import com.googlecode.leptonica.android.WriteFile;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
@@ -61,7 +46,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	
 	//Bitmap bitmap_Source;
 	//private Handler handler;
-	Bitmap afterProcess;
+	Bitmap beforeProcess, afterProcess;
 	
 	/** Tag for logging purposes **/
 	String TAG = "UnsharpMask";
@@ -76,7 +61,10 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	int tessRepeatMAXCOUNT = 5;
 	
 	/** Mean confidence as returned by tesseract on the recognized text **/
-	int meanConfidence;
+	int meanConfidence_original, meanConfidence_processed;
+	String text_original, text_processed;
+	
+	static int LEVEL_ORIGINAL = 0, LEVEL_PROCESSED=1;
 	
 	/*String _path;
 	public static String DATA_PATH;
@@ -123,6 +111,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected void onProgressUpdate(Integer... progress) {
         pg.setProgress(progress[0]);
+       // if(progress[0]==1)
+       // 	pg.setMessage(text_original);
     }
 	
 	
@@ -135,16 +125,29 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("AsyncTask Mein", "Entered onPostExecute");
 		
-		act.mImageView.setImageBitmap(afterProcess);
+		act.mImageView.setImageBitmap(beforeProcess);
+		act.mImageView2.setImageBitmap(afterProcess);
+		//act.mImageView3.setImageBitmap(mask);
+		
+		//act.recognizedText = "bib";
+		
+		if(meanConfidence_original > meanConfidence_processed)
+		{
+			act.recognizedText = text_original;
+		}
+		else {
+			act.recognizedText = text_processed;
+		}
 		
 		if ( act.recognizedText.length() != 0 ) {
 			act._field.setText(act.recognizedText);
 			act._field.setVisibility(View.VISIBLE);
 			pg.setMessage("Done!");
 			pg.dismiss();
-			((Button)act.findViewById(R.id.btn_copyToClipBoard)).setVisibility(View.VISIBLE);
-			((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
-			((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
+			//((Button)act.findViewById(R.id.btn_copyToClipBoard)).setVisibility(View.VISIBLE);
+			//((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
+			//((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
+			((LinearLayout)act.findViewById(R.id.layout_bottombtns)).setVisibility(View.VISIBLE);
 		}
 		else
 		{
@@ -261,7 +264,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	 * 
 	 */
 	
-	protected void performOCR()
+	protected void performOCR(int level)
 	{
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 1;
@@ -351,10 +354,26 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		Log.v(TAG, "After init and before setting bitmap");
 		baseApi.setImage(bitmap);
 		Log.v(TAG, "After init and before getUTF8Text");
-		act.recognizedText = baseApi.getUTF8Text();
-		meanConfidence = baseApi.meanConfidence();
-		Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
-		Log.v(TAG, "Mean Confidence: " + meanConfidence);
+		if(level == this.LEVEL_ORIGINAL)
+		{
+			text_original = baseApi.getUTF8Text();
+			meanConfidence_original = baseApi.meanConfidence();
+			
+			Log.v(TAG, "OCRED TEXT: " + text_original);
+			Log.v(TAG, "Mean Confidence: " + meanConfidence_original);
+		}
+		else if(level == this.LEVEL_PROCESSED)
+		{
+			text_processed = baseApi.getUTF8Text();
+			meanConfidence_processed = baseApi.meanConfidence();
+			
+			Log.v(TAG, "OCRED TEXT: " + text_processed);
+			Log.v(TAG, "Mean Confidence: " + meanConfidence_processed);
+		}
+		//act.recognizedText = baseApi.getUTF8Text();
+		//meanConfidence = baseApi.meanConfidence();
+		//Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
+		//Log.v(TAG, "Mean Confidence: " + meanConfidence);
 		
 		/*int[] confidences = baseApi.wordConfidences();
 		int netConfidence = 0;
@@ -419,13 +438,13 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
 		// so that garbage doesn't make it to the display.
 
-		Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
+		//Log.v(TAG, "OCRED TEXT: " + act.recognizedText);
 
-		if ( Constants.LANG.equalsIgnoreCase("eng") ) {
-			act.recognizedText = act.recognizedText.replaceAll("[^a-zA-Z0-9.,-:;'\"()@$><?!]+", " ");
-		}
+		//if ( Constants.LANG.equalsIgnoreCase("eng") ) {
+		//	act.recognizedText = act.recognizedText.replaceAll("[^a-zA-Z0-9.,-:;'\"()@$><?!]+", " ");
+		//}
 		
-		act.recognizedText = act.recognizedText.trim();
+		//act.recognizedText = act.recognizedText.trim();
 
 		/*if ( recognizedText.length() != 0 ) {
 			_field.setText(recognizedText);
@@ -452,6 +471,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		// TODO Auto-generated method stub
 		//afterProcess = bitmap_Source;
 		Log.v(TAG, "In runnable thread, before processing");
+		performOCR(this.LEVEL_ORIGINAL);
 		publishProgress(1);
 		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
 		if(w<300 && h<300)
@@ -482,37 +502,105 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		try{
 			ImageInfo mi = new ImageInfo(Constants.CURRENT_IMAGE_PATH);
 			MagickImage m = new MagickImage(mi);
+			//MagickImage m2 = new MagickImage(mi);
+			beforeProcess = MagickBitmap.ToBitmap(m);
 			
-			//m.unsharpMaskImage(6.8, 3, 2.69, 0);
-			if(m.quantizeImage(new QuantizeInfo())) Log.v(TAG, "grayscale conversion successful");
-			else Log.v(TAG, "grayscale conversion unsuccessful");
-			m = m.enhanceImage();
-			m = m.unsharpMaskImage(6.8, 0, 2.69, 0);
-			m.contrastImage(true);
-			MagickImage mask = m.cloneImage(m.getWidth(), m.getHeight(), true);
-			mask.quantizeImage(new QuantizeInfo());
-			mask.negateImage(1);
-			mask.contrastImage(true);
-			mask.thresholdImage(0);
-			mask = mask.blurImage(6.8, 3);
-			m.compositeImage(CompositeOperator.CopyOpacityCompositeOp, mask, 0, 0);
-			m.setBackgroundColor(new PixelPacket(1,1,1,1));
-			m.setMatte(true);
 			
+			if(m.normalizeImage()) Log.v(TAG, "normalize conversion successful");
+			else Log.v(TAG, "normalize conversion unsuccessful");
 			
 			Deskew d = new Deskew(MagickBitmap.ToBitmap(m));
 			double skew = d.GetSkewAngle();
 			Log.v(TAG, "After Deskew, skew = " + skew);
 			
-			m = m.rotateImage(skew/-57.295779513082320876798154814105);
+			m = m.rotateImage(-skew); ///57.295779513082320876798154814105
 			m.setDepth(8);
-			m.normalizeImage();
-			m = m.sharpenImage(3, 0);
+			
+			m = m.sharpenImage(10, 8);
+			
+			
+			//QuantizeInfo qi = new QuantizeInfo();
+			//qi.setNumberColors(2);
+			//qi.setDither(100);
+			//qi.setColorspace(ColorspaceType.HWBColorspace);
+			//if(m.quantizeImage(qi)) Log.v(TAG, "quant conversion successful");
+			//else Log.v(TAG, "quant conversion unsuccessful");
+			
+			//m.unsharpMaskImage(6.8, 3, 2.69, 0);
+			//if(m.quantizeImage(new QuantizeInfo())) Log.v(TAG, "grayscale conversion successful");
+			//else Log.v(TAG, "grayscale conversion unsuccessful");
+			//m = m.enhanceImage();
+			//m = m.unsharpMaskImage(6.8, 0, 2.69, 0);
+			//if(m.contrastImage(true)) Log.v(TAG, "contrast conversion successful");
+			//else Log.v(TAG, "contrast conversion unsuccessful");
+			//m = m.medianFilterImage(3);
+			//m = m.reduceNoiseImage(3);
+			
+			//m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
+			//m.writeImage(mi); //save
+			
+			//MagickImage mask = new MagickImage(mi);
+			//mask = m.cloneImage(m.getWidth(), m.getHeight(), false);
+			//if(mask == null) Log.v(TAG, "mask is indeed null");
+			//mask.quantizeImage(new QuantizeInfo());
+			//mask = mask.blurImage(6.8, 3);
+			if(m.negateImage(0)) Log.v(TAG, "negate conversion successful");
+			else Log.v(TAG, "negate conversion unsuccessful");
+			PixelPacket pp = m.getBackgroundColor();
+			int bg = pp.getBlue(), thresh;
+			Log.v(TAG, "BG color return by getBackgroundColor is: " + bg);
+			if (bg<32757) thresh = 60000;
+			else thresh = 10000;
+			if(m.thresholdImage(32757)) Log.v(TAG, "thresh conversion successful"); //15000
+			else Log.v(TAG, "thresh conversion unsuccessful");
+			if(m.negateImage(0)) Log.v(TAG, "negate conversion successful");
+			else Log.v(TAG, "negate conversion unsuccessful");
+			
+			//mask = mask.gaussianBlurImage(3, 2);
+			//mask = mask.unsharpMaskImage(6.8, 0, 2.69, 0);
+			
+			//mask.contrastImage(true);
+			//m = m.despeckleImage();
+			//mask = mask.reduceNoiseImage(3);
+			//mask = mask.medianFilterImage(3);
+			/*PixelPacket pp = mask.getBackgroundColor();
+			int bg = pp.getBlue();
+			Log.v(TAG, "BG color return by getBackgroundColor is: " + bg);
+			if(bg < 0.5){
+				pp.setOpacity(1);
+				pp.setBlue(0);
+				pp.setGreen(0);
+				pp.setRed(0);
+				mask.setBackgroundColor(pp);
+				bg = 1;
+			}
+			else {
+				pp.setOpacity(1);
+				pp.setBlue(1);
+				pp.setGreen(1);
+				pp.setRed(1);
+				mask.setBackgroundColor(pp);
+				bg = 0;
+			}*/
+			//m.transformRgbImage(ColorspaceType.TransparentColorspace);
+			//if(m.compositeImage(CompositeOperator.ChangeMaskCompositeOp, mask, 0, 0)) Log.v(TAG, "composite conversion successful");
+			//else Log.v(TAG, "composite conversion unsuccessful");
+			
+			//if(m2.compositeImage(CompositeOperator.HardLightCompositeOp, m, 0, 0)) Log.v(TAG, "composite conversion successful");
+			//else Log.v(TAG, "composite conversion unsuccessful");
+			
+			//m.setBackgroundColor(new PixelPacket(1,1,1,1));
+			
+			//m.setMatte(true);
+			//m = m.reduceNoiseImage(3);
+			//m = m.unsharpMaskImage(6.8, 0, 2.69, 0);
+			//m.normalizeImage();
+			//m = m.sharpenImage(3, 0);
 			
 			
 			
 			/*try {
-				byte blob[] = m.imageToBlob(mi);
+				byte blob[] = mask.imageToBlob(mi);
 				FileOutputStream fos = new FileOutputStream(new File(Constants.CURRENT_IMAGE_PATH));
 				fos.write(blob);
 				fos.close();
@@ -522,8 +610,13 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 				Log.v(TAG, "failed to write magick'd stuff to sdcard");
 			}*/
 			mi.setDensity("300");
+			
+			//m = m.unsharpMaskImage(6.8, 3, 2.69, 0);
 			m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
-			m.writeImage(mi); //save
+			if(m.writeImage(mi)) Log.v(TAG, "Successfully wrote image to path"); //save
+			else Log.v(TAG, "Image save unsuccessful");
+			afterProcess = MagickBitmap.ToBitmap(m);
+			//mask = MagickBitmap.ToBitmap(m);
 		}
 		catch(Exception e)
 		{
@@ -545,8 +638,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		
 		Log.v(TAG, "After saving file to sdcard");
 		
-		File pic = new File(Constants.CURRENT_IMAGE_PATH);
-		Pix pix = ReadFile.readFile(pic);
+		//File pic = new File(Constants.CURRENT_IMAGE_PATH);
+		//Pix pix = ReadFile.readFile(pic);
 		//pix = AdaptiveMap.backgroundNormMorph(pix, 16, 3, 200);
 		//pix = Enhance.unsharpMasking(pix, 3, 0.7F);
 		//if(pix.getWidth() < 300 || pix.getHeight() < 300) pix = Scale.scale(pix, 2);
@@ -577,14 +670,14 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		Log.v(TAG, "After scale and binarize");
 		 
 		//pix = Enhance.unsharpMasking(pix, 3, 0.7F); //gives OutOfMemoryError
-		WriteFile.writeImpliedFormat(pix, pic, 100, true);
-		afterProcess = WriteFile.writeBitmap(pix);
+		//WriteFile.writeImpliedFormat(pix, pic, 100, true);
+		//afterProcess = WriteFile.writeBitmap(pix);
 		
 		Log.v(TAG, "In runnable thread, after processing");
 		
 		publishProgress(8);
 		
-		performOCR();
+		performOCR(this.LEVEL_PROCESSED);
 		
 		publishProgress(10);
 		/*checkOnceForFurtherProcessing = false;
@@ -598,7 +691,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			performOCR();
 		}*/
 		Log.v("AsyncTask Mein", "End of do In Background");
-		pix.recycle();
+		//pix.recycle();
 		
 		return null;
 	}
