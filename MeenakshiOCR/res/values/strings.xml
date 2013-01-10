@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="app_name">MeenakshiOCR</string>
+    <string name="app_name">Too Lazy To Type - Dashboard</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_ocr">Too Lazy To Type - OCR</string>
     <string name="selected_image_description">Selected Image</string>
+    <string name="title_activity_settings">Too Lazy To Type - Settings</string>
+    
+    <string name="pref_summary_processimage">Filter image before OCR? Takes longer, better accuracy.</string>
+    <string name="pref_title_processimage">Image Cleanup</string>
+    <string name="pref_key_processimage">processimage</string>
+    
+    <string name="pref_title_psmmode">Segment Mode</string>
+    <string name="pref_summary_psmmode">What kind of text do the images contain?</string>
+    <string name="pref_key_psmmode">psm</string>
+    
+    
+    <string name="pref_title_whitelist">Characters</string>
+    <string name="pref_summary_whitelist">What sets of characters do the images contain?</string>
+    <string name="pref_key_whitelist">whitelist</string>
+ 
 
 </resources>

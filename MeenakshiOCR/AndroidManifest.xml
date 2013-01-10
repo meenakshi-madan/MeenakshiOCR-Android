@@ -32,6 +32,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="meenakshi.project.meenakshiocr.MainActivity" />
         </activity>
+        <activity
+            android:name="meenakshi.project.meenakshiocr.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="meenakshi.project.meenakshiocr.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

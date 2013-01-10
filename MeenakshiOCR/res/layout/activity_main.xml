@@ -35,8 +35,7 @@
 <meenakshi.project.meenakshiocr.DashboardLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-	style="@style/BaseBG" >
+    android:layout_height="fill_parent" >
 
     <Button android:id="@+id/home_btn_ocr"
         android:text="Extract Text"
@@ -52,7 +51,8 @@
     <Button android:id="@+id/home_btn_settings"
         android:text="Settings"
         android:drawableTop="@drawable/settings"
-        style="@style/DashboardButtonTheme" />
+        style="@style/DashboardButtonTheme"
+        android:onClick="goToSettings" />
     
     <Button android:id="@+id/home_btn_search"
         android:text="Search"

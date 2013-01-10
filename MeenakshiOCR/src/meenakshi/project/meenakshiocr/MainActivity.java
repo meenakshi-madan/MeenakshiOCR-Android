@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
 	
 	ProgressBar progressBar;*/
 	
+	public static String PREFS_NAME = "OCRSettings";
+	
 	private SharedPreferences mPreferences;
 	private static final String TAG = "MainActivity.java";
 	
@@ -88,6 +90,13 @@ public class MainActivity extends Activity {
 	public void goToOCR(View view)
 	{
 		Intent intent = new Intent(this, OCRActivity.class);
+	    startActivity(intent);
+	}
+	
+	
+	public void goToSettings(View view)
+	{
+		Intent intent = new Intent(this, SettingsActivity.class);
 	    startActivity(intent);
 	}
 

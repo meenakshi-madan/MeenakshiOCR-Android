@@ -7,11 +7,14 @@ package meenakshi.project.meenakshiocr;
 import java.io.IOException;
 
 import magick.CompositeOperator;
+import magick.CompressionType;
 import magick.ImageInfo;
 import magick.MagickImage;
 import magick.PixelPacket;
 import magick.util.MagickBitmap;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -46,7 +49,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	
 	//Bitmap bitmap_Source;
 	//private Handler handler;
-	Bitmap beforeProcess, afterProcess;
+	Bitmap afterProcess;
 	
 	/** Tag for logging purposes **/
 	String TAG = "UnsharpMask";
@@ -61,10 +64,16 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	int tessRepeatMAXCOUNT = 5;
 	
 	/** Mean confidence as returned by tesseract on the recognized text **/
-	int meanConfidence_original, meanConfidence_processed;
-	String text_original, text_processed;
+	int meanConfidence_original, meanConfidence_processed=0;
+	String text_original, text_processed="";
 	
 	static int LEVEL_ORIGINAL = 0, LEVEL_PROCESSED=1;
+
+	private SharedPreferences ocrPref;
+	
+	
+	private String BLACK_LIST_AUTOMATIC = "#$%^&+=:;{}[]/,.!@\\|><~`\"'*()";
+	private String WHITE_LIST_AUTOMATIC = "1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz";
 	
 	/*String _path;
 	public static String DATA_PATH;
@@ -78,6 +87,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	public UnsharpMask(OCRActivity act) {
 		Log.v(TAG, "Begin constructor");
 		this.act = act;
+		
+		ocrPref = act.getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
 		
 		//progressBar = new ProgressBar(act, null, android.R.attr.progressBarStyleSmall);
 		//progressBar.setIndeterminate(true);
@@ -104,6 +115,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		pg.setMax(10);
 		pg.setIndeterminate(false);
 		pg.show();
+		
+		act.mImageView2.setImageBitmap(null);
     }
 	
 	
@@ -125,8 +138,11 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("AsyncTask Mein", "Entered onPostExecute");
 		
-		act.mImageView.setImageBitmap(beforeProcess);
-		act.mImageView2.setImageBitmap(afterProcess);
+		if(afterProcess != null)
+		{
+			//act.mImageView.setImageBitmap(beforeProcess);
+			act.mImageView2.setImageBitmap(afterProcess);
+		}
 		//act.mImageView3.setImageBitmap(mask);
 		
 		//act.recognizedText = "bib";
@@ -169,7 +185,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	 * @return processed Bitmap
 	 */
 	
-	private Bitmap processingBitmap(Bitmap src, int[][] knl){
+	/*private Bitmap processingBitmap(Bitmap src, int[][] knl){
 		Bitmap dest = Bitmap.createBitmap(
 				src.getWidth(), src.getHeight(), src.getConfig());
 
@@ -255,7 +271,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		}
 
 		return dest;
-	}
+	}*/
 	
 	
 	
@@ -345,9 +361,28 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		TessBaseAPI baseApi = new TessBaseAPI();
 		//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
 		//baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
-		baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "#$%^&+=:;{}[]/,.!@\\|><~`\"'*()");
-		baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
-				"1234567890ABCDEFGHJKLMNPRSTVWXYZabcdefghijklmnopqrstuvwxyz");
+		if(ocrPref.getString("whitelist", "None").equals("None"))
+		{
+			baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, BLACK_LIST_AUTOMATIC);
+			baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, WHITE_LIST_AUTOMATIC);
+			
+			Log.v(TAG, "whitelist preferences returned None");
+		}
+		else
+		{
+			baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, ocrPref.getString("whitelist", "None"));
+			
+			Log.v(TAG, "whitelist preferences returned " + ocrPref.getString("whitelist", "None"));
+		}
+		
+		if(!ocrPref.getString("psm", "None").equals("None"))
+		{
+			baseApi.setPageSegMode(Integer.parseInt(ocrPref.getString("psm", "None")));
+			Log.v(TAG, "PSM preferences returned " + ocrPref.getString("psm", "None"));
+		}
+		
+		Log.v(TAG, "PSM preferences returned None");
+	
 		baseApi.setDebug(true);
 		Log.v(TAG, "After setting variables");
 		baseApi.init(Constants.DATA_PATH, Constants.LANG); //, TessBaseAPI.OEM_CUBE_ONLY
@@ -458,21 +493,10 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		//afterProcess = bitmap;
 		
 	}
-
-
-
-
-	/**
-	 * Calls functions to perform required preprocessing and OCR
-	 */
-
-	@Override
-	protected Void doInBackground(Void... params) {
-		// TODO Auto-generated method stub
-		//afterProcess = bitmap_Source;
-		Log.v(TAG, "In runnable thread, before processing");
-		performOCR(this.LEVEL_ORIGINAL);
-		publishProgress(1);
+	
+	
+	void performProcessing()
+	{
 		/*int w = bitmap_Source.getWidth(), h = bitmap_Source.getHeight();
 		if(w<300 && h<300)
 			afterProcess = OCRImageProcessing.increaseDPI(bitmap_Source,w,h);
@@ -503,7 +527,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			ImageInfo mi = new ImageInfo(Constants.CURRENT_IMAGE_PATH);
 			MagickImage m = new MagickImage(mi);
 			//MagickImage m2 = new MagickImage(mi);
-			beforeProcess = MagickBitmap.ToBitmap(m);
+			//beforeProcess = MagickBitmap.ToBitmap(m);
 			
 			
 			if(m.normalizeImage()) Log.v(TAG, "normalize conversion successful");
@@ -556,6 +580,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			if(m.negateImage(0)) Log.v(TAG, "negate conversion successful");
 			else Log.v(TAG, "negate conversion unsuccessful");
 			
+			m = m.scaleImage(m.getWidth()+100, m.getHeight() + 100);
 			//mask = mask.gaussianBlurImage(3, 2);
 			//mask = mask.unsharpMaskImage(6.8, 0, 2.69, 0);
 			
@@ -610,7 +635,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 				Log.v(TAG, "failed to write magick'd stuff to sdcard");
 			}*/
 			mi.setDensity("300");
-			
+			m.setCompression(CompressionType.NoCompression);
 			//m = m.unsharpMaskImage(6.8, 3, 2.69, 0);
 			m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
 			if(m.writeImage(mi)) Log.v(TAG, "Successfully wrote image to path"); //save
@@ -677,7 +702,30 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		
 		publishProgress(8);
 		
-		performOCR(this.LEVEL_PROCESSED);
+	}
+
+
+
+
+	/**
+	 * Calls functions to perform required preprocessing and OCR
+	 */
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		// TODO Auto-generated method stub
+		//afterProcess = bitmap_Source;
+		Log.v(TAG, "In runnable thread, before processing");
+		performOCR(UnsharpMask.LEVEL_ORIGINAL);
+		publishProgress(1);
+		if(ocrPref.getBoolean("processimage", true)){
+			performProcessing();
+			performOCR(UnsharpMask.LEVEL_PROCESSED);
+			
+			Log.v(TAG, "Processimage preferences returned true");
+		}
+		
+		Log.v(TAG, "Processimage preferences returned false");
 		
 		publishProgress(10);
 		/*checkOnceForFurtherProcessing = false;

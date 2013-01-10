@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="pref_display_psm">
+ <item>Automatic</item>
+ <item>Single Column</item>
+ <item>Single Block</item>
+ <item>Single Line</item>
+ <item>Single Word</item>
+ <item>Single Character</item>
+</string-array>
+<string-array name="pref_value_psm">
+ <item>None</item>
+ <item>4</item>
+ <item>6</item>
+ <item>7</item>
+ <item>8</item>
+ <item>9</item>
+</string-array>
+
+
+<string-array name="pref_display_whitelist">
+ <item>Automatic</item>
+ <item>Digits</item>
+ <item>Letters</item>
+ <item>Alphanumeric</item>
+ <item>Alphanumeric with basic punctuation</item>
+</string-array>
+<string-array name="pref_value_whitelist">
+ <item>None</item>
+ <item>0123456789</item>
+ <item>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
+ <item>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</item>
+ <item>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,?!</item>
+</string-array>
+</resources>

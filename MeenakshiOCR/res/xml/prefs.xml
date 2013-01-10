@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="OCR Settings">
+        <CheckBoxPreference
+            android:summary="@string/pref_summary_processimage"
+            android:title="@string/pref_title_processimage"
+            android:key="@string/pref_key_processimage"
+            android:enabled="true"
+            />
+        
+        
+        <!--  android:summary="@string/pref_summary_lang"
+            android:title="@string/pref_title_lang"
+            android:key="@string/pref_key_lang" -->
+            
+            
+        <ListPreference
+            android:title="@string/pref_title_psmmode"
+            android:summary="@string/pref_summary_psmmode"
+            android:key="@string/pref_key_psmmode"
+            android:persistent="true"
+            android:defaultValue="None"
+            android:entries="@array/pref_display_psm"
+            android:entryValues="@array/pref_value_psm"
+            />
+        
+        
+        <ListPreference
+            android:title="@string/pref_title_whitelist"
+            android:summary="@string/pref_summary_whitelist"
+            android:key="@string/pref_key_whitelist"
+            android:persistent="true"
+            android:defaultValue="None"
+            android:entries="@array/pref_display_whitelist"
+            android:entryValues="@array/pref_value_whitelist"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

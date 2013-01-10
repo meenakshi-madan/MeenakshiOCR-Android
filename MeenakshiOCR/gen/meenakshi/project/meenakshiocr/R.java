@@ -8,6 +8,12 @@
 package meenakshi.project.meenakshiocr;
 
 public final class R {
+    public static final class array {
+        public static final int pref_display_psm=0x7f050000;
+        public static final int pref_display_whitelist=0x7f050002;
+        public static final int pref_value_psm=0x7f050001;
+        public static final int pref_value_whitelist=0x7f050003;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -38,45 +44,58 @@ public final class R {
         public static final int ocrbuttonbluesmall=0x7f020018;
         public static final int ocrbuttonbluesmallshadow=0x7f020019;
         public static final int plainbuttonselector=0x7f02001a;
-        public static final int search=0x7f02001b;
-        public static final int settings=0x7f02001c;
-        public static final int textfieldbg=0x7f02001d;
-        public static final int textfieldbg2=0x7f02001e;
-        public static final int textfieldselector=0x7f02001f;
-        public static final int textfileicon2=0x7f020020;
+        public static final int roboticarms8=0x7f02001b;
+        public static final int search=0x7f02001c;
+        public static final int settings=0x7f02001d;
+        public static final int textfieldbg=0x7f02001e;
+        public static final int textfieldbg2=0x7f02001f;
+        public static final int textfieldselector=0x7f020020;
+        public static final int textfileicon2=0x7f020021;
     }
     public static final class id {
-        public static final int btn_copyToClipBoard=0x7f070009;
-        public static final int btn_googleIt=0x7f07000a;
-        public static final int btn_saveToFile=0x7f07000b;
-        public static final int btn_startOCR=0x7f070004;
-        public static final int home_btn_help=0x7f070001;
-        public static final int home_btn_ocr=0x7f070000;
-        public static final int home_btn_search=0x7f070003;
-        public static final int home_btn_settings=0x7f070002;
-        public static final int iv_icon=0x7f07000c;
-        public static final int layout_bottombtns=0x7f070008;
-        public static final int menu_settings=0x7f07000e;
-        public static final int processedImage=0x7f070007;
-        public static final int recogText=0x7f070005;
-        public static final int selectedImage=0x7f070006;
-        public static final int tv_name=0x7f07000d;
+        public static final int btn_copyToClipBoard=0x7f090009;
+        public static final int btn_googleIt=0x7f09000a;
+        public static final int btn_saveToFile=0x7f09000b;
+        public static final int btn_startOCR=0x7f090004;
+        public static final int home_btn_help=0x7f090001;
+        public static final int home_btn_ocr=0x7f090000;
+        public static final int home_btn_search=0x7f090003;
+        public static final int home_btn_settings=0x7f090002;
+        public static final int iv_icon=0x7f09000c;
+        public static final int layout_bottombtns=0x7f090008;
+        public static final int menu_settings=0x7f09000e;
+        public static final int processedImage=0x7f090007;
+        public static final int recogText=0x7f090005;
+        public static final int selectedImage=0x7f090006;
+        public static final int tv_name=0x7f09000d;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_ocr=0x7f030001;
-        public static final int crop_selector=0x7f030002;
+        public static final int activity_settings=0x7f030002;
+        public static final int crop_selector=0x7f030003;
     }
     public static final class menu {
-        public static final int activity_main=0x7f060000;
-        public static final int activity_ocr=0x7f060001;
+        public static final int activity_main=0x7f080000;
+        public static final int activity_ocr=0x7f080001;
+        public static final int activity_settings=0x7f080002;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040001;
-        public static final int menu_settings=0x7f040002;
-        public static final int selected_image_description=0x7f040004;
-        public static final int title_activity_ocr=0x7f040003;
+        public static final int app_name=0x7f060000;
+        public static final int hello_world=0x7f060001;
+        public static final int menu_settings=0x7f060002;
+        public static final int pref_key_processimage=0x7f060008;
+        public static final int pref_key_psmmode=0x7f06000b;
+        public static final int pref_key_whitelist=0x7f06000e;
+        public static final int pref_summary_processimage=0x7f060006;
+        public static final int pref_summary_psmmode=0x7f06000a;
+        public static final int pref_summary_whitelist=0x7f06000d;
+        public static final int pref_title_processimage=0x7f060007;
+        public static final int pref_title_psmmode=0x7f060009;
+        public static final int pref_title_whitelist=0x7f06000c;
+        public static final int selected_image_description=0x7f060004;
+        public static final int title_activity_ocr=0x7f060003;
+        public static final int title_activity_settings=0x7f060005;
     }
     public static final class style {
         /** 
@@ -84,12 +103,12 @@ public final class R {
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
-        public static final int BaseBG=0x7f050003;
+        public static final int AppTheme=0x7f070001;
+        public static final int BaseBG=0x7f070003;
         /**  <style name="OCRButtonBG">
 	    <item name="android:background">@drawable/ocrbigbutton</item>
 	</style>
@@ -98,8 +117,11 @@ public final class R {
 	    <item name="android:background">@drawable/textfieldbg</item>
 	</style> 
          */
-        public static final int ButtonTheme=0x7f050004;
-        public static final int DashboardButtonTheme=0x7f050005;
-        public static final int MainAppTheme=0x7f050002;
+        public static final int ButtonTheme=0x7f070004;
+        public static final int DashboardButtonTheme=0x7f070005;
+        public static final int MainAppTheme=0x7f070002;
+    }
+    public static final class xml {
+        public static final int prefs=0x7f040000;
     }
 }
