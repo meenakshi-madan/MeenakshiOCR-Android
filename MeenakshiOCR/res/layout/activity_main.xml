@@ -32,52 +32,115 @@
 </LinearLayout>-->
 
 
-<meenakshi.project.meenakshiocr.DashboardLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-    <Button android:id="@+id/home_btn_ocr"
-        android:text="Extract Text"
-        android:drawableTop="@drawable/occbtnsss"
-        style="@style/DashboardButtonTheme"
-        android:onClick="goToOCR" />
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@color/black" >
     
-    <Button android:id="@+id/home_btn_help"
-        android:text="Help"
-        android:drawableTop="@drawable/help"
-        style="@style/DashboardButtonTheme" />
-    
-    <Button android:id="@+id/home_btn_settings"
-        android:text="Settings"
-        android:drawableTop="@drawable/settings"
-        style="@style/DashboardButtonTheme"
-        android:onClick="goToSettings" />
-    
-    <Button android:id="@+id/home_btn_search"
-        android:text="Search"
-        android:drawableTop="@drawable/search"
-        style="@style/DashboardButtonTheme" />"
-    <!-- <Button android:id="@+id/home_btn_map"
-        style="@style/DashboardButton"
-        android:text="@string/btn_map"
-        android:drawableTop="@drawable/home_btn_map" />
-    <Button android:id="@+id/home_btn_sessions"
-        style="@style/DashboardButton"
-        android:text="@string/btn_sessions"
-        android:drawableTop="@drawable/home_btn_sessions" />
-    <Button android:id="@+id/home_btn_starred"
-        style="@style/DashboardButton"
-        android:text="@string/btn_starred"
-        android:drawableTop="@drawable/home_btn_starred" />
-    <Button android:id="@+id/home_btn_vendors"
-        style="@style/DashboardButton"
-        android:text="@string/btn_vendors"
-        android:drawableTop="@drawable/home_btn_vendors" />
-    <Button android:id="@+id/home_btn_announcements"
-        style="@style/DashboardButton"
-        android:text="@string/btn_announcements"
-        android:drawableTop="@drawable/home_btn_announcements" /> -->
+    <!-- <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:background="@drawable/roboticarms14"
+        android:gravity="bottom" >-->
 
-</meenakshi.project.meenakshiocr.DashboardLayout>
+    <!--</LinearLayout>-->
 
+        <ImageView
+            android:id="@+id/dbrobotarms"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/imgmainscreentop"
+            android:background="@null"
+            android:layout_weight=".478125"
+            android:scaleType="fitCenter" />
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+        	android:layout_width="wrap_content"
+        	android:layout_height="0dp"
+        	android:background="@null"
+        	android:orientation="horizontal"
+        	android:layout_gravity="center_horizontal"
+        	android:layout_weight=".2609375"
+       		android:gravity="bottom" >
+
+        <ImageButton
+            android:id="@+id/dbbtnocr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitEnd"
+            android:layout_weight=".5"
+            android:src="@drawable/btnmainscreenocr2"
+            android:background="@null"
+            android:onClick="goToOCR" />
+
+        <ImageButton
+            android:id="@+id/dbbtnsettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:layout_weight=".5"
+            android:src="@drawable/btnmainscreensettings2"
+            android:background="@null"
+            android:onClick="goToSettings" />
+        
+        </LinearLayout>
+
+        <!--<ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="106dp"
+            android:scaleType="fitCenter"
+            android:scr="@drawable/btnmainscreenocr"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/btnmainscreensettings"
+            android:background="@null" />-->
+        
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+        	android:layout_width="wrap_content"
+        	android:layout_height="0dp"
+        	android:background="@null"
+        	android:orientation="horizontal"
+        	android:layout_gravity="center_horizontal"
+            android:layout_weight=".2609375"
+       		android:gravity="bottom" >
+
+        <ImageButton
+            android:id="@+id/dbbtnother"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitEnd"
+            android:layout_weight=".5"
+            android:src="@drawable/btnmainscreenother2"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/dbbtninfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:layout_weight=".5"
+            android:src="@drawable/btnmainscreeninfo2"
+            android:background="@null" />
+        
+        </LinearLayout>
+        
+        
+        
+
+</LinearLayout>

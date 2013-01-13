@@ -116,7 +116,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		pg.setIndeterminate(false);
 		pg.show();
 		
-		act.mImageView2.setImageBitmap(null);
+		//act.mImageView2.setImageBitmap(null);
     }
 	
 	
@@ -141,7 +141,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		if(afterProcess != null)
 		{
 			//act.mImageView.setImageBitmap(beforeProcess);
-			act.mImageView2.setImageBitmap(afterProcess);
+			//act.mImageView2.setImageBitmap(afterProcess);
 		}
 		//act.mImageView3.setImageBitmap(mask);
 		
@@ -163,7 +163,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			//((Button)act.findViewById(R.id.btn_copyToClipBoard)).setVisibility(View.VISIBLE);
 			//((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
 			//((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
-			((LinearLayout)act.findViewById(R.id.layout_bottombtns)).setVisibility(View.VISIBLE);
+			//((LinearLayout)act.findViewById(R.id.layout_bottombtns)).setVisibility(View.VISIBLE);
 		}
 		else
 		{

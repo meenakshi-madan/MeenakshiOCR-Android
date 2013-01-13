@@ -32,13 +32,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class OCRActivity extends Activity {
 	
 	private Uri mImageCaptureUri;
-	public ImageView mImageView; //, processedImage
-	public ImageView mImageView2;
+	//public ImageView mImageView; //, processedImage
+	//public ImageView mImageView2;
 	
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
@@ -48,7 +49,7 @@ public class OCRActivity extends Activity {
 	//public static final String DATA_PATH = Environment
 			//.getExternalStorageDirectory().getAbsolutePath() + "/MeenakshiOCR/";
 	private static final String TAG = "OCRActivity.java";
-	protected EditText _field;
+	protected TextView _field;
 	public String recognizedText;
 	
 	private SharedPreferences mPreferences;
@@ -60,10 +61,10 @@ public class OCRActivity extends Activity {
 		// Show the Up button in the action bar.
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		_field = (EditText)findViewById(R.id.recogText);
+		_field = (TextView)findViewById(R.id.recogText);
 		ImageButton button 	= (ImageButton) findViewById(R.id.btn_startOCR);
-		mImageView		= (ImageView) findViewById(R.id.selectedImage);
-		mImageView2		= (ImageView) findViewById(R.id.processedImage);
+		//mImageView		= (ImageView) findViewById(R.id.selectedImage);
+		//mImageView2		= (ImageView) findViewById(R.id.processedImage);
 		//mImageView3		= (ImageView) findViewById(R.id.mask);
 		//processedImage= (ImageView) findViewById(R.id.ocrphoto);
 		//processedImage.setVisibility(View.INVISIBLE);
@@ -221,7 +222,7 @@ public class OCRActivity extends Activity {
 		                Log.v(TAG, "Oh noes, couldn't save cropped file to _path" + e.toString());
 		         }
 		            
-		            mImageView.setImageBitmap(photo);
+		            //mImageView.setImageBitmap(photo);
 		            //performOCR();
 		            //photo = OCRImageProcessing.applyGaussianBlur(photo); //works
 		            //photo = OCRImageProcessing.unsharpMask(photo); //works but takes too long

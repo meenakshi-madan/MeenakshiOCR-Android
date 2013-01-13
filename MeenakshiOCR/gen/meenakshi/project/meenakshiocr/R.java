@@ -15,70 +15,115 @@ public final class R {
         public static final int pref_value_whitelist=0x7f050003;
     }
     public static final class attr {
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int virtualHeight=0x7f010001;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int virtualWidth=0x7f010000;
+    }
+    public static final class color {
+        public static final int black=0x7f080001;
+        public static final int raext=0x7f080002;
+        public static final int transparent=0x7f080000;
     }
     public static final class drawable {
-        public static final int buttonplain=0x7f020000;
-        public static final int buttonplainpressed=0x7f020001;
-        public static final int buttontry4=0x7f020002;
-        public static final int buttontry5=0x7f020003;
-        public static final int clipboard2=0x7f020004;
-        public static final int dashboard_selector=0x7f020005;
-        public static final int dashboardbaseplain=0x7f020006;
-        public static final int dashboardbasepressed=0x7f020007;
-        public static final int edittextbg=0x7f020008;
-        public static final int google=0x7f020009;
-        public static final int help=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int mainbg1=0x7f02000c;
-        public static final int occbtnss=0x7f02000d;
-        public static final int occbtnssp=0x7f02000e;
-        public static final int occbtnsss=0x7f02000f;
-        public static final int ocrbbuttonselector2=0x7f020010;
-        public static final int ocrbigbutton=0x7f020011;
-        public static final int ocrbigbuttonpressed=0x7f020012;
-        public static final int ocrbtnselector=0x7f020013;
-        public static final int ocrbuttonblue=0x7f020014;
-        public static final int ocrbuttonbluepressed=0x7f020015;
-        public static final int ocrbuttonbluepressedsmall=0x7f020016;
-        public static final int ocrbuttonbluepressedsmallshadow=0x7f020017;
-        public static final int ocrbuttonbluesmall=0x7f020018;
-        public static final int ocrbuttonbluesmallshadow=0x7f020019;
-        public static final int plainbuttonselector=0x7f02001a;
-        public static final int roboticarms8=0x7f02001b;
-        public static final int search=0x7f02001c;
-        public static final int settings=0x7f02001d;
-        public static final int textfieldbg=0x7f02001e;
-        public static final int textfieldbg2=0x7f02001f;
-        public static final int textfieldselector=0x7f020020;
-        public static final int textfileicon2=0x7f020021;
+        public static final int btnmainscreeninfo2=0x7f020000;
+        public static final int btnmainscreenocr2=0x7f020001;
+        public static final int btnmainscreenother2=0x7f020002;
+        public static final int btnmainscreensettings2=0x7f020003;
+        public static final int btnocrcreenempty1=0x7f020004;
+        public static final int btnocrcreenempty2=0x7f020005;
+        public static final int btnocrcreenempty3=0x7f020006;
+        public static final int btnocrcreenempty4=0x7f020007;
+        public static final int btnocrcreenocr=0x7f020008;
+        public static final int btntranspshelf=0x7f020009;
+        public static final int buttonplain=0x7f02000a;
+        public static final int buttonplainpressed=0x7f02000b;
+        public static final int buttontry4=0x7f02000c;
+        public static final int buttontry5=0x7f02000d;
+        public static final int clipboard2=0x7f02000e;
+        public static final int dashboard_selector=0x7f02000f;
+        public static final int dashboardbaseplain=0x7f020010;
+        public static final int dashboardbasepressed=0x7f020011;
+        public static final int edittextbg=0x7f020012;
+        public static final int google=0x7f020013;
+        public static final int help=0x7f020014;
+        public static final int ic_launcher=0x7f020015;
+        public static final int imgmainscreenbottom=0x7f020016;
+        public static final int imgmainscreentop=0x7f020017;
+        public static final int imgocrscreentop=0x7f020018;
+        public static final int imgocrscreentxt=0x7f020019;
+        public static final int mainbg1=0x7f02001a;
+        public static final int mainscreenbgxml=0x7f02001b;
+        public static final int occbtnss=0x7f02001c;
+        public static final int occbtnssp=0x7f02001d;
+        public static final int occbtnsss=0x7f02001e;
+        public static final int ocrbbuttonselector2=0x7f02001f;
+        public static final int ocrbigbutton=0x7f020020;
+        public static final int ocrbigbuttonpressed=0x7f020021;
+        public static final int ocrbtnselector=0x7f020022;
+        public static final int ocrbuttonblue=0x7f020023;
+        public static final int ocrbuttonbluepressed=0x7f020024;
+        public static final int ocrbuttonbluepressedsmall=0x7f020025;
+        public static final int ocrbuttonbluepressedsmallshadow=0x7f020026;
+        public static final int ocrbuttonbluesmall=0x7f020027;
+        public static final int ocrbuttonbluesmallshadow=0x7f020028;
+        public static final int ocrscreen8=0x7f020029;
+        public static final int plainbuttonselector=0x7f02002a;
+        public static final int roboticarms13=0x7f02002b;
+        public static final int roboticarms14=0x7f02002c;
+        public static final int roboticarms8=0x7f02002d;
+        public static final int search=0x7f02002e;
+        public static final int settings=0x7f02002f;
+        public static final int textfieldbg=0x7f020030;
+        public static final int textfieldbg2=0x7f020031;
+        public static final int textfieldselector=0x7f020032;
+        public static final int textfileicon2=0x7f020033;
+        public static final int titlebg1=0x7f020034;
     }
     public static final class id {
-        public static final int btn_copyToClipBoard=0x7f090009;
-        public static final int btn_googleIt=0x7f09000a;
-        public static final int btn_saveToFile=0x7f09000b;
-        public static final int btn_startOCR=0x7f090004;
-        public static final int home_btn_help=0x7f090001;
-        public static final int home_btn_ocr=0x7f090000;
-        public static final int home_btn_search=0x7f090003;
-        public static final int home_btn_settings=0x7f090002;
-        public static final int iv_icon=0x7f09000c;
-        public static final int layout_bottombtns=0x7f090008;
-        public static final int menu_settings=0x7f09000e;
-        public static final int processedImage=0x7f090007;
-        public static final int recogText=0x7f090005;
-        public static final int selectedImage=0x7f090006;
-        public static final int tv_name=0x7f09000d;
+        public static final int btn_startOCR=0x7f0a0005;
+        public static final int dbbtninfo=0x7f0a0004;
+        public static final int dbbtnocr=0x7f0a0001;
+        public static final int dbbtnother=0x7f0a0003;
+        public static final int dbbtnsettings=0x7f0a0002;
+        public static final int dbrobotarms=0x7f0a0000;
+        public static final int iv_icon=0x7f0a000c;
+        public static final int menu_settings=0x7f0a000e;
+        public static final int ocrbtn1=0x7f0a0008;
+        public static final int ocrbtn2=0x7f0a0009;
+        public static final int ocrbtn3=0x7f0a000a;
+        public static final int ocrbtn4=0x7f0a000b;
+        public static final int recogText=0x7f0a0007;
+        public static final int tv_name=0x7f0a000d;
+        public static final int txtbg=0x7f0a0006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_ocr=0x7f030001;
         public static final int activity_settings=0x7f030002;
         public static final int crop_selector=0x7f030003;
+        public static final int ocrscreentextview=0x7f030004;
     }
     public static final class menu {
-        public static final int activity_main=0x7f080000;
-        public static final int activity_ocr=0x7f080001;
-        public static final int activity_settings=0x7f080002;
+        public static final int activity_main=0x7f090000;
+        public static final int activity_ocr=0x7f090001;
+        public static final int activity_settings=0x7f090002;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
@@ -120,8 +165,60 @@ public final class R {
         public static final int ButtonTheme=0x7f070004;
         public static final int DashboardButtonTheme=0x7f070005;
         public static final int MainAppTheme=0x7f070002;
+        public static final int MainScreenButtonTheme2=0x7f070006;
+        public static final int WindowTitleStyle=0x7f070007;
     }
     public static final class xml {
         public static final int prefs=0x7f040000;
     }
+    public static final class styleable {
+        /** <attr name="virtualWidth" format="dimension"></attr>
+	<attr name="virtualHeight" format="dimension"></attr>
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #virtualDimensions_virtualHeight meenakshi.project.meenakshiocr:virtualHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #virtualDimensions_virtualWidth meenakshi.project.meenakshiocr:virtualWidth}</code></td><td></td></tr>
+           </table>
+           @see #virtualDimensions_virtualHeight
+           @see #virtualDimensions_virtualWidth
+         */
+        public static final int[] virtualDimensions = {
+            0x7f010000, 0x7f010001
+        };
+        /**
+          <p>This symbol is the offset where the {@link meenakshi.project.meenakshiocr.R.attr#virtualHeight}
+          attribute's value can be found in the {@link #virtualDimensions} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:virtualHeight
+        */
+        public static final int virtualDimensions_virtualHeight = 1;
+        /**
+          <p>This symbol is the offset where the {@link meenakshi.project.meenakshiocr.R.attr#virtualWidth}
+          attribute's value can be found in the {@link #virtualDimensions} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:virtualWidth
+        */
+        public static final int virtualDimensions_virtualWidth = 0;
+    };
 }
