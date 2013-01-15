@@ -49,7 +49,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	
 	//Bitmap bitmap_Source;
 	//private Handler handler;
-	Bitmap afterProcess;
+	//Bitmap afterProcess;
 	
 	/** Tag for logging purposes **/
 	String TAG = "UnsharpMask";
@@ -138,11 +138,11 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("AsyncTask Mein", "Entered onPostExecute");
 		
-		if(afterProcess != null)
-		{
+		//if(afterProcess != null)
+		//{
 			//act.mImageView.setImageBitmap(beforeProcess);
 			//act.mImageView2.setImageBitmap(afterProcess);
-		}
+		//}
 		//act.mImageView3.setImageBitmap(mask);
 		
 		//act.recognizedText = "bib";
@@ -640,7 +640,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
 			if(m.writeImage(mi)) Log.v(TAG, "Successfully wrote image to path"); //save
 			else Log.v(TAG, "Image save unsuccessful");
-			afterProcess = MagickBitmap.ToBitmap(m);
+			//afterProcess = MagickBitmap.ToBitmap(m);
 			//mask = MagickBitmap.ToBitmap(m);
 		}
 		catch(Exception e)
