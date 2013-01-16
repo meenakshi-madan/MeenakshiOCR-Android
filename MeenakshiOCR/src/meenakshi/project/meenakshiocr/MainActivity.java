@@ -60,11 +60,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
-        boolean firstTime = mPreferences.getBoolean("firstTimev5", true);
+        boolean firstTime = mPreferences.getBoolean("firstTimev6", true);
         if (firstTime) { 
         	Log.v(TAG, "In first time if block");
             SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean("firstTimev5", false);
+            editor.putBoolean("firstTimev6", false);
             editor.putString("lang", "eng");
             editor.putString("OCRTextMode", "default");
             editor.putString("DATA_PATH", getExternalFilesDir(null).getAbsolutePath() + "/");

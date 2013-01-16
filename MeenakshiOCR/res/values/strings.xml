@@ -8,6 +8,16 @@
     <string name="selected_image_description">Selected Image</string>
     <string name="title_activity_settings">Too Lazy To Type - Settings</string>
     
+    <string name="dbbtnocr">Click To Begin OCR</string>
+    <string name="dbbtnsettings">Click To Change Preferences/Settings</string>
+    <string name="dbbtnother">Click For Other Actions</string>
+    <string name="dbbtninfo">Click For Info/Help</string>
+    
+    <string name="ocrbtnocr">Click To Begin OCR</string>
+    <string name="ocrbtnclipboard">Copy Text To ClipBoard</string>
+    <string name="ocrbtngoogle">Click To Google Extracted Text</string>
+    <string name="ocrbtnsave">Save Text To File</string>
+    
     <string name="pref_summary_processimage">Filter image before OCR? Takes longer, better accuracy.</string>
     <string name="pref_title_processimage">Image Cleanup</string>
     <string name="pref_key_processimage">processimage</string>

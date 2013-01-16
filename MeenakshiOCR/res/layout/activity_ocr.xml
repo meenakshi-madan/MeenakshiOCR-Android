@@ -1,116 +1,168 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- /* ** ** ** ** Author: Meenakshi Madan ** */ -->
+
+<!--
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" 
+	style="@style/BaseBG"> <Button android:id="@+id/btn_crop" android:layout_width="match_parent" 
+	android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" 
+	android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:background="@drawable/plainbuttonselector" 
+	style="@style/ButtonTheme" android:text="Extract text!" android:onClick="goToOCR" 
+	/> </LinearLayout>
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
-    android:orientation="vertical"
+    android:layout_margin="0dp"
+    android:layout_marginBottom="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginTop="0dp"
     android:background="@color/black"
-    tools:context=".OCRActivity" >
+    android:orientation="vertical" >
 
-    <ImageButton
-        android:id="@+id/btn_startOCR"
+    <!--
+         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0.4" 
+		android:background="@drawable/roboticarms14" android:gravity="bottom" >
+    -->
+
+
+    <!-- </LinearLayout> -->
+
+    <ImageView
+        android:id="@+id/dbrobotarms"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:scaleType="centerInside"
+        android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_weight=".2109375"
         android:background="@null"
-        android:contentDescription="Click to select an image for OCR!"
-        android:src="@drawable/btnocrcreenocr" />
+        android:scaleType="fitCenter"
+        android:src="@drawable/ocrscreen14" />
 
-    
-    <FrameLayout
+    <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        	android:layout_width="wrap_content"
-        	android:layout_height="0dp"
-        	android:layout_weight=".2671875">
-		<ImageButton
-            android:id="@+id/txtbg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/imgocrscreentxt"
-            android:background="@null"
-            android:contentDescription="OCR'd text display!"
-            android:scaleType="centerInside" />"
-		<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:background="@null"
+        android:padding="0dp" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_weight="1.3"
+            android:padding="0dp" >
+
+            <ImageButton
+                android:id="@+id/btn_startOCR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btntransptop" />
+        </TableRow>
+        
+        
+        
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal" >
+
+            <TextView
        		android:id="@+id/recogText"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:layout_marginBottom="10dp"
-        	android:layout_marginLeft="5dp"
-        	android:layout_marginRight="5dp"
-        	android:layout_marginTop="3dp"
-        	android:layout_gravity="center"
+        	android:layout_weight="1"
+        	android:layout_gravity="center_horizontal"
         	android:lines="5"
         	android:minLines="2"
-        	android:scrollHorizontally="true"
+        	android:layout_marginBottom="0dp"
+        	android:layout_marginLeft="35dp"
+        	android:layout_marginRight="35dp"
+        	android:layout_marginTop="2dp"
+        	android:text="fgfdhdsfhfghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbfghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkffghgfhfghgfhsghsdhsdhsdfhfddfnfgnffgjfffgbdflgkbdfjgbsdlkfgbsldkfgblskfgbsdkfsdkfgbslbgkfsldjgbsdklfgbksldfgbskdfjgbksldjbglksdfbglfdskjbglkfdj"
+        	android:scrollHorizontally="false"
         	android:scrollbars="vertical"
         	android:singleLine="false"
-        	android:textStyle="bold" />
+        	android:textStyle="bold" 
+        	android:ellipsize="none" />
+            
+            
+		
+        </TableRow>
+        
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_weight="1.4"
+            android:padding="0dp" >
+
+            <ImageButton
+                android:id="@+id/dbbtnocr"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:onClick="goToOCR"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnocr" />
+
+            <ImageButton
+                android:id="@+id/dbbtnsettings"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:onClick="goToSettings"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnsettings" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_weight="1.4"
+            android:padding="0dp" >
+
+            <ImageButton
+                android:id="@+id/dbbtnother"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnother" />
+
+            <ImageButton
+                android:id="@+id/dbbtninfo"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtninfo" />
+        </TableRow>
+    </TableLayout>
+
 </FrameLayout>
-    
-    
-<LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-        	android:layout_width="wrap_content"
-        	android:layout_height="0dp"
-        	android:background="@null"
-        	android:orientation="horizontal"
-        	android:layout_gravity="center_horizontal"
-        	android:layout_weight=".2609375"
-       		android:gravity="bottom" >
-
-        <ImageButton
-            android:id="@+id/ocrbtn1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitEnd"
-            android:layout_weight=".5"
-            android:src="@drawable/btnocrcreenclipboard"
-            android:background="@null"
-            android:onClick="copyRTToClipboard" />
-
-        <ImageButton
-            android:id="@+id/ocrbtn2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitStart"
-            android:layout_weight=".5"
-            android:src="@drawable/btnocrcreengoogle"
-            android:background="@null"
-            android:onClick="googleRT" />
-        
-        </LinearLayout>
-        
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-        	android:layout_width="wrap_content"
-        	android:layout_height="0dp"
-        	android:background="@null"
-        	android:orientation="horizontal"
-        	android:layout_gravity="center_horizontal"
-            android:layout_weight=".2609375"
-       		android:gravity="bottom" >
-
-        <ImageButton
-            android:id="@+id/ocrbtn3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitEnd"
-            android:layout_weight=".5"
-            android:src="@drawable/btnocrcreensave"
-            android:background="@null"
-            android:onClick="saveRTToFile" />
-
-        <ImageButton
-            android:id="@+id/ocrbtn4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitStart"
-            android:layout_weight=".5"
-            android:src="@drawable/btnocrcreenempty4"
-            android:background="@null" />
-        
-        </LinearLayout>
-
-</LinearLayout>

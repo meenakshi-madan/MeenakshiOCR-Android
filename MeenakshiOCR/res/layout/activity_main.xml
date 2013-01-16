@@ -1,146 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-/*
-**
-** 
-**
-** Author: Meenakshi Madan
-**
-*/
+<!-- /* ** ** ** ** Author: Meenakshi Madan ** */ -->
+
+<!--
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" 
+	style="@style/BaseBG"> <Button android:id="@+id/btn_crop" android:layout_width="match_parent" 
+	android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" 
+	android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:background="@drawable/plainbuttonselector" 
+	style="@style/ButtonTheme" android:text="Extract text!" android:onClick="goToOCR" 
+	/> </LinearLayout>
 -->
-
-<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    style="@style/BaseBG">
-    
-	<Button 
-		android:id="@+id/btn_crop"
-		android:layout_width="match_parent" 		 
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:layout_marginTop="5dp"
-		android:layout_marginBottom="5dp"
-		android:background="@drawable/plainbuttonselector"
-		style="@style/ButtonTheme"
-		android:text="Extract text!"
-		android:onClick="goToOCR" />
-
-		
-</LinearLayout>-->
-
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
-    android:orientation="vertical"
-    android:background="@color/black" >
-    
-    <!-- <LinearLayout
+    android:layout_margin="0dp"
+    android:layout_marginBottom="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginTop="0dp"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <!--
+         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0.4" 
+		android:background="@drawable/roboticarms14" android:gravity="bottom" >
+    -->
+
+
+    <!-- </LinearLayout> -->
+
+    <ImageView
+        android:id="@+id/dbrobotarms"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/roboticarms14" />
+
+    <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:background="@drawable/roboticarms14"
-        android:gravity="bottom" >-->
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:background="@null"
+        android:padding="0dp" >
 
-    <!--</LinearLayout>-->
-
-        <ImageView
-            android:id="@+id/dbrobotarms"
-            android:layout_width="wrap_content"
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/imgmainscreentop"
-            android:background="@null"
-            android:layout_weight=".478125"
-            android:scaleType="fitCenter" />
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-        	android:layout_width="wrap_content"
-        	android:layout_height="0dp"
-        	android:background="@null"
-        	android:orientation="horizontal"
-        	android:layout_gravity="center_horizontal"
-        	android:layout_weight=".2609375"
-       		android:gravity="bottom" >
+            android:layout_margin="0dp"
+            android:layout_weight="3"
+            android:padding="0dp" >
 
-        <ImageButton
-            android:id="@+id/dbbtnocr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitEnd"
-            android:layout_weight=".5"
-            android:src="@drawable/btnmainscreenocr2"
-            android:background="@null"
-            android:onClick="goToOCR" />
+            <ImageView
+                android:id="@+id/dbtop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btntransptop" />
+        </TableRow>
 
-        <ImageButton
-            android:id="@+id/dbbtnsettings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitStart"
-            android:layout_weight=".5"
-            android:src="@drawable/btnmainscreensettings2"
-            android:background="@null"
-            android:onClick="goToSettings" />
-        
-        </LinearLayout>
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:padding="0dp" >
 
-        <!--<ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="106dp"
-            android:scaleType="fitCenter"
-            android:scr="@drawable/btnmainscreenocr"
-            android:background="@null" />
+            <ImageButton
+                android:id="@+id/dbbtnocr"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:onClick="goToOCR"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnocr" />
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/btnmainscreensettings"
-            android:background="@null" />-->
-        
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-        	android:layout_width="wrap_content"
-        	android:layout_height="0dp"
-        	android:background="@null"
-        	android:orientation="horizontal"
-        	android:layout_gravity="center_horizontal"
-            android:layout_weight=".2609375"
-       		android:gravity="bottom" >
+            <ImageButton
+                android:id="@+id/dbbtnsettings"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:onClick="goToSettings"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnsettings" />
+        </TableRow>
 
-        <ImageButton
-            android:id="@+id/dbbtnother"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitEnd"
-            android:layout_weight=".5"
-            android:src="@drawable/btnmainscreenother2"
-            android:background="@null" />
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:padding="0dp" >
 
-        <ImageButton
-            android:id="@+id/dbbtninfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitStart"
-            android:layout_weight=".5"
-            android:src="@drawable/btnmainscreeninfo2"
-            android:background="@null" />
-        
-        </LinearLayout>
-        
-        
-        
+            <ImageButton
+                android:id="@+id/dbbtnother"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtnother" />
 
-</LinearLayout>
+            <ImageButton
+                android:id="@+id/dbbtninfo"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btntranspshelfsmall"
+                android:contentDescription="@string/dbbtninfo" />
+        </TableRow>
+    </TableLayout>
+
+</FrameLayout>
