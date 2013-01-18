@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
@@ -107,14 +108,15 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
         //mImageView.setImageBitmap(result);
 		Log.v("CopData AsyncTask Mein", "Entered onPreExecute");
 		
-		pg = new ProgressDialog(act);
+		//pg = new ProgressDialog(act.getApplicationContext());
+		//pg = new ProgressDialog(act.getApplicationContext());
 		//pg.setTitle("Processing. . .");
-		pg.setMessage("Processing. . .");
+		//pg.setMessage("Processing. . .");
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, text, listener)
 		//pg.setButton(ProgressDialog.BUTTON_NEUTRAL, "End", "Closing Dialog");
-		pg.setMax(10);
-		pg.setIndeterminate(false);
-		pg.show();
+		//.setMax(10);
+		//pg.setIndeterminate(false);
+		//pg.show();
 		
 		//act.mImageView2.setImageBitmap(null);
     }
@@ -123,7 +125,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	
 	@Override
 	protected void onProgressUpdate(Integer... progress) {
-        pg.setProgress(progress[0]);
+        //pg.setProgress(progress[0]);
        // if(progress[0]==1)
        // 	pg.setMessage(text_original);
     }
@@ -155,11 +157,13 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			act.recognizedText = text_processed;
 		}
 		
+		//pg.dismiss();
+		
 		if ( act.recognizedText.length() != 0 ) {
 			act._field.setText(act.recognizedText);
-			act._field.setVisibility(View.VISIBLE);
-			pg.setMessage("Done!");
-			pg.dismiss();
+			//act._field.setVisibility(View.VISIBLE);
+			//pg.setMessage("Done!");
+			//pg.dismiss();
 			//((Button)act.findViewById(R.id.btn_copyToClipBoard)).setVisibility(View.VISIBLE);
 			//((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
 			//((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
@@ -167,8 +171,9 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		}
 		else
 		{
-			pg.setMessage("Oops, no text found!");
-			pg.setCanceledOnTouchOutside(true);
+			Toast.makeText(act, "Oops,  no text found!", Toast.LENGTH_SHORT).show();
+			//pg.setMessage("Oops, no text found!");
+			//pg.setCanceledOnTouchOutside(true);
 		}
 		
 		//act.progressBar.setVisibility(View.GONE);

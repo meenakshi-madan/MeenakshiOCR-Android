@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.ClipboardManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,14 +63,15 @@ public class OCRActivity extends Activity {
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		_field = (TextView)findViewById(R.id.recogText);
+		_field.setMovementMethod(new ScrollingMovementMethod());
 		ImageButton button 	= (ImageButton) findViewById(R.id.btn_startOCR);
 		//mImageView		= (ImageView) findViewById(R.id.selectedImage);
 		//mImageView2		= (ImageView) findViewById(R.id.processedImage);
 		//mImageView3		= (ImageView) findViewById(R.id.mask);
 		//processedImage= (ImageView) findViewById(R.id.ocrphoto);
 		//processedImage.setVisibility(View.INVISIBLE);
-		_field.clearFocus();
-		button.requestFocus();
+		//_field.clearFocus();
+		//button.requestFocus();
 		
         
         final String [] items			= new String [] {"Take from camera", "Select from gallery"};				
