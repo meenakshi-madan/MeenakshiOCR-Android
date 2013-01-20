@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -29,10 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +76,7 @@ public class OCRActivity extends Activity {
 		
 		builder.setTitle("Select Image");
 		builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick( DialogInterface dialog, int item ) { //pick from camera
 				if (item == 0) {
 					Intent intent 	 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -139,6 +136,7 @@ public class OCRActivity extends Activity {
 	
 	public void copyRTToClipBoard(View v)
 	{
+		Log.v(TAG, "In clipboard button call");
 		ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
 		clipboard.setText(recognizedText); 
 		Toast.makeText(getApplicationContext(), "Text copied to clipboard!", Toast.LENGTH_SHORT).show();
@@ -148,6 +146,7 @@ public class OCRActivity extends Activity {
 	public void googleRT(View v)
 	{
 		//AlertDialog.Builder builder = new AlterDialog.Builder(this);
+		Log.v(TAG, "In google button call");
 		Uri uriUrl = Uri.parse("http://www.google.com/search?q=" + recognizedText); 
 		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);  
 		startActivity(launchBrowser); 
@@ -156,6 +155,7 @@ public class OCRActivity extends Activity {
 	
 	public void saveRTToFile(View v)
 	{
+		Log.v(TAG, "In save to file button call");
 		mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
 		
 		try
@@ -310,7 +310,8 @@ public class OCRActivity extends Activity {
 		        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		        builder.setTitle("Choose Crop App");
 		        builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
-		            public void onClick( DialogInterface dialog, int item ) {
+		            @Override
+					public void onClick( DialogInterface dialog, int item ) {
 		                startActivityForResult( cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
 		            }
 		        });

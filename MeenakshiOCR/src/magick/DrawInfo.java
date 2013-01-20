@@ -37,7 +37,8 @@ public class DrawInfo extends Magick {
      * If the garbabe collector removes us, we had better release
      * the memory we occupy.
      */
-    protected void finalize()
+    @Override
+	protected void finalize()
     {
 	destroyDrawInfo();
     }

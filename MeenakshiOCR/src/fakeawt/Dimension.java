@@ -187,7 +187,8 @@ public class Dimension implements java.io.Serializable {
     /**
      * Checks whether two dimension objects have equal values.
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj instanceof Dimension) {
             Dimension d = (Dimension)obj;
             return (width == d.width) && (height == d.height);
@@ -200,7 +201,8 @@ public class Dimension implements java.io.Serializable {
      *
      * @return    a hash code for this <code>Dimension</code>
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int sum = width + height;
         return sum * (sum + 1)/2 + width;
     }
@@ -216,7 +218,8 @@ public class Dimension implements java.io.Serializable {
      * @return  a string representation of this <code>Dimension</code>
      *          object
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return getClass().getName() + "[width=" + width + ",height=" + height + "]";
     }
 }

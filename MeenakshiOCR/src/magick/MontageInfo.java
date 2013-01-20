@@ -28,7 +28,8 @@ public class MontageInfo {
     /**
      * To release memory on cleanup.
      */
-    protected void finalize()
+    @Override
+	protected void finalize()
     {
 	destroyMontageInfo();
     }

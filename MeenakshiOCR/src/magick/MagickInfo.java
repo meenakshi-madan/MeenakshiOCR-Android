@@ -25,7 +25,8 @@ public class MagickInfo extends Magick {
      * Automated destructor.
      */
 
-    public void finalize()
+    @Override
+	public void finalize()
     {
 	destroyMagickInfo(); 
     }

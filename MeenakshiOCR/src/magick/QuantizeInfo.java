@@ -24,7 +24,8 @@ public class QuantizeInfo extends Magick {
     /**
      * Automated destructor.
      */
-    protected void finalize()
+    @Override
+	protected void finalize()
     {
 	destroyQuantizeInfo();
     }

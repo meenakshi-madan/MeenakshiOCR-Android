@@ -12,6 +12,7 @@ package magick;
  * @see MagickImage#setColorProfile
  * @author Eric Yeo &lt;ttey@yeo.nu&gt;
  */
+@Deprecated
 public class ProfileInfo {
 
     /**

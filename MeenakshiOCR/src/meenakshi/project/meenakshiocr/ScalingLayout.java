@@ -24,6 +24,7 @@ public class ScalingLayout extends AbsoluteLayout {
 	
 	
 	// Overridden to retain aspect of this layout view
+	@Override
 	protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
 	    double aspect = widthMeasureSpec / (double)heightMeasureSpec;
 	    // Those are from XML layout
@@ -43,6 +44,7 @@ public class ScalingLayout extends AbsoluteLayout {
 	    setMeasuredDimension(width, height);
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
 	    double factor = (right - left) / (double)_virtualWidth;

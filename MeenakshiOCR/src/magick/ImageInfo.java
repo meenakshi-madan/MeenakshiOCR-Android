@@ -37,6 +37,7 @@ public class ImageInfo extends Magick {
 		/**
 		 * To release memory on cleanup.
 		 */
+		@Override
 		protected void finalize()
 		{
 	destroyImageInfo();

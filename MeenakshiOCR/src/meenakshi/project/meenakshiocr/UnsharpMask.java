@@ -6,7 +6,6 @@ package meenakshi.project.meenakshiocr;
 
 import java.io.IOException;
 
-import magick.CompositeOperator;
 import magick.CompressionType;
 import magick.ImageInfo;
 import magick.MagickImage;
@@ -17,13 +16,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -168,6 +167,10 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			//((Button)act.findViewById(R.id.btn_googleIt)).setVisibility(View.VISIBLE);
 			//((Button)act.findViewById(R.id.btn_saveToFile)).setVisibility(View.VISIBLE);
 			//((LinearLayout)act.findViewById(R.id.layout_bottombtns)).setVisibility(View.VISIBLE);
+			
+			((TableRow)act.findViewById(R.id.tableRow3)).setVisibility(View.VISIBLE);
+			((TableRow)act.findViewById(R.id.tableRow4)).setVisibility(View.VISIBLE);
+			((ImageView)act.findViewById(R.id.dbrobotarms)).setImageResource(R.drawable.ocrscreen14);
 		}
 		else
 		{
@@ -394,7 +397,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		Log.v(TAG, "After init and before setting bitmap");
 		baseApi.setImage(bitmap);
 		Log.v(TAG, "After init and before getUTF8Text");
-		if(level == this.LEVEL_ORIGINAL)
+		if(level == UnsharpMask.LEVEL_ORIGINAL)
 		{
 			text_original = baseApi.getUTF8Text();
 			meanConfidence_original = baseApi.meanConfidence();
@@ -402,7 +405,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			Log.v(TAG, "OCRED TEXT: " + text_original);
 			Log.v(TAG, "Mean Confidence: " + meanConfidence_original);
 		}
-		else if(level == this.LEVEL_PROCESSED)
+		else if(level == UnsharpMask.LEVEL_PROCESSED)
 		{
 			text_processed = baseApi.getUTF8Text();
 			meanConfidence_processed = baseApi.meanConfidence();
@@ -723,6 +726,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		Log.v(TAG, "In runnable thread, before processing");
 		performOCR(UnsharpMask.LEVEL_ORIGINAL);
 		publishProgress(1);
+		
 		if(ocrPref.getBoolean("processimage", true)){
 			performProcessing();
 			performOCR(UnsharpMask.LEVEL_PROCESSED);

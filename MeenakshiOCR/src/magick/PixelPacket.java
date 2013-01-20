@@ -72,7 +72,8 @@ public class PixelPacket extends Magick {
      * Display the object as a String
      * @see java.lang.Object#toString()
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return "PixelPacket("+getRed()+","+getBlue()+","+getGreen()+","+getOpacity()+")";
     }
 }

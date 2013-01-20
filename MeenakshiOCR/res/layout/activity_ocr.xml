@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/ocrscreen14" />
+        android:src="@drawable/ocrscreen8" />
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -72,7 +72,7 @@
         
         
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/tableRow2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -84,6 +84,7 @@
         	android:layout_height="wrap_content"
         	android:layout_weight="1"
         	android:layout_gravity="center_horizontal"
+        	android:gravity="center_horizontal"
         	android:lines="5"
         	android:minLines="2"
         	android:maxLines="5"
@@ -103,32 +104,33 @@
         
 
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/tableRow3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="0dp"
             android:layout_weight="1.4"
-            android:padding="0dp" >
+            android:padding="0dp"
+            android:visibility="invisible" >
 
             <ImageButton
-                android:id="@+id/dbbtnocr"
+                android:id="@+id/ocrbtnclipboard"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:onClick="goToOCR"
+                android:onClick="copyRTToClipBoard"
                 android:padding="0dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/btntranspshelfsmall"
                 android:contentDescription="@string/dbbtnocr" />
 
             <ImageButton
-                android:id="@+id/dbbtnsettings"
+                android:id="@+id/ocrbtngoogle"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:onClick="goToSettings"
+                android:onClick="googleRT"
                 android:padding="0dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/btntranspshelfsmall"
@@ -136,21 +138,23 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="0dp"
             android:layout_weight="1.4"
-            android:padding="0dp" >
+            android:padding="0dp"
+            android:visibility="invisible" >
 
             <ImageButton
-                android:id="@+id/dbbtnother"
+                android:id="@+id/ocrbtnsave"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
                 android:padding="0dp"
                 android:scaleType="fitXY"
+                android:onClick="saveRTToFile"
                 android:src="@drawable/btntranspshelfsmall"
                 android:contentDescription="@string/dbbtnother" />
 

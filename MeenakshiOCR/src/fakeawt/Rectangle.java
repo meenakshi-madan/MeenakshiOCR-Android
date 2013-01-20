@@ -1118,7 +1118,8 @@ public class Rectangle implements java.io.Serializable
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise.
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj instanceof Rectangle) {
             Rectangle r = (Rectangle)obj;
             return ((x == r.x) &&
@@ -1135,7 +1136,8 @@ public class Rectangle implements java.io.Serializable
      * @return a <code>String</code> representing this
      *               <code>Rectangle</code> object's coordinate and size values.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
 }

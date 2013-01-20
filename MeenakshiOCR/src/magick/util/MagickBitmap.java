@@ -8,7 +8,6 @@ import magick.MagickException;
 import magick.MagickImage;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Handler;
 public class MagickBitmap {
 
 	public static Bitmap ToBitmap(MagickImage img) throws MagickException {

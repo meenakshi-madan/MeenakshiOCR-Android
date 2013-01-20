@@ -113,7 +113,8 @@ public class MagickImage extends Magick {
     /**
      * This method will clean up the handle.
      */
-    protected void finalize()
+    @Override
+	protected void finalize()
     {
 	destroyImages();
     }
@@ -1151,7 +1152,8 @@ public class MagickImage extends Magick {
      *             to acheive the same effect.
      * @exception MagickException on error
      */
-    public void setGrayscale()
+    @Deprecated
+	public void setGrayscale()
 	throws MagickException
     {
 	QuantizeInfo quantizeInfo = new QuantizeInfo();
