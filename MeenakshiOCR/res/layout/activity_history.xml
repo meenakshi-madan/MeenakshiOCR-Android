@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HistoryActivity" >
+
+    
+	<TextView
+    	android:id="@+id/hisTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Touch for actions"
+        android:textScaleX="2"
+        android:textStyle="bold" />
+	
+	
+	
+	
+	<TextView
+    	android:id="@+id/his0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/textfieldbg" />    
+    
+    
+    
+    <TextView
+    	android:id="@+id/his1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/textfieldbg" />
+        
+	<TextView
+    	android:id="@+id/his2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/textfieldbg" />
+        
+	<TextView
+    	android:id="@+id/his3"
+        android:layout_width="wrap_content"
+        android:background="@drawable/textfieldbg"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+        
+	<TextView
+    	android:id="@+id/his4"
+        android:layout_width="wrap_content"
+        android:background="@drawable/textfieldbg"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+      
+        
+
+</LinearLayout>

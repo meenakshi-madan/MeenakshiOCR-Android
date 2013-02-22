@@ -138,9 +138,56 @@ public class OCRActivity extends Activity {
         
 	}
 	
-	
-	
 	public void copyRTToClipBoard(View v)
+	{
+		RecognizedTextUses.copyRTToClipBoard(recognizedText, this);
+	}
+	
+	
+	public void googleRT(View v)
+	{
+		RecognizedTextUses.googleRT(recognizedText, this);
+	}
+	
+	public void share(View v)
+	{
+		RecognizedTextUses.share(recognizedText, this);
+	}
+	
+	public void saveRTToFile(View v)
+	{
+		Log.v(TAG, "In save to file button call");
+		mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
+		
+		try
+	    {
+	        File root = new File(Environment.getExternalStorageDirectory(), "OCRNotes");
+	        if (!root.exists()) 
+	        {
+	            root.mkdirs();
+	        }
+	        int count = mPreferences.getInt("textFileCounter", 1);
+	        File gpxfile = new File(root, count +  ".txt");
+	        FileWriter writer = new FileWriter(gpxfile);
+	        writer.append(recognizedText);
+	        writer.flush();
+	        writer.close();
+
+	        Toast.makeText(this, "Saved to OCRNotes/" + count +  ".txt", Toast.LENGTH_SHORT).show();
+	        
+	        SharedPreferences.Editor editor = mPreferences.edit();
+	        editor.putInt("textFileCounter", ++count);
+	        editor.commit();
+	    }
+	    catch(IOException e)
+	    {
+	         e.printStackTrace();
+	         Log.v(TAG, e.toString());
+	    }
+	}
+	
+	
+	/*public void copyRTToClipBoard(View v)
 	{
 		Log.v(TAG, "In clipboard button call");
 		ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
@@ -234,15 +281,7 @@ public class OCRActivity extends Activity {
 	}
 	
 	
-   /* private void sendSMS(String phoneNumber, String message)
-    {        
-        Log.v("phoneNumber",phoneNumber);
-        Log.v("MEssage",message);
-        PendingIntent pi = PendingIntent.getActivity(this, SEND_SMS,
-                new Intent(this, OCRActivity.class), 0);                
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(phoneNumber, null, message, pi, null);        
-    }  */
+   
 	
 	
     //---sends an SMS message to another device---
@@ -307,7 +346,18 @@ public class OCRActivity extends Activity {
  
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
-    }
+    }*/
+    
+    
+    /* private void sendSMS(String phoneNumber, String message)
+    {        
+        Log.v("phoneNumber",phoneNumber);
+        Log.v("MEssage",message);
+        PendingIntent pi = PendingIntent.getActivity(this, SEND_SMS,
+                new Intent(this, OCRActivity.class), 0);                
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phoneNumber, null, message, pi, null);        
+    }  */
 	
 	
 	

@@ -70,6 +70,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	static int LEVEL_ORIGINAL = 0, LEVEL_PROCESSED=1;
 
 	private SharedPreferences ocrPref;
+	private SharedPreferences mPreferences;
 	
 	
 	private String BLACK_LIST_AUTOMATIC = "#$%^&+=:;{}[]/,.!@\\|><~`\"'*()";
@@ -172,6 +173,15 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			((TableRow)act.findViewById(R.id.tableRow3)).setVisibility(View.VISIBLE);
 			((TableRow)act.findViewById(R.id.tableRow4)).setVisibility(View.VISIBLE);
 			((ImageView)act.findViewById(R.id.dbrobotarms)).setImageResource(R.drawable.ocrscreen16);
+			
+			mPreferences = act.getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = mPreferences.edit();
+			for(int i=4; i>=1; i--)
+			{
+				editor.putString("his" + i, mPreferences.getString("his" + (i-1), " "));
+			}
+			editor.putString("his0", act.recognizedText);
+			editor.commit();
 		}
 		else
 		{

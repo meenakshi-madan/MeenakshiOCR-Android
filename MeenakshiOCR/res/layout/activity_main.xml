@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/roboticarms14" />
+        android:src="@drawable/roboticarms15" />
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -108,12 +108,13 @@
             android:padding="0dp" >
 
             <ImageButton
-                android:id="@+id/dbbtnother"
+                android:id="@+id/dbbtnhis"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
                 android:padding="0dp"
+                android:onClick="goToHistory"
                 android:scaleType="fitXY"
                 android:src="@drawable/btntranspshelfsmall"
                 android:contentDescription="@string/dbbtnother" />

@@ -9,7 +9,7 @@
         android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SEND_SMS">
+    <uses-permission android:name="android.permission.SEND_SMS" >
     </uses-permission>
     <uses-permission android:name="android.permission.ACTION_SEND" />
 
@@ -31,8 +31,8 @@
         <activity
             android:name="meenakshi.project.meenakshiocr.OCRActivity"
             android:label="@string/title_activity_ocr"
-            android:windowSoftInputMode="stateUnchanged"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnchanged" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="meenakshi.project.meenakshiocr.MainActivity" />
@@ -41,6 +41,13 @@
             android:name="meenakshi.project.meenakshiocr.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="meenakshi.project.meenakshiocr.MainActivity" />
+        </activity>
+        <activity
+            android:name="meenakshi.project.meenakshiocr.HistoryActivity"
+            android:label="@string/title_activity_history" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="meenakshi.project.meenakshiocr.MainActivity" />

@@ -80,5 +80,11 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, SettingsActivity.class);
 	    startActivity(intent);
 	}
+	
+	public void goToHistory(View view)
+	{
+		Intent intent = new Intent(this, HistoryActivity.class);
+	    startActivity(intent);
+	}
 
 }
