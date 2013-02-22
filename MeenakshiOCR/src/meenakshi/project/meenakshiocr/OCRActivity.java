@@ -193,6 +193,17 @@ public class OCRActivity extends Activity {
 	
 	
 	
+	public void share(View v)
+	{
+		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+		sharingIntent.setType("text/plain");
+		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, recognizedText);
+		//sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
+		startActivity(Intent.createChooser(sharingIntent, "Share using"));
+	}
+	
+	
+	
 	public void sendSMS(View v)
 	{
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);

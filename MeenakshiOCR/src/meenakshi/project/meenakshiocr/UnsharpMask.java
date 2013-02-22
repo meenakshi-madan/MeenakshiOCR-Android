@@ -106,7 +106,8 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
     protected void onPreExecute() {
         //mImageView.setImageBitmap(result);
 		Log.v("CopData AsyncTask Mein", "Entered onPreExecute");
-		
+		pg = ProgressDialog.show(act, "", 
+                "Processing. . .", true); 
 		//pg = new ProgressDialog(act.getApplicationContext());
 		//pg = new ProgressDialog(act.getApplicationContext());
 		//pg.setTitle("Processing. . .");
@@ -156,7 +157,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			act.recognizedText = text_processed;
 		}
 		
-		//pg.dismiss();
+		pg.dismiss();
 		
 		if ( act.recognizedText.length() != 0 ) {
 			act._field.setText(act.recognizedText);
@@ -170,7 +171,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 			
 			((TableRow)act.findViewById(R.id.tableRow3)).setVisibility(View.VISIBLE);
 			((TableRow)act.findViewById(R.id.tableRow4)).setVisibility(View.VISIBLE);
-			((ImageView)act.findViewById(R.id.dbrobotarms)).setImageResource(R.drawable.ocrscreen15);
+			((ImageView)act.findViewById(R.id.dbrobotarms)).setImageResource(R.drawable.ocrscreen16);
 		}
 		else
 		{
