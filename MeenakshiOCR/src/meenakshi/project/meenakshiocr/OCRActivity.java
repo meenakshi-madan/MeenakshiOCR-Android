@@ -9,11 +9,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -21,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.telephony.SmsManager;
 import android.text.ClipboardManager;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -28,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +46,7 @@ public class OCRActivity extends Activity {
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
 	private static final int PICK_FROM_FILE = 3;
+	private static final int SEND_SMS = 4;
 	
 	//Fields Specific to OCR
 	//public static final String DATA_PATH = Environment
@@ -184,6 +190,113 @@ public class OCRActivity extends Activity {
 	         Log.v(TAG, e.toString());
 	    }
 	}
+	
+	
+	
+	public void sendSMS(View v)
+	{
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("Send text as SMS");
+		alert.setMessage("Enter Phone Number of SMS receiver");
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+		  String value = input.getText().toString();
+		  // Do something with value!
+		  if (value.length()>0 && recognizedText.length()>0)                
+              sendSMS(value, recognizedText);
+		  }
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+
+		alert.show();
+	}
+	
+	
+   /* private void sendSMS(String phoneNumber, String message)
+    {        
+        Log.v("phoneNumber",phoneNumber);
+        Log.v("MEssage",message);
+        PendingIntent pi = PendingIntent.getActivity(this, SEND_SMS,
+                new Intent(this, OCRActivity.class), 0);                
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phoneNumber, null, message, pi, null);        
+    }  */
+	
+	
+    //---sends an SMS message to another device---
+    private void sendSMS(String phoneNumber, String message)
+    {        
+        String SENT = "SMS_SENT";
+        String DELIVERED = "SMS_DELIVERED";
+ 
+        PendingIntent sentPI = PendingIntent.getBroadcast(this, SEND_SMS,
+            new Intent(SENT), 0);
+ 
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, SEND_SMS,
+            new Intent(DELIVERED), 0);
+ 
+        //---when the SMS has been sent---
+        registerReceiver(new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS sent", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), "Generic failure", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), "No service", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), "Null PDU", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), "Radio off", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+ 
+        //---when the SMS has been delivered---
+        registerReceiver(new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS delivered", 
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), "SMS not delivered", 
+                                Toast.LENGTH_SHORT).show();
+                        break;                        
+                }
+            }
+        }, new IntentFilter(DELIVERED));        
+ 
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
+    }
 	
 	
 	

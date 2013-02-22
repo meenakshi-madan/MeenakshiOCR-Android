@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/ocrscreen8" />
+        android:src="@drawable/ocrscreen8" /> <!-- why was this ocrscreen8??? whereas in my app on the tablet it was showing ocrscreen14 -->
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -159,13 +159,14 @@
                 android:contentDescription="@string/dbbtnother" />
 
             <ImageButton
-                android:id="@+id/dbbtninfo"
+                android:id="@+id/dbbtnsms"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
                 android:padding="0dp"
                 android:scaleType="fitXY"
+                android:onClick="sendSMS"
                 android:src="@drawable/btntranspshelfsmall"
                 android:contentDescription="@string/dbbtninfo" />
         </TableRow>

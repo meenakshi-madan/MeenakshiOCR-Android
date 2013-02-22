@@ -9,6 +9,8 @@
         android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS">
+    </uses-permission>
 
     <application
         android:allowBackup="true"

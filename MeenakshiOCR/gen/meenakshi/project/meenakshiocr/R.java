@@ -62,7 +62,7 @@ containing a value of this type.
         public static final int ocrbigbutton=0x7f020011;
         public static final int ocrbigbuttonpressed=0x7f020012;
         public static final int ocrbtnselector=0x7f020013;
-        public static final int ocrscreen14=0x7f020014;
+        public static final int ocrscreen15=0x7f020014;
         public static final int ocrscreen8=0x7f020015;
         public static final int plainbuttonselector=0x7f020016;
         public static final int roboticarms13=0x7f020017;
@@ -78,10 +78,11 @@ containing a value of this type.
         public static final int dbbtnocr=0x7f0a0003;
         public static final int dbbtnother=0x7f0a0006;
         public static final int dbbtnsettings=0x7f0a0004;
+        public static final int dbbtnsms=0x7f0a000f;
         public static final int dbrobotarms=0x7f0a0000;
         public static final int dbtop=0x7f0a0002;
-        public static final int iv_icon=0x7f0a000f;
-        public static final int menu_settings=0x7f0a0011;
+        public static final int iv_icon=0x7f0a0010;
+        public static final int menu_settings=0x7f0a0012;
         public static final int ocrbtnclipboard=0x7f0a000b;
         public static final int ocrbtngoogle=0x7f0a000c;
         public static final int ocrbtnsave=0x7f0a000e;
@@ -90,7 +91,7 @@ containing a value of this type.
         public static final int tableRow2=0x7f0a0005;
         public static final int tableRow3=0x7f0a000a;
         public static final int tableRow4=0x7f0a000d;
-        public static final int tv_name=0x7f0a0010;
+        public static final int tv_name=0x7f0a0011;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
