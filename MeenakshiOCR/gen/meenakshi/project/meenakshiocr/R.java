@@ -63,10 +63,10 @@ containing a value of this type.
         public static final int ocrbigbutton=0x7f020012;
         public static final int ocrbigbuttonpressed=0x7f020013;
         public static final int ocrbtnselector=0x7f020014;
-        public static final int ocrscreen16=0x7f020015;
+        public static final int ocrscreen20=0x7f020015;
         public static final int ocrscreen8=0x7f020016;
         public static final int plainbuttonselector=0x7f020017;
-        public static final int roboticarms15=0x7f020018;
+        public static final int roboticarms17=0x7f020018;
         public static final int roboticarms8=0x7f020019;
         public static final int textfieldbg=0x7f02001a;
         public static final int textfieldbg2=0x7f02001b;
