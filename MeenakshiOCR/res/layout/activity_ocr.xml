@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/ocrscreen8" /> <!-- why was this ocrscreen8??? whereas in my app on the tablet it was showing ocrscreen14 -->
+        android:src="@drawable/ocrscreen21" /> <!-- why was this ocrscreen8??? whereas in my app on the tablet it was showing ocrscreen14 -->
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

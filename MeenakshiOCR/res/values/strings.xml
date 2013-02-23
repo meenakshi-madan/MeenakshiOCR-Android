@@ -24,6 +24,7 @@
     <string name="pref_title_whitelist">Characters</string>
     <string name="pref_summary_whitelist">What sets of characters do the images contain?</string>
     <string name="pref_key_whitelist">whitelist</string>
-    <string name="title_activity_history">OCR\'ed Text History</string>
+    <string name="title_activity_history">Too Lazy To Type - History</string>
+    <string name="title_activity_help">Too Lazy To Type - Help/Info</string>
 
 </resources>

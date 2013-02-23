@@ -175,6 +175,8 @@ public class OCRActivity extends Activity {
 
 	        Toast.makeText(this, "Saved to OCRNotes/" + count +  ".txt", Toast.LENGTH_SHORT).show();
 	        
+	        Log.v(TAG, gpxfile.getAbsolutePath());
+	        
 	        SharedPreferences.Editor editor = mPreferences.edit();
 	        editor.putInt("textFileCounter", ++count);
 	        editor.commit();

@@ -4,61 +4,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/blankscreenwhite"
     tools:context=".HistoryActivity" >
 
     
-	<TextView
+	<!--<TextView
     	android:id="@+id/hisTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Touch for actions"
+        android:textColor="#000000"
         android:textScaleX="2"
-        android:textStyle="bold" />
+        android:textStyle="bold" />-->
+        
+        
+    <TextView
+        android:id="@+id/hisTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Touch for actions"
+        android:textColor="#000000"
+        android:textStyle="italic"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 	
 	
 	
 	
 	<TextView
     	android:id="@+id/his0"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColor="#000000"
         android:background="@drawable/textfieldbg" />    
     
     
     
     <TextView
     	android:id="@+id/his1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColor="#000000"
         android:background="@drawable/textfieldbg" />
         
 	<TextView
     	android:id="@+id/his2"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColor="#000000"
         android:background="@drawable/textfieldbg" />
         
 	<TextView
     	android:id="@+id/his3"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:background="@drawable/textfieldbg"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:textColor="#000000"
         android:layout_centerVertical="true" />
         
 	<TextView
     	android:id="@+id/his4"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:background="@drawable/textfieldbg"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:textColor="#000000"
         android:layout_centerVertical="true" />
       
         

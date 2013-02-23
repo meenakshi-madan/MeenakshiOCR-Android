@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/blankscreenwhite"
+    tools:context=".HelpActivity" >
+
+    <!--<TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Help Topics"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge" />-->
+
+    <TextView
+        android:id="@+id/helpHint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Touch for details"
+        android:textColor="#000000"
+        android:textStyle="italic"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/helpbtn1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:onClick="tutorial"
+        android:text="Quick Tutorial" />
+    
+    <Button
+        android:id="@+id/helpbtn2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:onClick="buttons"
+        android:text="What the buttons do" />
+    
+    <Button
+        android:id="@+id/helpbtn3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:onClick="tips"
+        android:text="Tips for better accuracy" />
+    
+    <Button
+        android:id="@+id/helpbtn4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:text="About"
+        android:onClick="about" />
+
+</LinearLayout>

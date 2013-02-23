@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+      	<TextView
+        android:id="@+id/helpabouttitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="ABOUT"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+      	
+      	
+      	
+      	<TextView
+            android:id="@+id/versionNo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Version: 1.0"
+            android:padding="20dp" />
+      	
+      	
+      	<TextView
+            android:id="@+id/dev"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Developer: Meenakshi Madan
+As my Final Year Project at UPG college of Management." />
+      	
+      	
+      	<TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Main purpose of this app is to [optionally] pre-process an image, perform Optical Character Recognition on it, and present it as plain text.
+Several features to use this text are:
+* Copy to Clipboard
+* Save as text file
+* Google the text
+* Share with other apps
+* Directly send as SMS
+
+The application also locally stores the history of the 5 most recent OCR'ed text.
+
+Customize this app on the Settings screen.
+
+To find out more about what the icons and buttons do, for a quick tutorial, or other information, go back to the Help Screen.
+
+" />
+      	
+      	
+        
+    </LinearLayout>
+    
+
+</ScrollView>
