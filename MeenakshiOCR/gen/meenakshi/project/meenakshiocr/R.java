@@ -71,11 +71,9 @@ containing a value of this type.
         public static final int ocrscreen21=0x7f02001a;
         public static final int plainbuttonselector=0x7f02001b;
         public static final int roboticarms18=0x7f02001c;
-        public static final int roboticarms8=0x7f02001d;
-        public static final int textfieldbg=0x7f02001e;
-        public static final int textfieldbg2=0x7f02001f;
-        public static final int textfieldselector=0x7f020020;
-        public static final int titlebg1=0x7f020021;
+        public static final int textfieldbg=0x7f02001d;
+        public static final int textfieldbg2=0x7f02001e;
+        public static final int textfieldselector=0x7f02001f;
     }
     public static final class id {
         public static final int btn_startOCR=0x7f0a0015;
