@@ -79,7 +79,8 @@ public class HistoryActivity extends Activity {
 			public void onClick(View v) {
 				clicked = 0;
 				recognizedText = (String) tv[0].getText();
-				dialog.show();
+				if(!recognizedText.equals("") && !recognizedText.equals(" "))
+					dialog.show();
 			}
 		});
 		
@@ -88,7 +89,8 @@ public class HistoryActivity extends Activity {
 			public void onClick(View v) {
 				clicked = 1;
 				recognizedText = (String) tv[1].getText();
-				dialog.show();
+				if(!recognizedText.equals("") && !recognizedText.equals(" "))
+					dialog.show();
 			}
 		});
 		
@@ -97,7 +99,8 @@ public class HistoryActivity extends Activity {
 			public void onClick(View v) {
 				clicked = 2;
 				recognizedText = (String) tv[2].getText();
-				dialog.show();
+				if(!recognizedText.equals("") && !recognizedText.equals(" "))
+					dialog.show();
 			}
 		});
 		
@@ -106,7 +109,8 @@ public class HistoryActivity extends Activity {
 			public void onClick(View v) {
 				clicked = 3;
 				recognizedText = (String) tv[3].getText();
-				dialog.show();
+				if(!recognizedText.equals("") && !recognizedText.equals(" "))
+					dialog.show();
 			}
 		});
 		
@@ -115,7 +119,8 @@ public class HistoryActivity extends Activity {
 			public void onClick(View v) {
 				clicked = 4;
 				recognizedText = (String) tv[4].getText();
-				dialog.show();
+				if(!recognizedText.equals("") && !recognizedText.equals(" "))
+					dialog.show();
 			}
 		});
 		// Show the Up button in the action bar.
