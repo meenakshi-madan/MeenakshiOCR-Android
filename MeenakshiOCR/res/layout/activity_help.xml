@@ -56,5 +56,23 @@
         style="@style/HelpTopics"
         android:text="About"
         android:onClick="about" />
+    
+    
+    <Button
+        android:id="@+id/helpbtn5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:text="Submit a review"
+        android:onClick="review" />
+    
+    
+    <Button
+        android:id="@+id/helpbtn5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/HelpTopics"
+        android:text="Visit the official website"
+        android:onClick="website" />
 
 </LinearLayout>
