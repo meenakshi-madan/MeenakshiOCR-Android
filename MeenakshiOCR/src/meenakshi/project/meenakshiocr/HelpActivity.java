@@ -298,4 +298,13 @@ public class HelpActivity extends Activity {
 		startActivity(launchBrowser); 
 
 	}
+	
+	
+	public void community(View v)
+	{
+		Uri uriUrl = Uri.parse("http://meenakshi-ocr-fofou.appspot.com/Too-Lazy-To-Type"); 
+		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+		startActivity(launchBrowser); 
+
+	}
 }
