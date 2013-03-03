@@ -1,0 +1,9 @@
+@startuml
+actor User
+
+title Help Screen - community
+skin BlueModern
+User->HelpActivity: community
+HelpActivity->WebBrowser: send URL and open browser
+WebBrowser-->User: display forum
+@enduml

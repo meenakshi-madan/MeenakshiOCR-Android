@@ -1,0 +1,8 @@
+@startuml
+actor User
+title OCR Screen : Copy To Clipboard
+
+User->OCRActivity: copy to clipboard
+OCRActivity->ClipboardManager: setText
+OCRActivity-->User: display success message
+@enduml

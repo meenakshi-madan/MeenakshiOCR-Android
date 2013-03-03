@@ -1,0 +1,22 @@
+@startuml
+actor User
+
+title Help Screen - Review
+skin BlueModern
+
+User -> HelpActivity: submit a review
+
+	group if first time 
+		HelpActivity --> User: prompt for alias
+		User -> HelpActivity: enter alias
+	end
+	
+	HelpActivity --> User: prompt for review
+	User -> HelpActivity: enter review
+	
+	HelpActivity -> HttpClient: post review to website
+	HttpClient --> HelpActivity: return response
+	
+	HelpActivity --> User: display success/failure message
+	
+@enduml

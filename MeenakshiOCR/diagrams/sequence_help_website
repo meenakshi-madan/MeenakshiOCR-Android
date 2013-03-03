@@ -1,0 +1,9 @@
+@startuml
+actor User
+
+title Help Screen - website
+skin BlueModern
+User->HelpActivity: website
+HelpActivity->WebBrowser: send URL and open browser
+WebBrowser-->User: display website
+@enduml

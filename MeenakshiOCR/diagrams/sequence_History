@@ -1,0 +1,39 @@
+@startuml
+title History Screen
+
+actor User
+skin BlueModern
+User -> HistoryActivity: select entry
+HistoryActivity-->User: display action chooser
+User->HistoryActivity: select action
+
+alt copy to clipboard
+    User->HistoryActivity: copy to clipboard
+    HistoryActivity->ClipboardManager: setText
+    HistoryActivity-->User: display success message
+
+else google
+    User->HistoryActivity: google
+    HistoryActivity->WebBrowser: send URL and open browser
+	WebBrowser-->User: display google search page
+
+else directly send SMS
+
+	User -> HistoryActivity: send as SMS
+	HistoryActivity --> User: prompt for phone number
+	User -> HistoryActivity: enter phone number
+	HistoryActivity->SmsManager: sendTextMessage
+	HistoryActivity-->User: display status message
+
+else share
+	User -> HistoryActivity: share
+	HistoryActivity-->User: display chooser
+	User->HistoryActivity: select application
+	HistoryActivity->ExternalApplication: sendText and open application
+
+else delete
+	User->HistoryActivity: delete
+	HistoryActivity->HistoryActivity: delete message
+	HistoryActivity-->User: display updated history
+end
+@enduml

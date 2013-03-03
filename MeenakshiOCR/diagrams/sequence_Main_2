@@ -1,0 +1,10 @@
+@startuml
+actor User
+
+title Main Screen
+skin BlueModern
+User->MainActivity: tap on a screen icon
+MainActivity->Activity: open corresponding screen/activity
+
+
+@enduml

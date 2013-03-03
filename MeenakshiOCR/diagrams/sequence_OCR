@@ -1,0 +1,22 @@
+@startuml
+actor User
+title OCR Screen : OCR
+
+User->OCRActivity: start OCR
+OCRActivity-->User: display chooser
+
+alt Camera
+    User->OCRActivity: select Camera
+    OCRActivity->CameraApp: start camera app
+    User->CameraApp: click picture
+    CameraApp-->OCRActivity: return image clicked
+else Gallery
+    User->OCRActivity: select Gallery
+    OCRActivity->CameraApp: start gallery app
+    User->CameraApp: select image
+    CameraApp-->OCRActivity: return selected image
+end
+
+OCRActivity->OCRActivity: process image
+OCRActivity-->User: display text
+@enduml

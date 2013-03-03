@@ -1,0 +1,9 @@
+@startuml
+actor User
+title OCR Screen : Save
+
+User->OCRActivity: save
+OCRActivity->FileWriter: save file to sdcard
+FileWriter-->OCRActivity: return success/failure
+OCRActivity-->User: display success/failure message
+@enduml

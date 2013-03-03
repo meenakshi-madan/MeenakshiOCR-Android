@@ -1,0 +1,8 @@
+@startuml
+actor User
+title OCR Screen : Google
+
+User->OCRActivity: google
+OCRActivity->WebBrowser: send URL and open browser
+WebBrowser-->User: display google search page
+@enduml

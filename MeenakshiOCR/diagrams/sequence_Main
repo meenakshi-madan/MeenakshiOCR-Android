@@ -1,0 +1,18 @@
+@startuml
+actor User
+
+title Main Screen
+
+User->MainActivity: go To OCR
+MainActivity->OCRActivity: open OCR screen
+
+User->MainActivity: go To Settings
+MainActivity->SettingsActivity: open Settings screen
+
+User->MainActivity: go To History
+MainActivity->HistoryActivity: open History screen
+
+User->MainActivity: go To Help
+MainActivity->HelpActivity: open Help screen
+
+@enduml

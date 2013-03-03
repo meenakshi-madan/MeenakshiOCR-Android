@@ -1,0 +1,14 @@
+@startuml
+actor User
+title Settings Screen
+skin BlueModern
+
+User->SettingsActivity: select settings parameter
+
+group if options
+	SettingsActivity-->User: display value options
+	User -> SettingsActivity: select value
+end
+
+SettingsActivity->SettingsActivity: update parameter
+@enduml

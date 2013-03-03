@@ -1,0 +1,8 @@
+@startuml
+actor User
+
+title Help Screen - tutorial, buttons, about, tips 
+skin BlueModern
+User->HelpActivity: select topic
+HelpActivity --> User: display topic help
+@enduml

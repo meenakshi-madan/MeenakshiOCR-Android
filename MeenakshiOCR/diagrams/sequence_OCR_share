@@ -1,0 +1,9 @@
+@startuml
+actor User
+title OCR Screen : Share
+
+User->OCRActivity: share
+OCRActivity-->User: display chooser
+User->OCRActivity: select application
+OCRActivity->ExternalApplication: sendText and open application
+@enduml
