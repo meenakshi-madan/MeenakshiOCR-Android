@@ -1,7 +1,7 @@
 @startuml
 actor User
 title OCR Screen : Google
-
+skin BlueModern
 User->OCRActivity: google
 OCRActivity->WebBrowser: send URL and open browser
 WebBrowser-->User: display google search page

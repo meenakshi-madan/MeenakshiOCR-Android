@@ -1,7 +1,7 @@
 @startuml
 actor User
 title OCR Screen : Share
-
+skin BlueModern
 User->OCRActivity: share
 OCRActivity-->User: display chooser
 User->OCRActivity: select application

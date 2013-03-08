@@ -1,7 +1,7 @@
 @startuml
 actor User
 title OCR Screen : Save
-
+skin BlueModern
 User->OCRActivity: save
 OCRActivity->FileWriter: save file to sdcard
 FileWriter-->OCRActivity: return success/failure
