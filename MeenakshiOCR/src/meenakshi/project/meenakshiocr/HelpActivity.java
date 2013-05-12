@@ -1,22 +1,5 @@
 package meenakshi.project.meenakshiocr;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -44,35 +25,8 @@ public class HelpActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help);
-		// Show the Up button in the action bar.
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_help, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		/*switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
-	
-	
 	public void about(View v) {
 
 
@@ -81,11 +35,6 @@ public class HelpActivity extends Activity {
 
         View layout = inflater.inflate(R.layout.about_layout,
                 (ViewGroup) findViewById(R.id.layout_root));
-        //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-        //image.setImageDrawable(tempImageView.getDrawable());
-        //image.setImageBitmap(rt);
-    
-        
         WebView webView = (WebView)layout.findViewById(R.id.wvabout);
         if(webView==null)
         {
@@ -107,11 +56,7 @@ public class HelpActivity extends Activity {
 
         View layout = inflater.inflate(R.layout.about_layout,
                 (ViewGroup) findViewById(R.id.layout_root));
-        //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-        //image.setImageDrawable(tempImageView.getDrawable());
-        //image.setImageBitmap(rt);
-    
-        
+ 
         WebView webView = (WebView)layout.findViewById(R.id.wvabout);
         if(webView==null)
         {
@@ -135,11 +80,7 @@ public class HelpActivity extends Activity {
 
         View layout = inflater.inflate(R.layout.about_layout,
                 (ViewGroup) findViewById(R.id.layout_root));
-        //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-        //image.setImageDrawable(tempImageView.getDrawable());
-        //image.setImageBitmap(rt);
-    
-        
+ 
         WebView webView = (WebView)layout.findViewById(R.id.wvabout);
         if(webView==null)
         {
@@ -162,11 +103,7 @@ public class HelpActivity extends Activity {
 
         View layout = inflater.inflate(R.layout.about_layout,
                 (ViewGroup) findViewById(R.id.layout_root));
-        //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-        //image.setImageDrawable(tempImageView.getDrawable());
-        //image.setImageBitmap(rt);
-    
-        
+
         WebView webView = (WebView)layout.findViewById(R.id.wvabout);
         if(webView==null)
         {
@@ -265,31 +202,6 @@ public class HelpActivity extends Activity {
 		new NetworkThread(this, user, msg).execute();
 	}
 	
-	
-	/*public void website(View v)
-	{
-		AlertDialog.Builder imageDialog = new AlertDialog.Builder(this);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-
-        View layout = inflater.inflate(R.layout.about_layout,
-                (ViewGroup) findViewById(R.id.layout_root));
-        //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-        //image.setImageDrawable(tempImageView.getDrawable());
-        //image.setImageBitmap(rt);
-    
-        
-        WebView webView = (WebView)layout.findViewById(R.id.wvabout);
-        webView.getSettings().setJavaScriptEnabled(true);
-        if(webView==null)
-        {
-        	Log.v("help", "webview is null o_o");
-        }
-        webView.loadUrl("http://meenakshi-ocr.appspot.com");
-        
-        imageDialog.setView(layout);
-        imageDialog.create();
-        imageDialog.show();
-	}*/
 	
 	public void website(View v)
 	{

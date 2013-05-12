@@ -40,17 +40,11 @@ import android.widget.Toast;
 public class OCRActivity extends Activity {
 	
 	private Uri mImageCaptureUri;
-	//public ImageView mImageView; //, processedImage
-	//public ImageView mImageView2;
 	
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
 	private static final int PICK_FROM_FILE = 3;
 	private static final int SEND_SMS = 4;
-	
-	//Fields Specific to OCR
-	//public static final String DATA_PATH = Environment
-			//.getExternalStorageDirectory().getAbsolutePath() + "/MeenakshiOCR/";
 	private static final String TAG = "OCRActivity.java";
 	protected TextView _field;
 	public String recognizedText;
@@ -61,19 +55,10 @@ public class OCRActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ocr);
-		// Show the Up button in the action bar.
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		_field = (TextView)findViewById(R.id.recogText);
 		_field.setMovementMethod(new ScrollingMovementMethod());
 		ImageButton button 	= (ImageButton) findViewById(R.id.btn_startOCR);
-		//mImageView		= (ImageView) findViewById(R.id.selectedImage);
-		//mImageView2		= (ImageView) findViewById(R.id.processedImage);
-		//mImageView3		= (ImageView) findViewById(R.id.mask);
-		//processedImage= (ImageView) findViewById(R.id.ocrphoto);
-		//processedImage.setVisibility(View.INVISIBLE);
-		//_field.clearFocus();
-		//button.requestFocus();
 		
         
         final String [] items			= new String [] {"Take from camera", "Select from gallery"};				
@@ -86,9 +71,6 @@ public class OCRActivity extends Activity {
 			public void onClick( DialogInterface dialog, int item ) { //pick from camera
 				if (item == 0) {
 					Intent intent 	 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					
-					//mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
-					//				   "tmp_avatar_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
 					
 					File file = new File(Constants.CURRENT_IMAGE_PATH);
 					mImageCaptureUri = Uri.fromFile(file);
@@ -122,20 +104,6 @@ public class OCRActivity extends Activity {
 				dialog.show();
 			}
 		});
-        
-        //Log.v(TAG,"Before calling async task.");
-		//if(!copyTessDataToSD())
-			//Toast.makeText(getApplicationContext(), "Hmm, necessary data could not be copied. Please try restarting the application.", Toast.LENGTH_LONG);
-        
-        /*mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
-        boolean firstTime = mPreferences.getBoolean("firstTimev3", true);
-        if (firstTime) { 
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean("firstTime", false);
-            editor.commit();
-            new CopyDataToSDAsync(this).execute();
-        }*/
-        
 	}
 	
 	public void copyRTToClipBoard(View v)
@@ -189,183 +157,7 @@ public class OCRActivity extends Activity {
 	}
 	
 	
-	/*public void copyRTToClipBoard(View v)
-	{
-		Log.v(TAG, "In clipboard button call");
-		ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
-		clipboard.setText(recognizedText); 
-		Toast.makeText(getApplicationContext(), "Text copied to clipboard!", Toast.LENGTH_SHORT).show();
-	}
-	
-	
-	public void googleRT(View v)
-	{
-		//AlertDialog.Builder builder = new AlterDialog.Builder(this);
-		Log.v(TAG, "In google button call");
-		Uri uriUrl = Uri.parse("http://www.google.com/search?q=" + recognizedText); 
-		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);  
-		startActivity(launchBrowser); 
-	}
-	
-	
-	public void saveRTToFile(View v)
-	{
-		Log.v(TAG, "In save to file button call");
-		mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
-		
-		try
-	    {
-	        File root = new File(Environment.getExternalStorageDirectory(), "OCRNotes");
-	        if (!root.exists()) 
-	        {
-	            root.mkdirs();
-	        }
-	        int count = mPreferences.getInt("textFileCounter", 1);
-	        File gpxfile = new File(root, count +  ".txt");
-	        FileWriter writer = new FileWriter(gpxfile);
-	        writer.append(recognizedText);
-	        writer.flush();
-	        writer.close();
 
-	        Toast.makeText(this, "Saved to OCRNotes/" + count +  ".txt", Toast.LENGTH_SHORT).show();
-	        
-	        SharedPreferences.Editor editor = mPreferences.edit();
-	        editor.putInt("textFileCounter", ++count);
-	        editor.commit();
-	    }
-	    catch(IOException e)
-	    {
-	         e.printStackTrace();
-	         Log.v(TAG, e.toString());
-	    }
-	}
-	
-	
-	
-	public void share(View v)
-	{
-		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-		sharingIntent.setType("text/plain");
-		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, recognizedText);
-		//sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
-		startActivity(Intent.createChooser(sharingIntent, "Share using"));
-	}
-	
-	
-	
-	public void sendSMS(View v)
-	{
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-		alert.setTitle("Send text as SMS");
-		alert.setMessage("Enter Phone Number of SMS receiver");
-
-		// Set an EditText view to get user input 
-		final EditText input = new EditText(this);
-		alert.setView(input);
-
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int whichButton) {
-		  String value = input.getText().toString();
-		  // Do something with value!
-		  if (value.length()>0 && recognizedText.length()>0)                
-              sendSMS(value, recognizedText);
-		  }
-		});
-
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		  public void onClick(DialogInterface dialog, int whichButton) {
-		    // Canceled.
-		  }
-		});
-
-		alert.show();
-	}
-	
-	
-   
-	
-	
-    //---sends an SMS message to another device---
-    private void sendSMS(String phoneNumber, String message)
-    {        
-        String SENT = "SMS_SENT";
-        String DELIVERED = "SMS_DELIVERED";
- 
-        PendingIntent sentPI = PendingIntent.getBroadcast(this, SEND_SMS,
-            new Intent(SENT), 0);
- 
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, SEND_SMS,
-            new Intent(DELIVERED), 0);
- 
-        //---when the SMS has been sent---
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS sent", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), "Generic failure", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), "No service", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), "Null PDU", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), "Radio off", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(SENT));
- 
-        //---when the SMS has been delivered---
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS delivered", 
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Toast.makeText(getBaseContext(), "SMS not delivered", 
-                                Toast.LENGTH_SHORT).show();
-                        break;                        
-                }
-            }
-        }, new IntentFilter(DELIVERED));        
- 
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
-    }*/
-    
-    
-    /* private void sendSMS(String phoneNumber, String message)
-    {        
-        Log.v("phoneNumber",phoneNumber);
-        Log.v("MEssage",message);
-        PendingIntent pi = PendingIntent.getActivity(this, SEND_SMS,
-                new Intent(this, OCRActivity.class), 0);                
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(phoneNumber, null, message, pi, null);        
-    }  */
-	
-	
-	
-	
-	
-	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (resultCode != RESULT_OK) return;
@@ -400,36 +192,8 @@ public class OCRActivity extends Activity {
 		                Log.v(TAG, "Oh noes, couldn't save cropped file to _path" + e.toString());
 		         }
 		            
-		            //mImageView.setImageBitmap(photo);
-		            //performOCR();
-		            //photo = OCRImageProcessing.applyGaussianBlur(photo); //works
-		            //photo = OCRImageProcessing.unsharpMask(photo); //works but takes too long
-		            //mImageView.setImageBitmap(photo);
-		            //progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
-		    		//progressBar.setIndeterminate(true);
-		    		//progressBar.setId(id)
-		    		//progressBar.set
-		            //Toast.makeText(getApplicationContext(), "Please hold on for a few seconds while your image is being processed", Toast.LENGTH_LONG).show();
-		            //progressBar = (ProgressBar)findViewById(R.id.progressBar1);
-		    		//progressBar.setVisibility(View.VISIBLE);
 		            new UnsharpMask(this).execute();
-		            //um.start();
-		            /*try {
-		            	um.join();
-		            }catch(Exception e)
-		            {
-		            	Log.v("UM.JOIN EXCEPTION", e.toString());
-		            }*/
-		            
-		            //performOCR();
 		        }
-	
-		        /*COMMENTED CUZ I DON'T WANT TO DELETE THIS FILE, IT'LL BE USED FOR OCR
-		         File f = new File(mImageCaptureUri.getPath());            
-		         
-		        
-		        if (f.exists()) f.delete();
-		        */
 	
 		        break;
 
@@ -453,13 +217,9 @@ public class OCRActivity extends Activity {
         } else {
         	intent.setData(mImageCaptureUri);
             
-            //intent.putExtra("outputX", 200);
-            //intent.putExtra("outputY", 200);
-            //intent.putExtra("aspectX", 1);
-            //intent.putExtra("aspectY", 1);
+
             intent.putExtra("scale", true);
             intent.putExtra("return-data", true);
-            //intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
             
         	if (size == 1) {
         		Intent i 		= new Intent(intent);
@@ -509,33 +269,4 @@ public class OCRActivity extends Activity {
         	}
         }
 	}
-    
-    
-    
-    
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_ocr, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		/*switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}*/
-		return super.onOptionsItemSelected(item);
-	}
-
 }

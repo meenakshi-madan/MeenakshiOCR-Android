@@ -6,12 +6,12 @@ package meenakshi.project.meenakshiocr;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.telephony.SmsManager;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -39,12 +39,17 @@ public class RecognizedTextUses {
 	
 	public static void googleRT(String recognizedText, Activity act)
 	{
-		//AlertDialog.Builder builder = new AlterDialog.Builder(this);
-		Log.v(TAG, "In google button call");
-		Uri uriUrl = Uri.parse("http://www.google.com/search?q=" + recognizedText); 
-		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);  
-		act.startActivity(launchBrowser); 
-	}
+		
+		try {
+   		 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.putExtra(SearchManager.QUERY, recognizedText);
+            act.startActivity(intent);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Toast.makeText(act.getApplicationContext(), "Google search was unsuccessful", Toast.LENGTH_SHORT).show();
+		}
+
+   }
 	
 	
 	

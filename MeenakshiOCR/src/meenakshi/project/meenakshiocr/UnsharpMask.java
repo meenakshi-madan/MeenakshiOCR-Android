@@ -83,7 +83,6 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 	
 	@Override
     protected void onPostExecute(Void result) {
-        //mImageView.setImageBitmap(result);
 		Log.v("AsyncTask Mein", "Entered onPostExecute");
 		
 		
@@ -182,11 +181,7 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 
 		
 		Log.v(TAG, "Before baseApi");
-		//Pix.
-		//Binarize.otsuAdaptiveThreshold(pixs);
 		TessBaseAPI baseApi = new TessBaseAPI();
-		//baseApi.init(mainActivity.DATA_PATH, mainActivity.lang, TessBaseAPI.OEM_CUBE_ONLY);
-		//baseApi.setPageSegMode(TessBaseAPI.PSM_AUTO);
 		if(ocrPref.getString("whitelist", "None").equals("None"))
 		{
 			baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, BLACK_LIST_AUTOMATIC);
@@ -247,10 +242,6 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		try{
 			ImageInfo mi = new ImageInfo(Constants.CURRENT_IMAGE_PATH);
 			MagickImage m = new MagickImage(mi);
-			//MagickImage m2 = new MagickImage(mi);
-			//beforeProcess = MagickBitmap.ToBitmap(m);
-			
-			
 			if(m.normalizeImage()) Log.v(TAG, "normalize conversion successful");
 			else Log.v(TAG, "normalize conversion unsuccessful");
 			
@@ -279,34 +270,16 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 
 			mi.setDensity("300");
 			m.setCompression(CompressionType.NoCompression);
-			//m = m.unsharpMaskImage(6.8, 3, 2.69, 0);
 			m.setFileName(Constants.CURRENT_IMAGE_PATH); //give new location
 			if(m.writeImage(mi)) Log.v(TAG, "Successfully wrote image to path"); //save
 			else Log.v(TAG, "Image save unsuccessful");
-			//afterProcess = MagickBitmap.ToBitmap(m);
-			//mask = MagickBitmap.ToBitmap(m);
 		}
 		catch(Exception e)
 		{
 			Log.v(TAG, "exception occured performing magick functions: " + e.toString());
 		}
 		
-		publishProgress(4);
-		
-		Log.v(TAG, "After unsharp");
-		
-
-		Log.v(TAG, "After saving file to sdcard");
-		
-		Log.v(TAG, "After scale and binarize");
-		 
-		//pix = Enhance.unsharpMasking(pix, 3, 0.7F); //gives OutOfMemoryError
-		//WriteFile.writeImpliedFormat(pix, pic, 100, true);
-		//afterProcess = WriteFile.writeBitmap(pix);
-		
 		Log.v(TAG, "In runnable thread, after processing");
-		
-		publishProgress(8);
 		
 	}
 
@@ -323,7 +296,6 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		//afterProcess = bitmap_Source;
 		Log.v(TAG, "In runnable thread, before processing");
 		performOCR(UnsharpMask.LEVEL_ORIGINAL);
-		publishProgress(1);
 		
 		if(ocrPref.getBoolean("processimage", true)){
 			performProcessing();
@@ -334,18 +306,10 @@ public class UnsharpMask extends AsyncTask<Void, Integer, Void> {
 		
 		Log.v(TAG, "Processimage preferences returned false");
 		
-		publishProgress(10);
 		Log.v("AsyncTask Mein", "End of do In Background");
 		
 		return null;
 	}
-	
-	/** Check if a given String contains any of the characters in the given array
-	 * 
-	 * @param str source string to check for characters
-	 * @param searchChars sequence of characters to check for in source string
-	 * @return boolean value - true if string contains any character, false otherwise
-	 */
 
 
 }

@@ -9,30 +9,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 public class MainActivity extends Activity {
-	/*private Uri mImageCaptureUri;
-	public ImageView mImageView, processedImage;
-	
-	private static final int PICK_FROM_CAMERA = 1;
-	private static final int CROP_FROM_CAMERA = 2;
-	private static final int PICK_FROM_FILE = 3;
-	
-	//Fields Specific to OCR
-	//public static final String DATA_PATH = Environment
-			//.getExternalStorageDirectory().getAbsolutePath() + "/MeenakshiOCR/";
-	public String DATA_PATH;
-	public final String lang = "eng";
-	protected String _path;
-	protected TextView _field;
-	public String recognizedText;
-	//END OF Fields Specific to OCR
-	
-	ProgressBar progressBar;*/
 	
 	public static String PREFS_NAME = "OCRSettings";
 	
@@ -45,11 +26,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         mPreferences = getSharedPreferences("MeenakshiOCRSharedPreferences", Context.MODE_PRIVATE);
-        boolean firstTime = mPreferences.getBoolean("welcometry1fgdgshfg", true);
+        boolean firstTime = mPreferences.getBoolean("welcome", true);
         if (firstTime) { 
         	Log.v(TAG, "In first time if block");
             SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean("welcometry1fgdgshfg", false);
+            editor.putBoolean("welcome", false);
             editor.putString("lang", "eng");
             editor.putString("OCRTextMode", "default");
             editor.putString("DATA_PATH", getExternalFilesDir(null).getAbsolutePath() + "/");
@@ -63,11 +44,7 @@ public class MainActivity extends Activity {
 
             View layout = inflater.inflate(R.layout.about_layout,
                     (ViewGroup) findViewById(R.id.layout_root));
-            //ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-            //image.setImageDrawable(tempImageView.getDrawable());
-            //image.setImageBitmap(rt);
-        
-            
+          
             WebView webView = (WebView)layout.findViewById(R.id.wvabout);
             if(webView==null)
             {
@@ -84,14 +61,6 @@ public class MainActivity extends Activity {
      
     }
     
-    
-   
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
 	
 	public void goToOCR(View view)
 	{
